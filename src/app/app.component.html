@@ -2,16 +2,17 @@
   <ion-menu side="start" menuId="main-menu" contentId="main">
     <ion-header>
       <ion-toolbar color="dark">
-        <ion-title>Start Menu</ion-title>
+        <ion-title class="user-container">
+          <ion-row>
+              <ion-icon name="person-circle-outline"></ion-icon>
+              <ion-text>Username</ion-text>
+          </ion-row>
+        </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
+      <ion-list class="text-center">
+        <ion-item>Logout</ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>

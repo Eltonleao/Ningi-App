@@ -1,31 +1,56 @@
 .w-100 {
-    width: 100%;
+  width: 100%;
+}
+ion-searchbar{
+  margin-top: 30px;
+}
+ion-fab{
+  top: -30px
 }
 
-ion-card {
-  .valor-container {
-    background-color: #222428;
+ion-list {
+  border: solid;
+  // padding-top: 60px;
+
+  ion-card {
     // border: solid;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ion-item-sliding {
+      ion-card-content {
+        width: 100%;
+        .valor-container {
+          background-color: #222428;
+          width: 100%;
+          height: 100%;
+          border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
+          .valor {
+            font-size: 1.3em;
+            font-weight: 700;
+            // color: white;
+          }
+        }
 
-    .valor {
-      font-size: 1.3em;
-      font-weight: 700;
-      // color: white;
+        .info-container {
+          width: 100%;
+          text-align: center;
+          .data {
+            font-weight: 500;
+          }
+          .user {
+            font-weight: 300;
+          }
+        }
+      }
     }
   }
 }
-
-.ion-item-sliding{
+.ion-item-sliding {
   width: 100%;
 }
 
-ion-icon{
-  font-size: 30px!important;
+ion-icon {
+  font-size: 30px !important;
 }

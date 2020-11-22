@@ -3,26 +3,28 @@
     <ion-buttons slot="start" class="menu-btn">
       <ion-menu-button manu="main-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">dashboard</ion-title>
+    <ion-title class="ion-text-center">Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
+      <div class="">
         <ion-text color="primary">
           <h1>R$ 442,90</h1>
           <small>Total Balance</small>
         </ion-text>
+      </div>
     </ion-slide>
     <ion-slide>
-      <ion-text color="warning">
+      <ion-text color="warning" class="dashboard-values">
         <h1>R$ 150,90</h1>
         <small>Bradesco</small>
       </ion-text>
     </ion-slide>
     <ion-slide>
-      <ion-text color="danger">
+      <ion-text color="danger" class="dashboard-values">
         <h1>R$ 292,90</h1>
         <small>Santander</small>
       </ion-text>

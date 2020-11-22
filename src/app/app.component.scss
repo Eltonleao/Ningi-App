@@ -1,0 +1,21 @@
+.text-center{
+    text-align: center;
+}
+.user-container{
+    position: relative;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    padding-left: 5px;
+    ion-icon{
+        display: flex;
+        vertical-align: center;
+        // border: solid;
+        font-size: 60px;
+    }
+    ion-text{
+        position: relative;
+        display: flex;
+        align-self: center;
+    }
+}
