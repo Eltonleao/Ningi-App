@@ -1,12 +1,62 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start" class="menu-btn">
       <ion-menu-button manu="main-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-title>dashboard teste</ion-title>
+    <ion-title class="ion-text-center">dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide>
+      <div>
+        <h1>R$ 442,90</h1>
+        <small>Total Balance</small>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div>
+        <h1>R$ 150,90</h1>
+        <small>Bradesco</small>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div>
+        <h1>R$ 292,90</h1>
+        <small>Santander</small>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center d-flex justify-content-center">
+          <ion-input class="ion-text-center w-70" type="number" placeholder="R$ 42,24"></ion-input>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div (click)="carteira()" class="banco"></div>
+      </ion-col>
+      <ion-col>
+        <div class="banco"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <div class="banco"></div>
+      </ion-col>
+      <ion-col>
+        <div class="banco"></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
