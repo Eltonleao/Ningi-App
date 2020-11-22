@@ -18,11 +18,21 @@ export class DashboardPage implements OnInit {
   async carteira() {
     const alert = await this.alertCtrl.create({
       cssClass: "my-custom-class",
-      header: "{valor} de Bradesco",
-      subHeader: "Confirma operação?",
-      message: "após operação: {valor}",
+      header: "Carteira",
+      translucent: true,
+      // subHeader: "Confirma operação?",
+      message: "Digite o valor da operação",
+      inputs:[
+        {
+          name: 'valor',
+          type: 'number',
+          placeholder: 'R$ 42,90'
+        }
+      ],
       buttons: [
-        "cancel",
+        {
+          text: "cancel"
+        },
         {
           text: "Okay",
           handler: async () => {
@@ -36,7 +46,10 @@ export class DashboardPage implements OnInit {
         },
       ],
     });
-
-    await alert.present();
+    await alert.present().then(() => {
+      const firstInput: any = document.querySelector('ion-alert input');
+      firstInput.focus();
+      return;
+    });
   }
 }
