@@ -9,23 +9,85 @@
 
 <ion-content>
   <ion-list>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-      </ion-avatar>
-      <ion-label>Item Avatar</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Mega Man X</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>The Legend of Zelda</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Pac-Man</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Super Mario World</ion-label>
-    </ion-item>
+    <ion-card>
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option (click)="edit(item)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="5">
+                <div class="valor-container">
+                  <ion-text class="valor" color="danger">
+                    R$42,90
+                  </ion-text>
+                </div>
+              </ion-col>
+              <ion-col size="7">
+                <div class="info-container">
+                  <p class="data">
+                    22/11/2020 <span class="hora">14:14</span>
+                  </p>
+                  <p class="banco">user</p>
+                  <p class="banco">Bradesco</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option (click)="delete(item)" color="danger">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-card>
+
+
+
+    <ion-card>
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option (click)="edit(item)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="5">
+                <div class="valor-container">
+                  <ion-text class="valor" color="success">
+                    R$42,90
+                  </ion-text>
+                </div>
+              </ion-col>
+              <ion-col size="7">
+                <div class="info-container">
+                  <p class="data">
+                    22/11/2020 <span class="hora">14:14</span>
+                  </p>
+                  <p class="banco">user</p>
+                  <p class="banco">Bradesco</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option (click)="delete(item)" color="danger">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-card>
+
   </ion-list>
 </ion-content>

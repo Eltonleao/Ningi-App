@@ -10,26 +10,26 @@
 <ion-content>
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
-      <div>
-        <h1>R$ 442,90</h1>
-        <small>Total Balance</small>
-      </div>
+        <ion-text color="primary">
+          <h1>R$ 442,90</h1>
+          <small>Total Balance</small>
+        </ion-text>
     </ion-slide>
     <ion-slide>
-      <div>
+      <ion-text color="warning">
         <h1>R$ 150,90</h1>
         <small>Bradesco</small>
-      </div>
+      </ion-text>
     </ion-slide>
     <ion-slide>
-      <div>
+      <ion-text color="danger">
         <h1>R$ 292,90</h1>
         <small>Santander</small>
-      </div>
+      </ion-text>
     </ion-slide>
   </ion-slides>
 
-  <ion-grid>
+  <!-- <ion-grid>
     <ion-row>
       <ion-col>
         <div class="ion-text-center d-flex justify-content-center">
@@ -37,24 +37,40 @@
         </div>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
   <ion-grid>
     <ion-row>
       <ion-col>
-        <div (click)="carteira()" class="banco"></div>
+        <div (click)="carteira()" class="banco">
+          <ion-text color="success">
+            <ion-icon name="cash-outline"></ion-icon>
+          </ion-text>
+        </div>
       </ion-col>
       <ion-col>
-        <div class="banco"></div>
+        <div class="banco">
+          <ion-text color="danger">
+            Bradesco
+          </ion-text>
+        </div>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-        <div class="banco"></div>
+        <div class="banco">
+          <ion-text color="danger">
+            Santander
+          </ion-text>
+        </div>
       </ion-col>
       <ion-col>
-        <div class="banco"></div>
+        <div class="banco">
+          <ion-text color="warning">
+            Banco do Brasil
+          </ion-text>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

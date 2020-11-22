@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from "@ionic/angular";
 
 @Component({
   selector: 'app-spends',
@@ -7,9 +8,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpendsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public alertCtrl: AlertController
+  ) { }
 
   ngOnInit() {
+  }
+
+  async edit(){
+    const alert = await this.alertCtrl.create({
+      cssClass: "my-custom-class",
+      header: "Editar",
+      // subHeader: "Confirma operação?",
+      message: "",
+      buttons: [
+        "cancel",
+        {
+          text: "Okay",
+          handler: async () => {
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async delete(){
+    const alert = await this.alertCtrl.create({
+      cssClass: "my-custom-class",
+      header: "Deletar",
+      // subHeader: "Confirma operação?",
+      message: "",
+      buttons: [
+        "cancel",
+        {
+          text: "Okay",
+          handler: async () => {
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
 }
