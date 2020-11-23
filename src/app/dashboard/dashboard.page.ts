@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 
+import { ApiService } from "../services/api.service";
+
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.page.html",
@@ -10,7 +12,8 @@ import { LoadingController } from "@ionic/angular";
 export class DashboardPage implements OnInit {
   constructor(
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public api: ApiService
   ) {}
 
   ngOnInit() {}
@@ -26,7 +29,10 @@ export class DashboardPage implements OnInit {
         {
           name: 'valor',
           type: 'number',
-          placeholder: 'R$ 42,90'
+          placeholder: 'R$ 42,90',
+          attributes: {
+            autocomplete: 'false'
+          }
         }
       ],
       buttons: [
@@ -51,5 +57,10 @@ export class DashboardPage implements OnInit {
       firstInput.focus();
       return;
     });
+  }
+
+
+  apiTest(){
+    this.api.teste();
   }
 }
