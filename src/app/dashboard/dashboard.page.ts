@@ -78,7 +78,6 @@ export class DashboardPage implements OnInit {
   }
 
   remove(item){
-    // console.log(item.id);
-    // this.todoService.removeTodo(item.id);
+    this.todoService.removeTodo(item.id);
   }
 }

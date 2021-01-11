@@ -12,9 +12,10 @@ import { LoadingController, NavController } from "@ionic/angular";
 export class TodoDetailsPage implements OnInit {
 
   todo: Todo = {
-    task: "lorem 42",
-    createdAt: new Date().getTime(),
-    priority: 1
+    task: null,
+    createdAt: null,
+    priority: null,
+    deletado: 0
   }
 
   todoId = null;
@@ -41,6 +42,7 @@ export class TodoDetailsPage implements OnInit {
     this.todoService.getTodo(this.todoId).subscribe(res =>{
       loading.dismiss();
       this.todo = res;
+      console.log(this.todo);
     });
   }
 
