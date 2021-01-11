@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1017737093123",
+    "project_id": "ningi-2c89d",
+    "storage_bucket": "ningi-2c89d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017737093123:android:823f114eb75121dec32e36",
+        "android_client_info": {
+          "package_name": "com.eltonleao.ningi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017737093123-56hrj1taa70c3e6hu3udvh8gs1jcksda.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCasr84TsT4LoiXgw-phoDw0D6hirbebJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017737093123-56hrj1taa70c3e6hu3udvh8gs1jcksda.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

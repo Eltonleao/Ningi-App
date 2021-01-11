@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-buttons slot="start" class="menu-btn">
-      <ion-menu-button manu="main-menu"></ion-menu-button>
-    </ion-buttons>
-    <ion-title class="ion-text-center">Dashboard</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start" class="menu-btn">
+            <ion-menu-button manu="main-menu"></ion-menu-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">Dashboard</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
       <div class="">
@@ -38,31 +38,22 @@
     <ion-slide>
       <ion-text color="warning" class="dashboard-values">
         <h1>R$ 292,90</h1>
-        <small>Banco do Brasil</small>
-      </ion-text>
-    </ion-slide>
-  </ion-slides>
+       <ion-item-sliding *ngFor="let item of todos">
+            <ion-item lines="unset" button [routerLink]="['/details', item.id]">
+                <ion-label>
+                    {{item.task}}
+                    <p>{{ item.createdAt | date:'short' }}</p>
+                    <ion-note slot="end" color="primary">{{ item.priority }}</ion-note>
+                </ion-label>
+            </ion-item>
 
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col>
-        <div class="ion-text-center d-flex justify-content-center">
-          <ion-input class="ion-text-center w-70" type="number" placeholder="R$ 42,24"></ion-input>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
-
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <div (click)="carteira()" class="banco">
-          <ion-text color="success">
-            <ion-icon name="cash-outline"></ion-icon>
-          </ion-text>
-        </div>
-      </ion-col>
-      
+            <ion-item-options side="end">
+                <ion-item-option (click)="remove(item)" color="secondary">
+                    Check
+                    <ion-icon name="checkmark" slot="end"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
       <ion-col>
         <div (click)="apiTest()" class="banco">
           <ion-text color="danger">
@@ -90,4 +81,42 @@
     </ion-row>
   </ion-grid>
 
+</ion-content> -->
+<ion-content>
+    <ion-list>
+        <ng-container *ngIf="!todos || todos.length == '0'">
+            <div *ngFor="let n of [0,1,2]" padding>
+                <ion-skeleton-text></ion-skeleton-text>
+                <p>
+                    <ion-skeleton-text class="fake-skeleton"></ion-skeleton-text>
+                </p>
+
+            </div>
+
+        </ng-container>
+
+        <ion-item-sliding *ngFor="let item of todos">
+            <ion-item lines="unset" button [routerLink]="['/todo-details', item.id]">
+                <ion-label>
+                    <p slot="start" color="primary">{{ item.id }}</p>
+                    {{item.task}}
+                    <p>{{ item.createdAt | date:'short' }}</p>
+                    <p slot="end" color="primary">{{ item.priority }}</p>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option (click)="remove(item)" color="secondary">
+                    Check
+                    <ion-icon name="checkmark" slot="end"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button routerLink="/todo-details" routerDirection="forward">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

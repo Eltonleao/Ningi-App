@@ -8,8 +8,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'login',
+        loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
       },
       {
         path: 'dashboard',
@@ -19,18 +19,18 @@ const routes: Routes = [
         path: 'spends',
         loadChildren: () => import('../spends/spends.module').then(m => m.SpendsPageModule)
       },
-      {
-        path: '',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full'
-      }
+      // {
+      //   path: '',
+      //   redirectTo: '/tabs/tab1',
+      //   pathMatch: 'full'
+      // }
     ]
   },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '',
+  //   redirectTo: '/tabs/tab1',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({

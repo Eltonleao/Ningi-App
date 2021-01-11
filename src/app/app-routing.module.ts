@@ -13,6 +13,23 @@ const routes: Routes = [
   {
     path: 'spends',
     loadChildren: () => import('./spends/spends.module').then( m => m.SpendsPageModule)
+  },
+  
+  {
+    path: 'login/:id',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'todo-details',
+    loadChildren: () => import('./pages/todo-details/todo-details.module').then( m => m.TodoDetailsPageModule)
+  },
+  {
+    path: 'todo-details/:id',
+    loadChildren: () => import('./pages/todo-details/todo-details.module').then( m => m.TodoDetailsPageModule)
   }
 ];
 @NgModule({

@@ -1,8 +1,11 @@
+import {Todo, TodoService} from "../services/todo.service";
+
 import { Component, OnInit } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 
 import { ApiService } from "../services/api.service";
+
 
 @Component({
   selector: "app-dashboard",
@@ -10,13 +13,23 @@ import { ApiService } from "../services/api.service";
   styleUrls: ["./dashboard.page.scss"],
 })
 export class DashboardPage implements OnInit {
+
+  todos: Todo[];
+
+
   constructor(
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    public api: ApiService
+    public api: ApiService,
+    private todoService: TodoService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.todoService.getTodos().subscribe(res =>{
+      this.todos = res;
+      // console.log(this.todos);
+    })
+  }
 
   async carteira() {
     const alert = await this.alertCtrl.create({
@@ -62,5 +75,10 @@ export class DashboardPage implements OnInit {
 
   apiTest(){
     this.api.teste();
+  }
+
+  remove(item){
+    // console.log(item.id);
+    // this.todoService.removeTodo(item.id);
   }
 }
