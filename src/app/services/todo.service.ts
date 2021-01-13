@@ -30,7 +30,7 @@ export class TodoService {
     this.todos = this.todosCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
-          console.log(a);
+          // console.log(a);
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
           return { id, ...data };
@@ -57,7 +57,7 @@ export class TodoService {
   }
 
   removeTodo(id) {
-    console.log('entrei aqui');
+    // console.log('entrei aqui');
     // return this.todosCollection.doc(id).delete();
     return this.todosCollection.doc(id).update({ deletado: 1 });
   }

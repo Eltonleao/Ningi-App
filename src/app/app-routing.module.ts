@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: 'todo-details/:id',
     loadChildren: () => import('./pages/todo-details/todo-details.module').then( m => m.TodoDetailsPageModule)
+  },
+  {
+    path: 'ningis',
+    loadChildren: () => import('./ningis/ningis.module').then( m => m.NingisPageModule)
   }
 ];
 @NgModule({

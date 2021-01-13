@@ -1,10 +1,9 @@
-import {Todo, TodoService} from "../services/todo.service";
+import { Todo, TodoService } from "../services/todo.service";
+import { Ningi, NingiService } from "../services/ningi.service";
 
 import { Component, OnInit } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
-
-import { ApiService } from "../services/api.service";
 
 
 @Component({
@@ -16,29 +15,40 @@ export class DashboardPage implements OnInit {
 
   todos: Todo[];
 
+  ningis: Ningi[];
+  ningi: any;
+
 
   constructor(
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    public api: ApiService,
-    private todoService: TodoService
-  ) {}
+    private todoService: TodoService,
+    private ningiService: NingiService,
+
+  ) { }
 
   ngOnInit() {
-    this.todoService.getTodos().subscribe(res =>{
+    this.todoService.getTodos().subscribe(res => {
       this.todos = res;
-      // console.log(this.todos);
-    })
+    });
+
+    this.ningiService.getNingis().subscribe(res => {
+      this.ningis = res;
+      // console.log(this.ningis);
+    });
+    this.ningi = {};
   }
 
-  async carteira() {
+  async addNingi() {
+
+    var env = this;
     const alert = await this.alertCtrl.create({
       cssClass: "my-custom-class",
       header: "Carteira",
       translucent: true,
       // subHeader: "Confirma operação?",
       message: "Digite o valor da operação",
-      inputs:[
+      inputs: [
         {
           name: 'valor',
           type: 'number',
@@ -54,13 +64,17 @@ export class DashboardPage implements OnInit {
         },
         {
           text: "Okay",
-          handler: async () => {
-            const loading = await this.loadingCtrl.create({
-              cssClass: "my-custom-class",
-              // message: "Please wait...",
-              duration: 2000,
-            });
-            await loading.present();
+          handler: async (data) => {
+            this.ningi = {
+              user: 'elton',
+              value: data.valor,
+              data_criacao: new Date(),
+              source: 'carteira',
+              deletado : 0,
+              operation: "+"
+            }
+            this.saveNingi();
+            
           },
         },
       ],
@@ -72,12 +86,17 @@ export class DashboardPage implements OnInit {
     });
   }
 
+  async saveNingi() {
+    const loading = await this.loadingCtrl.create({
+      message: "saving..."
+    });
+    await loading.present();
 
-  apiTest(){
-    this.api.teste();
+    await this.ningiService.addNingi(this.ningi);
+    loading.dismiss();
   }
 
-  remove(item){
+  remove(item) {
     this.todoService.removeTodo(item.id);
   }
 }

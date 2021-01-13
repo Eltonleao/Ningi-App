@@ -1,3 +1,4 @@
+import {Ningi, NingiService} from "../services/ningi.service";
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from "@ionic/angular";
 
@@ -13,44 +14,6 @@ export class SpendsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
-
-  async edit(){
-    const alert = await this.alertCtrl.create({
-      cssClass: "my-custom-class",
-      header: "Editar",
-      // subHeader: "Confirma operação?",
-      message: "",
-      buttons: [
-        "cancel",
-        {
-          text: "Okay",
-          handler: async () => {
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  async delete(){
-    const alert = await this.alertCtrl.create({
-      cssClass: "my-custom-class",
-      header: "Deletar",
-      // subHeader: "Confirma operação?",
-      message: "",
-      buttons: [
-        "cancel",
-        {
-          text: "Okay",
-          handler: async () => {
-          },
-        },
-      ],
-    });
-
-    await alert.present();
   }
 
 }
