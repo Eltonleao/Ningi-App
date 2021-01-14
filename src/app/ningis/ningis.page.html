@@ -3,111 +3,51 @@
         <ion-buttons slot="start" class="menu-btn">
             <ion-menu-button manu="main-menu"></ion-menu-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">Dashboard</ion-title>
+        <ion-title class="ion-text-center">Ningis</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content>
-<ion-slides pager="true" [options]="slideOpts">
-  <ion-slide>
-    <div class="">
-      <ion-text color="primary">
-        <h1>R$ 442,90</h1>
-        <small>Total Balance</small>
-      </ion-text>
-    </div>
-  </ion-slide>
-  <ion-slide>
-    <ion-text color="success" class="dashboard-values">
-      <h1>R$ 150,90</h1>
-      <small>Carteira</small>
-    </ion-text>
-  </ion-slide>
-  <ion-slide>
-    <ion-text color="danger" class="dashboard-values">
-      <h1>R$ 150,90</h1>
-      <small>Bradesco</small>
-    </ion-text>
-  </ion-slide>
-  <ion-slide>
-    <ion-text color="danger" class="dashboard-values">
-      <h1>R$ 292,90</h1>
-      <small>Santander</small>
-    </ion-text>
-  </ion-slide>
-  <ion-slide>
-    <ion-text color="warning" class="dashboard-values">
-      <h1>R$ 292,90</h1>
-     <ion-item-sliding *ngFor="let item of todos">
-          <ion-item lines="unset" button [routerLink]="['/details', item.id]">
-              <ion-label>
-                  {{item.task}}
-                  <p>{{ item.createdAt | date:'short' }}</p>
-                  <ion-note slot="end" color="primary">{{ item.priority }}</ion-note>
-              </ion-label>
-          </ion-item>
-
-          <ion-item-options side="end">
-              <ion-item-option (click)="remove(item)" color="secondary">
-                  Check
-                  <ion-icon name="checkmark" slot="end"></ion-icon>
-              </ion-item-option>
-          </ion-item-options>
-      </ion-item-sliding>
-    <ion-col>
-      <div (click)="addNingi()" class="banco">
-        <ion-text color="danger">
-          Bradesco
-        </ion-text>
-      </div>
-    </ion-col>
-  </ion-row>
-
-  <ion-row>
-    <ion-col>
-      <div class="banco">
-        <ion-text color="danger">
-          Santander
-        </ion-text>
-      </div>
-    </ion-col>
-    <ion-col>
-      <div class="banco">
-        <ion-text color="warning">
-          Banco do Brasil
-        </ion-text>
-      </div>
-    </ion-col>
-  </ion-row>
-</ion-grid>
-
-</ion-content> -->
 <ion-content>
     <ion-list>
-        <ng-container *ngIf="!ningis || ningis.length == '0'">
-            <div *ngFor="let n of [0,1,2]" padding>
-                <ion-skeleton-text></ion-skeleton-text>
-                <p>
-                    <ion-skeleton-text class="fake-skeleton"></ion-skeleton-text>
-                </p>
+        <ion-grid class="mw-80 top-20">
+            <ng-container *ngIf="!ningis || ningis.length == '0'">
+                <div *ngFor="let n of [0,1,2,3,4]" padding>
+                    <ion-skeleton-text></ion-skeleton-text>
+                    <p>
+                        <ion-skeleton-text class="fake-skeleton"></ion-skeleton-text>
+                    </p>
 
-            </div>
-
-        </ng-container>
+                </div>
+            </ng-container>
+        </ion-grid>
 
         <ion-item-sliding *ngFor="let item of ningis">
             <ion-item lines="unset" button [routerLink]="['/todo-details', item.id]">
-                <ion-label>
-                    <p slot="start" color="primary">{{ item.id }}</p>
-                    {{item.user}}
-                    <p>{{ item.datra_criacao | date:'short' }}</p>
-                    <p slot="end" color="primary">R$ {{ item.value }}</p>
-                </ion-label>
+                <ion-grid>
+                    <ion-label>
+
+                        <ion-row>
+                            <ion-col>
+                                <div>
+                                    <ion-datetime displayFormat="DD/MM/YYYY - HH:mm" value="{{item.data_criacao}}"></ion-datetime>
+                                </div>
+                                <div class="center">
+                                    <div class="color-{{item.operation}}">
+                                        {{item.value | currency:"R$ ":true:"1.2" }}
+                                    </div>
+                                    <div>
+                                        {{item.user}}
+                                    </div>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-label>
+                </ion-grid>
             </ion-item>
 
             <ion-item-options side="end">
                 <ion-item-option (click)="remove(item)" color="secondary">
-                    Check
+                    deletar
                     <ion-icon name="checkmark" slot="end"></ion-icon>
                 </ion-item-option>
             </ion-item-options>

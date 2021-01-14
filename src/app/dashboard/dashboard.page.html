@@ -43,7 +43,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <div (click)="addNingi()" class="banco">
+                    <div (click)="addNingi('carteira')" class="banco">
                         <ion-text color="success">
                             Carteira
                         </ion-text>
@@ -51,7 +51,7 @@
                 </ion-col>
 
                 <ion-col>
-                    <div (click)="addNingi()" class="banco">
+                    <div (click)="addNingi('bradesco')" class="banco">
                         <ion-text color="danger">
                             Bradesco
                         </ion-text>
@@ -62,14 +62,14 @@
 
             <ion-row>
                 <ion-col>
-                    <div class="banco">
+                    <div class="banco" (click)="addNingi('santander')">
                         <ion-text color="danger">
                             Santander
                         </ion-text>
                     </div>
                 </ion-col>
                 <ion-col>
-                    <div class="banco">
+                    <div class="banco" (click)="addNingi('banco_do_brasil')">
                         <ion-text color="warning">
                             Banco do<br>Brasil
                         </ion-text>

@@ -7,13 +7,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { LoadingController, NavController } from "@ionic/angular";
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 
 export interface Ningi {
   user: number;
   value: number;
   source: string;
-  data_criacao: string;
+  data_criacao: any;
   deletado: 0;
 }
 
@@ -33,7 +34,7 @@ export class NingiService {
     this.ningis = this.ningiCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
-          console.log(a);
+          // console.log(a);
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
           return { id, ...data };
@@ -43,12 +44,16 @@ export class NingiService {
   }
 
   getNingis() {
-    // console.log(this.ningis);
     return this.ningis;
   }
 
   addNingi(ningi: Ningi) {
     // console.log(ningi);
     return this.ningiCollection.add(ningi);
+  }
+
+  remove(ningi){
+    console.log(ningi.id);
+    this.ningiCollection.doc(ningi.id).update({deletado: 1});
   }
 }

@@ -25,7 +25,16 @@ export class NingisPage implements OnInit {
     this.ningiService.getNingis().subscribe(res => {
       this.ningis = res;
       console.log(this.ningis);
+      this.ningis.map(x =>{
+    
+        x.data_criacao = new Date(x.data_criacao);
+        
+      })
     })
+  }
+
+  remove(ningi){
+    this.ningiService.remove(ningi);
   }
 
 }

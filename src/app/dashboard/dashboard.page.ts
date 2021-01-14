@@ -39,12 +39,12 @@ export class DashboardPage implements OnInit {
     this.ningi = {};
   }
 
-  async addNingi() {
+  async addNingi(source) {
 
-    var env = this;
+    console.log(source);
     const alert = await this.alertCtrl.create({
       cssClass: "my-custom-class",
-      header: "Carteira",
+      header: source,
       translucent: true,
       // subHeader: "Confirma operação?",
       message: "Digite o valor da operação",
@@ -54,27 +54,31 @@ export class DashboardPage implements OnInit {
           type: 'number',
           placeholder: 'R$ 42,90',
           attributes: {
-            autocomplete: 'false'
+            autocomplete: 'false',
+            required: true
           }
         }
       ],
       buttons: [
         {
-          text: "cancel"
+          text: "Cancelar"
         },
         {
-          text: "Okay",
+          text: "Ok",
           handler: async (data) => {
-            this.ningi = {
-              user: 'elton',
-              value: data.valor,
-              data_criacao: new Date(),
-              source: 'carteira',
-              deletado : 0,
-              operation: "+"
+            if(data.valor != ""){
+              this.ningi = {
+                user: 'elton',
+                value: data.valor,
+                data_criacao: new Date().getTime(),
+                source: source,
+                deletado : 0,
+                operation: "spend"
+              }
+              this.saveNingi();
+            } else{
+              this.addNingi(source);
             }
-            this.saveNingi();
-            
           },
         },
       ],
@@ -91,12 +95,16 @@ export class DashboardPage implements OnInit {
       message: "saving..."
     });
     await loading.present();
-
-    await this.ningiService.addNingi(this.ningi);
+    await this.ningiService.addNingi(this.ningi).then((e)=>{
+      console.log(e);
+    });
     loading.dismiss();
-  }
-
-  remove(item) {
-    this.todoService.removeTodo(item.id);
+    const sucesso = await this.alertCtrl.create({
+      message: "Saved!"
+    });
+    await sucesso.present();
+    setTimeout(()=>{
+      sucesso.dismiss();
+    }, 1000)
   }
 }
