@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'ningis',
         loadChildren: () => import('../ningis/ningis.module').then(m => m.NingisPageModule)
       },
+      {
+        path: 'partners',
+        loadChildren: () => import('../partners/partners.module').then(m => m.PartnersPageModule)
+      }
       // {
       //   path: '',
       //   redirectTo: '/tabs/tab1',

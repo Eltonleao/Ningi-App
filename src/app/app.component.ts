@@ -47,7 +47,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.navCtrl.navigateForward('tabs/ningis');
+      this.navCtrl.navigateForward('tabs/login');
     });
   }
 }
