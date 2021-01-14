@@ -14,6 +14,9 @@ import { HttpClientModule} from '@angular/common/http';
 // firebase imports, omit what you don't need for your app
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+
+import { Firebase } from '@ionic-native/firebase/ngx';
+
 // environment
 import { environment } from '../environments/environment';
 
@@ -22,7 +25,14 @@ import { environment } from '../environments/environment';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, AngularFireModule.initializeApp(environment.firebase), AngularFirestoreModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule, 
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,

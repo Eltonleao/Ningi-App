@@ -9,7 +9,9 @@ import { Firebase } from '@ionic-native/firebase/ngx';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private firebase: Firebase
+  ) { }
 
   ngOnInit() {
   }
