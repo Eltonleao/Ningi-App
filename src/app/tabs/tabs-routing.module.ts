@@ -22,7 +22,7 @@ const routes: Routes = [
       {
         path: 'partners',
         loadChildren: () => import('../partners/partners.module').then(m => m.PartnersPageModule)
-      }
+      },
       // {
       //   path: '',
       //   redirectTo: '/tabs/tab1',

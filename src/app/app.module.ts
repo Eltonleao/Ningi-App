@@ -15,7 +15,8 @@ import { HttpClientModule} from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
-import { Firebase } from '@ionic-native/firebase/ngx';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
 
 // environment
 import { environment } from '../environments/environment';
@@ -31,7 +32,8 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     HttpClientModule, 
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [
     StatusBar,
