@@ -47,10 +47,16 @@
   </ion-item>
 
   <ion-item>
-    <ion-textarea placeholder="Obervações..."></ion-textarea>
+    <ion-textarea [(ngModel)]="ningi.Obervacoes" placeholder="Obervações..."></ion-textarea>
   </ion-item>
 
-
-  <ion-button color="dark" (click)="saveChenges()">Save</ion-button>
+  <!-- <div class="btn-container ion-text-center"> -->
+    <!-- <ion-fab-button vertical="bottom" horizontal="center" slot="fixed" color="dark" (click)="saveChenges()">Save</ion-fab-button> -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button  (click)="saveChenges()">
+          Save
+      </ion-fab-button>
+  </ion-fab>
+  <!-- </div> -->
 
 </ion-content>

@@ -26,6 +26,7 @@ export class AppComponent {
   currentPageTitle = 'Dashboard';
   user;
   teste: any = false;
+  hideTabs;
 
   appPages = [
     {
@@ -59,6 +60,7 @@ export class AppComponent {
   ) {
     this.user = null;
     this.initializeApp();
+    this.hideTabs = false;
     console.log(this.user);
   }
 
@@ -75,6 +77,8 @@ export class AppComponent {
           env.navCtrl.navigateForward('tabs/ningis');
         } else{
           env.navCtrl.navigateForward('tabs/login');
+          console.log('entrei aqui');
+          env.hideTabs = true;
         }
       })
     });
@@ -88,7 +92,6 @@ export class AppComponent {
 
     await this.fAuth.auth.signOut();
     await this.storage.set('user', null);
-    // document.getElementById("tabs").style.display = "None";
     await window.location.reload();
     loading.dismiss();
     this.menu.close();

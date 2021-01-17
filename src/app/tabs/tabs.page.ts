@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
-
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-tabs',
@@ -10,11 +10,13 @@ import { Storage } from '@ionic/storage';
 export class TabsPage {
 
   user: any;
+  hideTabs: any;
   constructor(
-    public storage: Storage
-
+    public storage: Storage,
+    public app: AppComponent
   ) {
     this.user = null;
+    this.hideTabs = app.hideTabs;
 
     storage.get('user').then((user)=>{
       this.user = user;
