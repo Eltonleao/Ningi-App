@@ -73,10 +73,12 @@ export class AppComponent {
       
       this.storage.get('user').then(function(user){
         if(user){
+          console.log('user logado');
           env.user = user;
-          env.navCtrl.navigateForward('tabs/dashboard');
+          env.navCtrl.navigateForward('/tabs/dashboard');
         } else{
-          env.navCtrl.navigateForward('tabs/login');
+          console.log('user não logado');
+          env.navCtrl.navigateForward('/tabs/login');
           env.hideTabs = true;
         }
       })

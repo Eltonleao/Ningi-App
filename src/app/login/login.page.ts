@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 import { Platform, NavController } from '@ionic/angular';
 
 import {AppComponent} from '../app.component';
+import { windowToggle } from 'rxjs/operators';
 
 
 
@@ -55,11 +56,17 @@ export class LoginPage implements OnInit {
     });
     // await loading.present();
     var provider = new auth.GoogleAuthProvider();
-    const credential = await this.fAuth.auth.signInWithPopup(provider);
-    // console.log(credential);
-    this.user = await credential.user;
-    await this.updateUserData(credential.user);
-    await loading.dismiss();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    await this.fAuth.auth.signInWithRedirect(provider)
+    this.fAuth.auth.getRedirectResult().then(async function (user) {
+      console.log(user);
+      await this.updateUserData(user);
+      await loading.dismiss();
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+
   }
 
   async updateUserData(user) {
