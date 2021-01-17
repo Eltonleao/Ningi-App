@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo, TodoService } from "../services/todo.service";
 import { Ningi, NingiService } from "../services/ningi.service";
-
 
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";

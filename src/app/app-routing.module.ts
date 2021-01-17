@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'ningi-details/:id',
     loadChildren: () => import('./ningi-details/ningi-details.module').then( m => m.NingiDetailsPageModule)
   },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
 ];
 @NgModule({
   imports: [

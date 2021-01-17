@@ -79,7 +79,7 @@ export class DashboardPage implements OnInit {
           handler: async (data) => {
             if(data.valor != ""){
               this.ningi = {
-                user: this.user.displayName,
+                user: this.user.uid,
                 value: data.valor,
                 data_criacao: new Date().getTime(),
                 source: source,

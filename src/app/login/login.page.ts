@@ -1,13 +1,14 @@
 import { LoadingController } from '@ionic/angular';
 
 import { Component, OnInit } from '@angular/core';
-// import { NavController, NavParams } from '@ionic/angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import {  AngularFirestore } from 'angularfire2/firestore';
 import {  auth } from 'firebase/app';
 import { NingiService } from "../services/ningi.service";
 import { Storage } from '@ionic/storage';
 import { Platform, NavController } from '@ionic/angular';
+
+import {AppComponent} from '../app.component';
 
 
 
@@ -31,7 +32,8 @@ export class LoginPage implements OnInit {
     public ningiService: NingiService,
     public storage: Storage,
     private navCtrl: NavController,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public app: AppComponent
 
   ) {
 
@@ -67,13 +69,20 @@ export class LoginPage implements OnInit {
       login_tipo: 'google',
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
+      deletado : 0
     }
+    const loading = await this.loadingController.create({
+      spinner: 'crescent',
+    });
+    await loading.present();
 
     await this.storage.set('user', data );
-    await window.location.reload();
-
-    return this.ningiService.updateUser(data);
+    await this.ningiService.updateUser(data).then(async data =>{
+      this.app.hideTabs = await false;
+      await window.location.reload();
+    });
+  
 
   }
 }

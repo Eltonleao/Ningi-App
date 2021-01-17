@@ -28,8 +28,8 @@ const routes: Routes = [
         loadChildren: () => import('../ningi-details/ningi-details.module').then(m => m.NingiDetailsPageModule)
       },
       {
-        path: 'partners',
-        loadChildren: () => import('../partners/partners.module').then(m => m.PartnersPageModule)
+        path: 'perfil',
+        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
       },
       // {
       //   path: '',

@@ -7,11 +7,7 @@ import { Observable } from 'rxjs';
 
 import { map } from 'rxjs/operators';
 
-import { LoadingController, NavController } from "@ionic/angular";
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
-
 import { Storage } from '@ionic/storage';
-import { firestore } from 'firebase';
 
 
 export interface Ningi {
@@ -29,9 +25,13 @@ export class NingiService {
   private ningiCollection: AngularFirestoreCollection<Ningi>;
   private ningis: Observable<Ningi[]>;
   public userCollection: any;
+  public userMagickWordCollection: any;
   public userRef: AngularFirestore;
   public userInfo: any;
   public checkUser;
+  public user;
+  public partnerMagickWord;
+  public userPartnerCollection;
 
 
   constructor(
@@ -41,6 +41,8 @@ export class NingiService {
   ) {
     this.ningiCollection = db.collection<Ningi>('ningis', ref => ref.where("deletado", '==', 0));
     this.userCollection = db.collection('users', ref => ref.where("deletado", '==', 0));
+    this.userMagickWordCollection = db.collection('user_magickword', ref => ref.where("deletado", '==', 0));
+    this.userPartnerCollection = db.collection('user_partner', ref => ref.where("deletado", '==', 0));
 
     this.ningis = this.ningiCollection.snapshotChanges().pipe(
       map(actions => {
@@ -52,6 +54,10 @@ export class NingiService {
         })
       })
     );
+
+    this.storage.get('user').then(user =>{
+      this.user = user;
+    })
 
   }
 
@@ -69,16 +75,17 @@ export class NingiService {
     this.ningiCollection.doc(ningi.id).update({ deletado: 1 });
   }
 
-  updateUser(user) {
+  async updateUser(user): Promise<any> {
 
     let userDoc = this.afs.firestore.collection(`users`).where('email', '==', user.email);
-    console.log(userDoc);
-    userDoc.get().then((querySnapshot) => {
+    // console.log(userDoc);
+    return await userDoc.get().then( async (querySnapshot) => {
       // console.log(querySnapshot.size)
       if (querySnapshot.size == 0) {
-        console.log('usuariio novo, criando no banco...');
-        this.storage.set('user', user);
-        this.userCollection.add(user);
+        await console.log('usuario novo, criando no banco...');
+        await this.storage.set('user', user);
+        await console.log(user);
+        await this.userCollection.doc(user.uid).set(user);
         return user;
       } else {
         console.log('usuario já existente, updating...');
@@ -123,6 +130,41 @@ export class NingiService {
   updateNingi(ningi) {
     ningi.data_modificacao = new Date().getTime();
     return this.ningiCollection.doc(ningi.id).update(ningi);
+  }
+
+  async checkMagickWord(magickWord): Promise<any>{
+    var user;
+    let user_magickword = this.afs.firestore.collection('user_magickword').where('magickword', '==', magickWord);
+    await user_magickword.get().then( async  doc =>{
+      doc.forEach(async element => {
+        user = element.data();
+      });
+    });
+    // await console.log(user);
+    return user;
+  }
+
+  updateMyMagickWord(magickWord){
+    this.userMagickWordCollection.doc(this.user.uid).set({
+      user_uid: this.user.uid,
+      magickword: magickWord
+    });
+  }
+
+  getMyMagickWord(){
+    return this.db.collection('user_magickword').doc(this.user.uid).ref.get().then(function (doc) {
+      return doc.data();
+    });
+  }
+
+  async addPartner(user){
+    // console.log(user);
+    console.log(user);
+    this.userPartnerCollection.doc(this.user.uid).set({
+      user_uid: this.user.uid,
+      partner_uid: user.user_uid,
+      deletado : 0,
+    });
   }
 
 }
