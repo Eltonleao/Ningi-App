@@ -1,3 +1,5 @@
+import { Storage } from '@ionic/storage';
+
 import { Todo, TodoService } from "../services/todo.service";
 import { Ningi, NingiService } from "../services/ningi.service";
 
@@ -17,6 +19,7 @@ export class DashboardPage implements OnInit {
 
   ningis: Ningi[];
   ningi: any;
+  user: any;
 
 
   constructor(
@@ -24,8 +27,10 @@ export class DashboardPage implements OnInit {
     public loadingCtrl: LoadingController,
     private todoService: TodoService,
     private ningiService: NingiService,
+    public storage: Storage,
 
-  ) { }
+
+  ) {}
 
   ngOnInit() {
     this.todoService.getTodos().subscribe(res => {
@@ -37,6 +42,12 @@ export class DashboardPage implements OnInit {
       // console.log(this.ningis);
     });
     this.ningi = {};
+
+    this.storage.get('user').then(user =>{
+      this.user = user;
+      console.log(user);
+    });
+
   }
 
   async addNingi(source) {
@@ -68,12 +79,13 @@ export class DashboardPage implements OnInit {
           handler: async (data) => {
             if(data.valor != ""){
               this.ningi = {
-                user: 'elton',
+                user: this.user.displayName,
                 value: data.valor,
                 data_criacao: new Date().getTime(),
                 source: source,
                 deletado : 0,
-                operation: "spend"
+                operation: "spend",
+                photoURL: this.user.photoURL
               }
               this.saveNingi();
             } else{

@@ -20,6 +20,14 @@ const routes: Routes = [
         loadChildren: () => import('../ningis/ningis.module').then(m => m.NingisPageModule)
       },
       {
+        path: 'ningi-details',
+        loadChildren: () => import('../ningi-details/ningi-details.module').then(m => m.NingiDetailsPageModule)
+      },
+      {
+        path: 'ningi-details/:id',
+        loadChildren: () => import('../ningi-details/ningi-details.module').then(m => m.NingiDetailsPageModule)
+      },
+      {
         path: 'partners',
         loadChildren: () => import('../partners/partners.module').then(m => m.PartnersPageModule)
       },

@@ -22,22 +22,23 @@
         </ion-grid>
 
         <ion-item-sliding *ngFor="let item of ningis">
-            <ion-item lines="unset" button [routerLink]="['/todo-details', item.id]">
+            <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.id]">
                 <ion-grid>
                     <ion-label>
 
                         <ion-row>
-                            <ion-col>
+                            <ion-col size='3'>
+                                <ion-thumbnail class="ion-text-center">
+                                    <img class="thumb"  src="{{item.photoURL}}">
+                                </ion-thumbnail>
+                            </ion-col>
+                            <ion-col size='9'>
                                 <div>
-                                    <ion-datetime displayFormat="DD/MM/YYYY - HH:mm" value="{{item.data_criacao}}"></ion-datetime>
-                                </div>
-                                <div class="center">
-                                    <div class="color-{{item.operation}}">
+                                    <span class="color-{{item.operation}}">
                                         {{item.value | currency:"R$ ":true:"1.2" }}
-                                    </div>
-                                    <div>
-                                        {{item.user}}
-                                    </div>
+                                    </span>
+                                    <br>
+                                    {{item.source}} em {{item.data_criacao}}
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -46,7 +47,7 @@
             </ion-item>
 
             <ion-item-options side="end">
-                <ion-item-option (click)="remove(item)" color="secondary">
+                <ion-item-option (click)="remove(item)" color="danger">
                     deletar
                     <ion-icon name="checkmark" slot="end"></ion-icon>
                 </ion-item-option>

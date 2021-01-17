@@ -1,18 +1,21 @@
 <ion-app>
-  <ion-menu side="start" menuId="main-menu" contentId="main">
+  <ion-menu *ngIf="user" side="start" menuId="main-menu" contentId="main">
     <ion-header>
       <ion-toolbar color="dark">
         <ion-title class="user-container">
           <ion-row>
-              <ion-icon name="person-circle-outline"></ion-icon>
-              <ion-text>Username</ion-text>
+              <!-- <ion-icon name="person-circle-outline"></ion-icon> -->
+              <ion-thumbnail class="ion-text-center">
+                <img src="{{user?.photoURL}}">
+              </ion-thumbnail>
+              <ion-text class="username">{{user.displayName}}</ion-text>
           </ion-row>
         </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list class="text-center">
-        <ion-item>Logout</ion-item>
+        <ion-item (click)="logout()">Logout</ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>

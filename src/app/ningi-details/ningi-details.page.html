@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar color="dark">
+      <ion-buttons slot="start" class="menu-btn">
+          <ion-menu-button manu="main-menu"></ion-menu-button>
+      </ion-buttons>
+      <ion-title class="ion-text-center">Ningi Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 class="ion-text-center">{{ningi.data_criacao}}</h1>
+
+  <input type="text" [(ngModel)]="ningi.operation">
+  <input type="text" [(ngModel)]="ningi.source">
+  <input type="text" [(ngModel)]="ningi.value">
+  <input type="text" [(ngModel)]="ningi.user">
+  
+</ion-content>

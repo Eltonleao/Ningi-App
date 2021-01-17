@@ -1,12 +1,15 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>Login</ion-title>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start" class="menu-btn">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">Login</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <!-- <form> -->
-        <!-- <ion-list>
+    <!-- <ion-list>
             <ion-label position="floating">Username</ion-label>
             <ion-input type="text" [(ngModel)]="user.email"></ion-input>
         </ion-list>
@@ -17,8 +20,8 @@
         </ion-list>
 
         <ion-button fill="solid" expand="black" color="dark" (click)="register()">Login</ion-button> -->
-        
-        <ion-button fill="solid" expand="black" color="dark" (click)="google()">Google</ion-button>
+
+    <ion-button fill="solid" expand="black" color="dark" (click)="google()">Google</ion-button>
     <!-- </form> -->
 
 </ion-content>

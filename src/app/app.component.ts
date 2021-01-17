@@ -1,9 +1,18 @@
 // app.component.ts
 import { Component } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 
 import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { NingiService } from "./services/ningi.service";
+import { Storage } from '@ionic/storage';
+
+import { MenuController } from '@ionic/angular'; 
+
 
 
 @Component({
@@ -13,8 +22,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
 
-
+  public loggedIn = false;
   currentPageTitle = 'Dashboard';
+  user;
+  teste: any = false;
 
   appPages = [
     {
@@ -38,16 +49,49 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    public fAuth: AngularFireAuth,
+    public afs: AngularFirestore,
+    public ningiService: NingiService,
+    public storage: Storage,
+    private menu: MenuController,
+    public loadingController: LoadingController
   ) {
+    this.user = null;
     this.initializeApp();
+    console.log(this.user);
   }
 
   initializeApp() {
+    var env = this;
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.navCtrl.navigateForward('tabs/login');
+      
+      
+      this.storage.get('user').then(function(user){
+        if(user){
+          env.user = user;
+          env.navCtrl.navigateForward('tabs/ningis');
+        } else{
+          env.navCtrl.navigateForward('tabs/login');
+        }
+      })
     });
+  }
+
+  async logout() {
+    const loading = await this.loadingController.create({
+      spinner: 'crescent',
+    });
+    await loading.present();
+
+    await this.fAuth.auth.signOut();
+    await this.storage.set('user', null);
+    // document.getElementById("tabs").style.display = "None";
+    await window.location.reload();
+    loading.dismiss();
+    this.menu.close();
+
   }
 }
