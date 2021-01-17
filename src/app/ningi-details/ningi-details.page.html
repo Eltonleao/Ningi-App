@@ -1,18 +1,56 @@
 <ion-header>
   <ion-toolbar color="dark">
-      <ion-buttons slot="start" class="menu-btn">
-          <ion-menu-button manu="main-menu"></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="ion-text-center">Ningi Details</ion-title>
+    <ion-buttons slot="start" class="menu-btn">
+      <ion-menu-button manu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Ningi Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h1 class="ion-text-center">{{ningi.data_criacao}}</h1>
+  <ion-item *ngIf="data_modificacao != ''">
+    <ion-label>Data de criação: </ion-label>
+    <span>{{data_criacao}}</span>
+  </ion-item>
 
-  <input type="text" [(ngModel)]="ningi.operation">
-  <input type="text" [(ngModel)]="ningi.source">
-  <input type="text" [(ngModel)]="ningi.value">
-  <input type="text" [(ngModel)]="ningi.user">
-  
+  <ion-item *ngIf="data_modificacao != ''">
+    <ion-label>data de modificação: </ion-label>
+    <span>{{data_modificacao}}</span>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Tipo de Operação</ion-label>
+    <ion-select placeholder="Operação" [(ngModel)]="ningi.operation">
+      <ion-select-option value="incomming">Entrada</ion-select-option>
+      <ion-select-option value="spend">Saida</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Source</ion-label>
+    <ion-select placeholder="Operação" [(ngModel)]="ningi.source">
+      <ion-select-option value="carteira">Carteira</ion-select-option>
+      <ion-select-option value="bradesco">Bradesco</ion-select-option>
+      <ion-select-option value="santander">Santander</ion-select-option>
+      <ion-select-option value="banco_do_brasil">Banco Do Brasil</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Valor</ion-label>
+    <input type="text" [(ngModel)]="ningi.value" placeholder="Valor" clearInput>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>User</ion-label>
+    <input type="text" [(ngModel)]="ningi.user">
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea placeholder="Obervações..."></ion-textarea>
+  </ion-item>
+
+
+  <ion-button color="dark" (click)="saveChenges()">Save</ion-button>
+
 </ion-content>

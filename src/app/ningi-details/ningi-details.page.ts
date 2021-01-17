@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { NingiService } from "../services/ningi.service";
+import { LoadingController, NavController } from "@ionic/angular";
+
 
 
 
@@ -12,14 +14,17 @@ import { NingiService } from "../services/ningi.service";
 export class NingiDetailsPage implements OnInit {
 
   ningi: any;
+  data_criacao: any;
+  data_modificacao: any;
 
   constructor(
     private route: ActivatedRoute,
-    private ningiService: NingiService
+    private ningiService: NingiService,
+    private nav: NavController
+
   ) {
-    this.ningi = {
-      user: "skdjfh"
-    }
+    this.ningi = {};
+    this.data_modificacao = '';
   }
 
   async ngOnInit() {
@@ -27,9 +32,30 @@ export class NingiDetailsPage implements OnInit {
     if (id) {
       this.ningiService.getNingi(id).then((data)=>{
         // console.log(data.data_criacao);
-        var formatedDate = this.ningiService.formatDate(data.data_criacao);
-        data.data_criacao = formatedDate;
+        var formatedDateCriacao = this.ningiService.formatDate(data.data_criacao);
+        this.data_criacao = formatedDateCriacao;
+        
+        if(data.data_modificacao){
+          var formatedDateModificacao = this.ningiService.formatDate(data.data_criacao);
+          this.data_modificacao = formatedDateModificacao;
+          console.log(this.data_modificacao);
+        }
         this.ningi = data;
+        this.ningi.id = id;
+
+      });
+    }
+  }
+
+
+  saveChenges(){
+    if(this.ningi.id){
+      this.ningiService.updateNingi(this.ningi).then(()=>{
+        this.nav.back();
+      });
+    } else{
+      this.ningiService.addNingi(this.ningi).then(()=>{
+        this.nav.back();
       });
     }
   }

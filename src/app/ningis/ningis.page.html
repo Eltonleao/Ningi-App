@@ -38,7 +38,11 @@
                                         {{item.value | currency:"R$ ":true:"1.2" }}
                                     </span>
                                     <br>
-                                    {{item.source}} em {{item.data_criacao}}
+                                    <span text-wrap>
+                                        {{item.source}} 
+                                        <br>
+                                        {{item.data_criacao}}
+                                    </span>
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -56,7 +60,7 @@
     </ion-list>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button routerLink="/todo-details" routerDirection="forward">
+        <ion-fab-button color="dark" routerLink="/tabs/ningi-details" routerDirection="forward">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>

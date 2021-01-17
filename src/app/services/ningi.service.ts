@@ -109,6 +109,7 @@ export class NingiService {
 
     var date = new Date(x);
     var dc = {
+      ano: date.getFullYear() + 1 < 10 ? "0" + stringify(date.getFullYear() + 1) : date.getFullYear(),
       mes: date.getMonth() + 1 < 10 ? "0" + stringify(date.getMonth() + 1) : date.getMonth(),
       dia: date.getDate() < 10 ? "0" + stringify(date.getDate()) : date.getDate(),
       hora: date.getHours() < 10 ? "0" + stringify(date.getHours()) : date.getHours(),
@@ -116,7 +117,12 @@ export class NingiService {
       seg: date.getSeconds() < 10 ? "0" + stringify(date.getSeconds()) : date.getSeconds(),
     };
 
-    return dc.dia + '/' + dc.mes + ' - ' + dc.hora + ':' + dc.min;
-
+    return dc.dia + '/' + dc.mes + '/' + dc.ano + ' - ' + dc.hora + ':' + dc.min;
   }
+
+  updateNingi(ningi) {
+    ningi.data_modificacao = new Date().getTime();
+    return this.ningiCollection.doc(ningi.id).update(ningi);
+  }
+
 }
