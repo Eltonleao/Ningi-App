@@ -52,11 +52,12 @@ export class NingiDetailsPage implements OnInit {
   saveChenges(){
     if(this.ningi.id){
       this.ningiService.updateNingi(this.ningi).then(()=>{
-        this.nav.back();
+        window.location.href = '/tabs/ningis';
       });
     } else{
       this.ningiService.addNingi(this.ningi).then(()=>{
-        this.nav.back();
+        // this.nav.back();
+        window.location.href = '/tabs/ningis';
       });
     }
   }

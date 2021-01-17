@@ -23,7 +23,7 @@ export interface Ningi {
 })
 export class NingiService {
   private ningiCollection: AngularFirestoreCollection<Ningi>;
-  private ningis: Observable<Ningi[]>;
+  public ningis: Observable<Ningi[]>;
   public userCollection: any;
   public userMagickWordCollection: any;
   public userRef: AngularFirestore;
@@ -217,6 +217,20 @@ export class NingiService {
       }
 
     })
+  }
 
+  getTotalBalance(callback){
+    // await this.storage.get('user').then(async (user) => {
+    //   let  = this.afs.firestore.collection('user_partner').where('user_uid', '==', user.uid);
+    //   await user_partner.get().then(async doc => {
+    //     doc.forEach(async element => {
+    //       partner = element.data();
+
+    //     });
+    //   });
+
+    if(callback){
+      callback(this.ningis);
+    }
   }
 }

@@ -20,6 +20,31 @@ export class DashboardPage implements OnInit {
   ningis: Ningi[];
   ningi: any;
   user: any;
+  totalBalance: any = {
+    value: 0,
+    class: ''
+  };
+
+  totalCarteira: any = {
+    value: 0,
+    class: ''
+  };
+
+  totalBradesco: any = {
+    value: 0,
+    class: ''
+  };
+
+  totalBancoDoBrasil: any = {
+    value: 0,
+    class: ''
+  };
+
+  totalSantander: any = {
+    value: 0,
+    class: ''
+  };
+
 
 
   constructor(
@@ -30,22 +55,88 @@ export class DashboardPage implements OnInit {
     public storage: Storage,
 
 
-  ) {}
+  ) {
+    const env = this;
+    this.ningiService.getTotalBalance(function (data) {
+      data.subscribe((ningis) => {
+        env.totalBalance.value = 0;
+        ningis.forEach(ningi => {
+          if (ningi.operation == 'incomming') {
+            switch (ningi.source) {
+              case "carteira":
+                env.totalCarteira.value = env.totalCarteira.value + ningi.value
+                break;
+              case "santander":
+                env.totalSantander.value = env.totalSantander.value + ningi.value
+                break;
+              case "bradesco":
+                env.totalBradesco.value = env.totalBradesco.value + ningi.value
+                break;
+              case "banco_do_brasil":
+                env.totalBancoDoBrasil.value = env.totalBancoDoBrasil.value + ningi.value
+                break;
+            }
+
+            env.totalBalance.value = env.totalBalance.value + ningi.value
+          } else {
+
+            switch (ningi.source) {
+              case "carteira":
+                env.totalCarteira.value = env.totalCarteira.value - ningi.value
+                break;
+              case "santander":
+                env.totalSantander.value = env.totalSantander.value - ningi.value
+                break;
+              case "bradesco":
+                env.totalBradesco.value = env.totalBradesco.value - ningi.value
+                break;
+              case "banco_do_brasil":
+                env.totalBancoDoBrasil.value = env.totalBancoDoBrasil.value - ningi.value
+                break;
+            }
+
+            env.totalBalance.value = env.totalBalance.value - ningi.value
+          }
+        });
+        if (env.totalBalance.value < 0) {
+          env.totalBalance.color = 'danger';
+        } else {
+          env.totalBalance.color = 'success';
+        }
+
+        if (env.totalCarteira.value < 0) {
+          env.totalCarteira.color = 'danger';
+        } else {
+          env.totalCarteira.color = 'success';
+        }
+
+        if (env.totalBradesco.value < 0) {
+          env.totalBradesco.color = 'danger';
+        } else {
+          env.totalBradesco.color = 'success';
+        }
+
+        if (env.totalSantander.value < 0) {
+          env.totalSantander.color = 'danger';
+        } else {
+          env.totalSantander.color = 'success';
+        }
+
+        if (env.totalBancoDoBrasil.value < 0) {
+          env.totalBancoDoBrasil.color = 'danger';
+        } else {
+          env.totalBancoDoBrasil.color = 'success';
+        }
+      });
+    });
+  }
 
   ngOnInit() {
     this.todoService.getTodos().subscribe(res => {
       this.todos = res;
     });
-
-    // this.ningiService.getNingis().subscribe(res => {
-    //   this.ningis = res;
-    //   // console.log(this.ningis);
-    // });
-    this.ningi = {};
-
-    this.storage.get('user').then(user =>{
+    this.storage.get('user').then(user => {
       this.user = user;
-      console.log(user);
     });
 
   }
@@ -77,18 +168,18 @@ export class DashboardPage implements OnInit {
         {
           text: "Ok",
           handler: async (data) => {
-            if(data.valor != ""){
+            if (data.valor != "") {
               this.ningi = {
                 user: this.user.uid,
-                value: data.valor,
+                value: parseFloat(data.valor),
                 data_criacao: new Date().getTime(),
                 source: source,
-                deletado : 0,
+                deletado: 0,
                 operation: "spend",
                 photoURL: this.user.photoURL
               }
               this.saveNingi();
-            } else{
+            } else {
               this.addNingi(source);
             }
           },
@@ -107,7 +198,7 @@ export class DashboardPage implements OnInit {
       message: "saving..."
     });
     await loading.present();
-    await this.ningiService.addNingi(this.ningi).then((e)=>{
+    await this.ningiService.addNingi(this.ningi).then((e) => {
       console.log(e);
     });
     loading.dismiss();
@@ -115,8 +206,8 @@ export class DashboardPage implements OnInit {
       message: "Saved!"
     });
     await sucesso.present();
-    setTimeout(()=>{
+    setTimeout(() => {
       sucesso.dismiss();
-    }, 1000)
+    }, 500)
   }
 }

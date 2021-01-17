@@ -11,28 +11,34 @@
     <ion-slides>
         <ion-slide>
             <div class="">
-                <ion-text color="primary">
-                    <h1>R$ 442,90</h1>
+                <ion-text color="{{totalBalance.color}}">
+                    <h1>{{totalBalance.value  | currency:"R$ ":true:"1.2"}}</h1>
                     <small>Total Balance</small>
                 </ion-text>
             </div>
         </ion-slide>
         <ion-slide>
-            <ion-text color="success" class="dashboard-values">
-                <h1>R$ 150,90</h1>
+            <ion-text color="{{totalCarteira.color}}">
+                <h1>{{totalCarteira.value  | currency:"R$ ":true:"1.2"}}</h1>
                 <small>Carteira</small>
             </ion-text>
         </ion-slide>
         <ion-slide>
-            <ion-text color="danger" class="dashboard-values">
-                <h1>R$ 150,90</h1>
+            <ion-text color="{{totalBradesco.color}}" >
+                <h1>{{totalBradesco.value  | currency:"R$ ":true:"1.2"}}</h1>
                 <small>Bradesco</small>
             </ion-text>
         </ion-slide>
         <ion-slide>
-            <ion-text color="danger" class="dashboard-values">
-                <h1>R$ 292,90</h1>
+            <ion-text color="{{totalSantander.color}}">
+                <h1>{{totalSantander.value  | currency:"R$ ":true:"1.2"}}</h1>
                 <small>Santander</small>
+            </ion-text>
+        </ion-slide>
+        <ion-slide>
+            <ion-text color="{{totalBancoDoBrasil.color}}">
+                <h1>{{totalBancoDoBrasil.value  | currency:"R$ ":true:"1.2"}}</h1>
+                <small>Banco Do Brasil</small>
             </ion-text>
         </ion-slide>
     </ion-slides>
