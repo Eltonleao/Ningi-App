@@ -3,7 +3,7 @@ import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { map } from 'rxjs/operators';
 
@@ -40,7 +40,7 @@ export class NingiService {
     public storage: Storage,
     public afs: AngularFirestore,
   ) {
-   
+
 
     this.ningiCollection = db.collection<Ningi>('ningis', ref => ref.where("deletado", '==', 0));
     this.userCollection = db.collection('users', ref => ref.where("deletado", '==', 0));
@@ -58,7 +58,7 @@ export class NingiService {
       })
     );
 
-    
+
 
   }
   async ngOnInit() {
@@ -75,7 +75,7 @@ export class NingiService {
     await this.getPartner();
     var ningisArray = [];
     console.log(this.partner);
-    this.storage.get('user').then(async (user)=>{
+    this.storage.get('user').then(async (user) => {
       let ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.uid, this.partner.partner_uid]).orderBy('data_criacao', 'desc');
       await ningis.get().then(doc => {
         doc.forEach(element => {
@@ -87,7 +87,7 @@ export class NingiService {
       });
       await callback(ningisArray);
     });
-    
+
   }
 
 
@@ -171,14 +171,16 @@ export class NingiService {
   }
 
   updateMyMagickWord(magickWord) {
-    this.userMagickWordCollection.doc(this.user.uid).set({
-      user_uid: this.user.uid,
-      magickword: magickWord
+    this.storage.get('user').then( (user) =>{
+      this.userMagickWordCollection.doc(user.uid).set({
+        user_uid: user.uid,
+        magickword: magickWord
+      });
     });
   }
 
   getMyMagickWord() {
-    return this.storage.get('user').then((user)=>{
+    return this.storage.get('user').then((user) => {
       return this.db.collection('user_magickword').doc(user.uid).ref.get().then(function (doc) {
         return doc.data();
       });
@@ -195,7 +197,7 @@ export class NingiService {
     });
   }
 
-  async getPartner() {
+  async getPartner(callback = null) {
     var partner;
 
     await this.storage.get('user').then(async (user) => {
@@ -203,14 +205,18 @@ export class NingiService {
       await user_partner.get().then(async doc => {
         doc.forEach(async element => {
           partner = element.data();
-          
+
         });
       });
-      if(partner){
+
+      if (partner) {
         this.partner = partner;
+        if(callback){
+          callback(partner);
+        }
       }
-      
+
     })
-    
+
   }
 }

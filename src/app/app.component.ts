@@ -74,7 +74,7 @@ export class AppComponent {
       this.storage.get('user').then(function(user){
         if(user){
           env.user = user;
-          env.navCtrl.navigateForward('tabs/ningis');
+          env.navCtrl.navigateForward('tabs/perfil');
         } else{
           env.navCtrl.navigateForward('tabs/login');
           console.log('entrei aqui');

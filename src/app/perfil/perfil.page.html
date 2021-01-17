@@ -20,18 +20,34 @@
     <div class="ion-text-center">
       <div>
         <span>My Magick Word:</span>
-        <input type="text" placeholder="My Magick Word" [(ngModel)]="myMagickWord">
-        <ion-button (click)="updateMyMagickWord()">Save MW</ion-button>
+        <ion-col size="12">
+          <input class="ion-text-center" type="text" placeholder="My Magick Word" [(ngModel)]="myMagickWord">
+        </ion-col>
+
+        <ion-col size="12">
+          <ion-button (click)="updateMyMagickWord()">Save Magick Word</ion-button>
+        </ion-col>
       </div>
     </div>
 
 
-    <div *ngIf="!partners && myMagickWord != ''" class="ion-text-center">
+    <div *ngIf="!partner && myMagickWord != ''" class="ion-text-center">
       <div>No Parters Yet</div>
       <div>
         <ion-button (click)="addPartner()">Add Partner</ion-button>
       </div>
     </div>
+    
+    <div *ngIf="partner" class="ion-text-center">
+      <ion-list>
+        <h5>Your Partner:</h5>
+        <ion-item>
+          {{partner.partner_uid}}
+        </ion-item>
+      </ion-list>
+      <ion-button (click)="changePartner()">Change Partner</ion-button>
+    </div>
   </ion-list>
+
 
 </ion-content>

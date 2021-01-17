@@ -14,34 +14,41 @@ export class PerfilPage implements OnInit {
 
   user: any;
   myMagickWord: any;
+  partner: any;
   constructor(
     public storage: Storage,
     public alertCtrl: AlertController,
     private ningiService: NingiService
   ) {
     this.user = {};
-    this.myMagickWord = '';
+    this.myMagickWord = 'carregando...';
+    this.partner = {
+      partner_uid : 'carregando...'
+    };
   }
 
   ngOnInit() {
-
-    this.storage.get('user').then((user)=>{
+    var env = this;
+    this.storage.get('user').then((user) => {
       this.user = user;
-    });
-    this.myMagickWord = this.ningiService.getMyMagickWord().then(data =>{
-      if(data){
-        this.myMagickWord = data.magickword;
-      }
-    })
+      this.ningiService.getMyMagickWord().then( async data => {
+        if (data) {
+          env.myMagickWord = await  data.magickword;
+          await env.ningiService.getPartner(async function(partner){
+            env.partner = partner;
 
+          });
+        }
+      })
+    });
   }
 
-  async updateMyMagickWord(){
+  async updateMyMagickWord() {
     await this.ningiService.updateMyMagickWord(this.myMagickWord);
 
   }
 
-  async addPartner(){
+  async addPartner() {
     const alert = await this.alertCtrl.create({
       message: "Insira a palavra mágica",
       inputs: [
@@ -62,17 +69,17 @@ export class PerfilPage implements OnInit {
         {
           text: "Ok",
           handler: async (data) => {
-            if(data.magick_word != ""){
-              await this.ningiService.checkMagickWord(data.magick_word).then(data =>{
-                if(data){
+            if (data.magick_word != "") {
+              await this.ningiService.checkMagickWord(data.magick_word).then(data => {
+                if (data) {
                   console.log("partner founded: ", data);
 
                   this.ningiService.addPartner(data);
-                } else{
+                } else {
                   console.log('no partner');
                 }
               })
-            } else{
+            } else {
               this.addPartner();
             }
           },
