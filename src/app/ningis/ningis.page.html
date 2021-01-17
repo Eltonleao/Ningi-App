@@ -7,7 +7,11 @@
     </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-list>
         <ion-grid class="mw-80 top-20">
             <ng-container *ngIf="!ningis || ningis.length == '0'">
@@ -22,14 +26,14 @@
         </ion-grid>
 
         <ion-item-sliding *ngFor="let item of ningis">
-            <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.id]">
+            <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
                 <ion-grid>
                     <ion-label>
 
                         <ion-row>
                             <ion-col size='3'>
                                 <ion-thumbnail class="ion-text-center">
-                                    <img class="thumb"  src="{{item.photoURL}}">
+                                    <img class="thumb" src="{{item.photoURL}}">
                                 </ion-thumbnail>
                             </ion-col>
                             <ion-col size='9'>
@@ -39,7 +43,7 @@
                                     </span>
                                     <br>
                                     <span text-wrap>
-                                        {{item.source}} 
+                                        {{item.source}}
                                         <br>
                                         {{item.data_criacao}}
                                     </span>

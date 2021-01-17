@@ -37,10 +37,10 @@ export class DashboardPage implements OnInit {
       this.todos = res;
     });
 
-    this.ningiService.getNingis().subscribe(res => {
-      this.ningis = res;
-      // console.log(this.ningis);
-    });
+    // this.ningiService.getNingis().subscribe(res => {
+    //   this.ningis = res;
+    //   // console.log(this.ningis);
+    // });
     this.ningi = {};
 
     this.storage.get('user').then(user =>{

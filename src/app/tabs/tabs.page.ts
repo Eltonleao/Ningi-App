@@ -13,7 +13,7 @@ export class TabsPage {
   hideTabs: any;
   constructor(
     public storage: Storage,
-    public app: AppComponent
+    public app: AppComponent,
   ) {
     this.user = null;
     this.hideTabs = app.hideTabs;
@@ -22,5 +22,11 @@ export class TabsPage {
       this.user = user;
     })
   }
+
+  
+  goToNingis(){
+    window.location.href = 'tabs/ningis';
+  }
+
 
 }

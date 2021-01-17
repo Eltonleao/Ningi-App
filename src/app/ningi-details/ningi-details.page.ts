@@ -29,6 +29,7 @@ export class NingiDetailsPage implements OnInit {
 
   async ngOnInit() {
     var id = await  this.route.snapshot.params['id'];
+    console.log(id);
     if (id) {
       this.ningiService.getNingi(id).then((data)=>{
         // console.log(data.data_criacao);
