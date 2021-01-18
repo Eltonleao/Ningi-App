@@ -2,3 +2,5 @@ keytool -list -v \
 -alias  -keystore <path-to-production-keystore>
 
 keytool -exportcert -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
+SHA1:
+D1:6D:38:9C:42:57:30:C6:FB:07:59:A8:83:7F:87:9D:AC:B8:39:14

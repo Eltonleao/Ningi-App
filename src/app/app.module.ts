@@ -23,12 +23,14 @@ import { IonicStorageModule } from '@ionic/storage';
 
 // environment
 import { environment } from '../environments/environment';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -40,6 +42,7 @@ import { environment } from '../environments/environment';
     IonicStorageModule.forRoot()
   ],
   providers: [
+    GooglePlus,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

@@ -2,14 +2,17 @@ import { LoadingController } from '@ionic/angular';
 
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import {  AngularFirestore } from 'angularfire2/firestore';
-import {  auth } from 'firebase/app';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { auth } from 'firebase/app';
 import { NingiService } from "../services/ningi.service";
 import { Storage } from '@ionic/storage';
 import { Platform, NavController } from '@ionic/angular';
 
-import {AppComponent} from '../app.component';
+import { AppComponent } from '../app.component';
 import { windowToggle } from 'rxjs/operators';
+
+import { GooglePlus } from '@ionic-native/google-plus/ngx'
+import * as firebase from 'firebase';
 
 
 
@@ -34,13 +37,14 @@ export class LoginPage implements OnInit {
     public storage: Storage,
     private navCtrl: NavController,
     public loadingController: LoadingController,
-    public app: AppComponent
-
+    public app: AppComponent,
+    public gplus: GooglePlus,
+    public platform: Platform
   ) {
 
     // console.log('entrei aqui');
     this.storage.get('user').then((user) => {
-      if(user){
+      if (user) {
         this.user = user;
       }
     })
@@ -51,21 +55,34 @@ export class LoginPage implements OnInit {
 
 
   async google() {
-    const loading = await this.loadingController.create({
-      spinner: 'crescent',
-    });
-    // await loading.present();
-    var provider = new auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    await this.fAuth.auth.signInWithRedirect(provider)
-    this.fAuth.auth.getRedirectResult().then(async function (user) {
-      console.log(user);
-      await this.updateUserData(user);
-      await loading.dismiss();
-      await this.navCtrl.navigateForward('/tabs/dashboard');
-    }).catch(function (error) {
-      console.log(error);
-    });
+
+    if (this.platform.is('cordova')) {
+
+      try {
+        const glplusUser = await this.gplus.login({});
+        return await this.fAuth.auth.signInWithCredential(
+          firebase.auth.GoogleAuthProvider.credential(glplusUser.idToken)
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const loading = await this.loadingController.create({
+        spinner: 'crescent',
+      });
+      // await loading.present();
+      var provider = new auth.GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+      await this.fAuth.auth.signInWithRedirect(provider)
+      this.fAuth.auth.getRedirectResult().then(async function (user) {
+        console.log(user);
+        await this.updateUserData(user);
+        await loading.dismiss();
+        await this.navCtrl.navigateForward('/tabs/dashboard');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
 
 
   }
@@ -78,19 +95,19 @@ export class LoginPage implements OnInit {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      deletado : 0
+      deletado: 0
     }
     const loading = await this.loadingController.create({
       spinner: 'crescent',
     });
     await loading.present();
 
-    await this.storage.set('user', data );
-    await this.ningiService.updateUser(data).then(async data =>{
+    await this.storage.set('user', data);
+    await this.ningiService.updateUser(data).then(async data => {
       this.app.hideTabs = await false;
       await window.location.reload();
     });
-  
+
 
   }
 }
