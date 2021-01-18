@@ -81,7 +81,10 @@
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-ionic-webview": {},
             "cordova-plugin-ionic-keyboard": {},
-            "cordova-sqlite-storage": {}
+            "cordova-sqlite-storage": {},
+            "cordova-plugin-googleplus": {
+                "WEB_APPLICATION_CLIENT_ID": "211880418849-l1jmdg57elq3j4u2iqm59af2oe8hrsq8.apps.googleusercontent.com"
+            }
         },
         "platforms": [
             "browser",

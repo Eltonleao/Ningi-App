@@ -72,6 +72,7 @@ export class AppComponent {
       
       
       this.storage.get('user').then(function(user){
+        console.log(user);
         if(user){
           console.log('user logado');
           env.user = user;

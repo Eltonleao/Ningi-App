@@ -144,6 +144,10 @@ export class DashboardPage implements OnInit {
   async addNingi(source) {
 
     console.log(source);
+    var user;
+    this.storage.get('user').then((user)=>{
+      user = user;
+    });
     const alert = await this.alertCtrl.create({
       cssClass: "my-custom-class",
       header: source,
@@ -170,7 +174,7 @@ export class DashboardPage implements OnInit {
           handler: async (data) => {
             if (data.valor != "") {
               this.ningi = {
-                user: this.user.uid,
+                user: user.email,
                 value: parseFloat(data.valor),
                 data_criacao: new Date().getTime(),
                 source: source,

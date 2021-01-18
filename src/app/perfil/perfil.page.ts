@@ -23,7 +23,7 @@ export class PerfilPage implements OnInit {
     this.user = {};
     this.myMagickWord = 'carregando...';
     this.partner = {
-      partner_uid : 'carregando...'
+      partner_email : 'carregando...'
     };
   }
 

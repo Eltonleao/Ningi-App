@@ -55,22 +55,28 @@ export class LoginPage implements OnInit {
 
 
   async google() {
+    const loading = await this.loadingController.create({
+      spinner: 'crescent',
+    });
+    await loading.present();
 
     if (this.platform.is('cordova')) {
 
       try {
-        const glplusUser = await this.gplus.login({});
-        return await this.fAuth.auth.signInWithCredential(
-          firebase.auth.GoogleAuthProvider.credential(glplusUser.idToken)
-        );
+        this.gplus.login({})
+          .then(async res => {
+            console.log(res);
+            await this.updateUserData(res);
+            await loading.dismiss();
+            // await this.navCtrl.navigateForward('/tabs/dashboard');
+          })
+          .catch(err => console.error(err));
       } catch (error) {
         console.log(error);
       }
+
     } else {
-      const loading = await this.loadingController.create({
-        spinner: 'crescent',
-      });
-      // await loading.present();
+
       var provider = new auth.GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       await this.fAuth.auth.signInWithRedirect(provider)
@@ -88,14 +94,27 @@ export class LoginPage implements OnInit {
   }
 
   async updateUserData(user) {
+    console.log('updating user...');
 
-    const data: any = {
-      uid: user.uid,
-      login_tipo: 'google',
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      deletado: 0
+    var data;
+    if(!user.photoURL){
+      data = {
+        uid: user.email,
+        login_tipo: 'google',
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.imageUrl,
+        deletado: 0
+      }
+    } else{
+      data = {
+        uid: user.email,
+        login_tipo: 'google',
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        deletado: 0
+      }
     }
     const loading = await this.loadingController.create({
       spinner: 'crescent',
@@ -104,8 +123,11 @@ export class LoginPage implements OnInit {
 
     await this.storage.set('user', data);
     await this.ningiService.updateUser(data).then(async data => {
+      console.log("retorno de ningiService.updateUser: ", data);
       this.app.hideTabs = await false;
-      await window.location.reload();
+      await loading.dismiss();
+      this.navCtrl.navigateForward('/tabs/dashboard');
+
     });
 
 
