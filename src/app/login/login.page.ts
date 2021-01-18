@@ -62,6 +62,7 @@ export class LoginPage implements OnInit {
       console.log(user);
       await this.updateUserData(user);
       await loading.dismiss();
+      await this.navCtrl.navigateForward('/tabs/dashboard');
     }).catch(function (error) {
       console.log(error);
     });
