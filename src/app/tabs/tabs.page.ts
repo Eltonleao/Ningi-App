@@ -15,11 +15,20 @@ export class TabsPage {
     public storage: Storage,
     public app: AppComponent,
   ) {
-    this.user = null;
     this.hideTabs = app.hideTabs;
 
+    this.storage.get('hideTabs').then((hide) => {
+      if (hide) {
+        this.hideTabs = hide;
+      }
+    })
+
     storage.get('user').then((user)=>{
-      this.user = user;
+      if(user){
+        this.user = user;
+      } else{
+       this.user = false;
+      }
     })
   }
 

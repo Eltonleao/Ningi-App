@@ -24,7 +24,7 @@ export class AppComponent {
 
   public loggedIn = false;
   currentPageTitle = 'Dashboard';
-  user;
+  user: any;
   teste: any = false;
   hideTabs;
 
@@ -58,45 +58,69 @@ export class AppComponent {
     private menu: MenuController,
     public loadingController: LoadingController
   ) {
-    this.user = null;
+    this.user = {
+      displayName: "User",
+      photoURL: "https://picsum.photos/200"
+    };
+  
     this.initializeApp();
-    this.hideTabs = false;
-    console.log(this.user);
   }
 
   initializeApp() {
+
     var env = this;
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      
+
+      this.storage.get('hideTabs').then((hideTabs)=>{
+        console.log("hide: ",hideTabs);
+        if(!hideTabs){
+          console.log('entrei aqui');
+          this.hideTabs = false;
+          this.storage.set('hideTabs', true);
+        } else{
+          this.hideTabs = hideTabs;
+        }
+        console.log("hide: ",this.hideTabs);
+
+      })
       
       this.storage.get('user').then(function(user){
-        console.log(user);
+        console.log("user", user);
         if(user){
           console.log('user logado');
           env.user = user;
+          env.hideTabs = false;
           env.navCtrl.navigateForward('/tabs/dashboard');
         } else{
           console.log('user não logado');
           env.navCtrl.navigateForward('/tabs/login');
           env.hideTabs = true;
+          // window.location.href = '/tabs/login';
         }
       })
     });
   }
 
   async logout() {
+    console.log('logout...');
     const loading = await this.loadingController.create({
       spinner: 'crescent',
     });
     await loading.present();
 
-    await this.fAuth.auth.signOut();
-    await this.storage.set('user', null);
-    await window.location.reload();
-    loading.dismiss();
-    this.menu.close();
+    await this.storage.set('user', null).then( async ()=>{
+      this.storage.set('hideTabs', true).then( async ()=>{
+        await this.fAuth.auth.signOut();
+        await loading.dismiss();
+        await this.menu.close();
+        // await this.navCtrl.navigateRoot('/tabs/login');
+        window.location.href = '/tabs/login';
+        
+      })
+
+    })
 
   }
 }

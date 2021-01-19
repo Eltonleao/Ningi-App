@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu *ngIf="user" side="start" menuId="main-menu" contentId="main">
+  <ion-menu side="start" menuId="main-menu" contentId="main">
     <ion-header>
       <ion-toolbar color="dark">
         <ion-title class="user-container">
@@ -8,7 +8,7 @@
               <ion-thumbnail class="ion-text-center">
                 <img class="thumb" src="{{user?.photoURL}}">
               </ion-thumbnail>
-              <ion-text class="username">{{user.displayName}}</ion-text>
+              <ion-text class="username">{{user?.displayName}}</ion-text>
           </ion-row>
         </ion-title>
       </ion-toolbar>

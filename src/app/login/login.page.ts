@@ -12,7 +12,6 @@ import { AppComponent } from '../app.component';
 import { windowToggle } from 'rxjs/operators';
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx'
-import * as firebase from 'firebase';
 
 
 
@@ -28,7 +27,7 @@ import * as firebase from 'firebase';
 export class LoginPage implements OnInit {
 
   // public user:User = new User();
-  user: any = null;
+  user: any;
 
   constructor(
     public fAuth: AngularFireAuth,
@@ -42,12 +41,18 @@ export class LoginPage implements OnInit {
     public platform: Platform
   ) {
 
-    // console.log('entrei aqui');
+    console.log('login page...');
+    
+    this.user = {
+      displayName: "User",
+      photoURL: "https://picsum.photos/200"
+    };
+
     this.storage.get('user').then((user) => {
       if (user) {
         this.user = user;
       }
-    })
+    });
   }
   ngOnInit() {
   }
@@ -66,9 +71,8 @@ export class LoginPage implements OnInit {
         this.gplus.login({})
           .then(async res => {
             console.log(res);
-            await this.updateUserData(res);
             await loading.dismiss();
-            // await this.navCtrl.navigateForward('/tabs/dashboard');
+            await this.updateUserData(res);
           })
           .catch(err => console.error(err));
       } catch (error) {
@@ -95,9 +99,10 @@ export class LoginPage implements OnInit {
 
   async updateUserData(user) {
     console.log('updating user...');
+    var env = this;
 
     var data;
-    if(!user.photoURL){
+    if (!user.photoURL) {
       data = {
         uid: user.email,
         login_tipo: 'google',
@@ -106,7 +111,7 @@ export class LoginPage implements OnInit {
         photoURL: user.imageUrl,
         deletado: 0
       }
-    } else{
+    } else {
       data = {
         uid: user.email,
         login_tipo: 'google',
@@ -124,9 +129,12 @@ export class LoginPage implements OnInit {
     await this.storage.set('user', data);
     await this.ningiService.updateUser(data).then(async data => {
       console.log("retorno de ningiService.updateUser: ", data);
-      this.app.hideTabs = await false;
+      env.app.hideTabs = false;
       await loading.dismiss();
-      this.navCtrl.navigateForward('/tabs/dashboard');
+      // this.navCtrl.navigateForward('/tabs/dashboard');
+      this.storage.set('hideTabs', false).then(()=>{
+        window.location.href = '/tabs/dashboard';
+      })
 
     });
 

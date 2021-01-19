@@ -1,4 +1,5 @@
 import { Storage } from '@ionic/storage';
+import { Platform, NavController } from '@ionic/angular';
 
 import { Todo, TodoService } from "../services/todo.service";
 import { Ningi, NingiService } from "../services/ningi.service";
@@ -6,6 +7,7 @@ import { Ningi, NingiService } from "../services/ningi.service";
 import { Component, OnInit } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
+import {AppComponent} from '../app.component';
 
 
 @Component({
@@ -14,6 +16,7 @@ import { LoadingController } from "@ionic/angular";
   styleUrls: ["./dashboard.page.scss"],
 })
 export class DashboardPage implements OnInit {
+  
 
   todos: Todo[];
 
@@ -53,10 +56,26 @@ export class DashboardPage implements OnInit {
     private todoService: TodoService,
     private ningiService: NingiService,
     public storage: Storage,
+    public app: AppComponent,
+    public navCtrl: NavController
 
 
   ) {
     const env = this;
+    
+    this.storage.get('user').then(function(user){
+      console.log("user", user);
+      if(!user){
+        console.log('user não logado');
+        env.navCtrl.navigateForward('/tabs/login');
+        app.hideTabs = true;
+        env.storage.set('hideTbas', true);
+        window.location.href = '/tabs/login'; 
+      } else{
+        env.storage.set('hideTabs', false);
+      }
+    })
+
     this.ningiService.getTotalBalance(function (data) {
       data.subscribe((ningis) => {
         env.totalBalance.value = 0;
@@ -144,9 +163,9 @@ export class DashboardPage implements OnInit {
   async addNingi(source) {
 
     console.log(source);
-    var user;
+    var globalUser;
     this.storage.get('user').then((user)=>{
-      user = user;
+      globalUser = user;
     });
     const alert = await this.alertCtrl.create({
       cssClass: "my-custom-class",
@@ -174,7 +193,7 @@ export class DashboardPage implements OnInit {
           handler: async (data) => {
             if (data.valor != "") {
               this.ningi = {
-                user: user.email,
+                user: globalUser.email,
                 value: parseFloat(data.valor),
                 data_criacao: new Date().getTime(),
                 source: source,

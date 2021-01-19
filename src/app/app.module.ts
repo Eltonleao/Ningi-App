@@ -18,7 +18,6 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { IonicStorageModule } from '@ionic/storage';
-import { Storage } from '@ionic/storage';
 
 
 
@@ -41,8 +40,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    IonicStorageModule.forRoot(),
-    Storage
+    IonicStorageModule.forRoot()
   ],
   providers: [
     GooglePlus,

@@ -182,9 +182,13 @@ export class NingiService {
 
   getMyMagickWord() {
     return this.storage.get('user').then((user) => {
-      return this.db.collection('user_magickword').doc(user.email).ref.get().then(function (doc) {
-        return doc.data();
-      });
+      try {
+        return this.db.collection('user_magickword').doc(user.email).ref.get().then(function (doc) {
+          return doc.data();
+        });
+      } catch (error) {
+        return error;
+      }
     });
   }
 
