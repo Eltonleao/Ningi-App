@@ -21,9 +21,9 @@ export class PerfilPage implements OnInit {
     private ningiService: NingiService
   ) {
     this.user = {};
-    this.myMagickWord = 'carregando...';
+    this.myMagickWord = 'nenhuma palavra mágica encontrada...';
     this.partner = {
-      partner_email : 'carregando...'
+      partner_email : 'nenhum partner encontrado...'
     };
   }
 

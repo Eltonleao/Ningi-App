@@ -11,7 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { NingiService } from "./services/ningi.service";
 import { Storage } from '@ionic/storage';
 
-import { MenuController } from '@ionic/angular'; 
+import { MenuController } from '@ionic/angular';
 
 
 
@@ -27,24 +27,25 @@ export class AppComponent {
   user: any;
   teste: any = false;
   hideTabs;
+  showMenu = true;
 
-  appPages = [
-    {
-      title: 'Dashboard',
-      url: '',
-      icon: 'easel'
-    },
-    {
-      title: 'Timeline',
-      url: '/timeline',
-      icon: 'film'
-    },
-    {
-      title: 'Settings',
-      url: '/settings',
-      icon: 'settings'
-    }
-  ];
+  // appPages = [
+  //   {
+  //     title: 'Dashboard',
+  //     url: '',
+  //     icon: 'easel'
+  //   },
+  //   {
+  //     title: 'Timeline',
+  //     url: '/timeline',
+  //     icon: 'film'
+  //   },
+  //   {
+  //     title: 'Settings',
+  //     url: '/settings',
+  //     icon: 'settings'
+  //   }
+  // ];
 
   constructor(
     private platform: Platform,
@@ -62,7 +63,7 @@ export class AppComponent {
       displayName: "User",
       photoURL: "https://picsum.photos/200"
     };
-  
+
     this.initializeApp();
   }
 
@@ -73,31 +74,18 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
-      this.storage.get('hideTabs').then((hideTabs)=>{
-        console.log("hide: ",hideTabs);
-        if(!hideTabs){
-          console.log('entrei aqui');
-          this.hideTabs = false;
-          this.storage.set('hideTabs', true);
-        } else{
-          this.hideTabs = hideTabs;
-        }
-        console.log("hide: ",this.hideTabs);
 
-      })
-      
-      this.storage.get('user').then(function(user){
+      this.storage.get('user').then(function (user) {
         console.log("user", user);
-        if(user){
+        if (user) {
           console.log('user logado');
           env.user = user;
           env.hideTabs = false;
-          env.navCtrl.navigateForward('/tabs/dashboard');
-        } else{
+          env.navCtrl.navigateForward('/tabs/perfil');
+        } else {
           console.log('user não logado');
-          env.navCtrl.navigateForward('/tabs/login');
-          env.hideTabs = true;
-          // window.location.href = '/tabs/login';
+          env.showMenu = false;
+          env.navCtrl.navigateForward('/login');
         }
       })
     });
@@ -110,14 +98,14 @@ export class AppComponent {
     });
     await loading.present();
 
-    await this.storage.set('user', null).then( async ()=>{
-      this.storage.set('hideTabs', true).then( async ()=>{
+    await this.storage.set('user', null).then(async () => {
+      this.storage.set('hideTabs', true).then(async () => {
         await this.fAuth.auth.signOut();
         await loading.dismiss();
         await this.menu.close();
         // await this.navCtrl.navigateRoot('/tabs/login');
         window.location.href = '/tabs/login';
-        
+
       })
 
     })

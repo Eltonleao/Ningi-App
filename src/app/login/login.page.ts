@@ -9,7 +9,6 @@ import { Storage } from '@ionic/storage';
 import { Platform, NavController } from '@ionic/angular';
 
 import { AppComponent } from '../app.component';
-import { windowToggle } from 'rxjs/operators';
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx'
 
@@ -41,8 +40,8 @@ export class LoginPage implements OnInit {
     public platform: Platform
   ) {
 
-    console.log('login page...');
-    
+    console.log('entrando em login page...');
+
     this.user = {
       displayName: "User",
       photoURL: "https://picsum.photos/200"
@@ -60,6 +59,7 @@ export class LoginPage implements OnInit {
 
 
   async google() {
+    var env = this;
     const loading = await this.loadingController.create({
       spinner: 'crescent',
     });
@@ -72,7 +72,7 @@ export class LoginPage implements OnInit {
           .then(async res => {
             console.log(res);
             await loading.dismiss();
-            await this.updateUserData(res);
+            await this.updateUserDataCordova(res);
           })
           .catch(err => console.error(err));
       } catch (error) {
@@ -81,23 +81,31 @@ export class LoginPage implements OnInit {
 
     } else {
 
+      // var provider = new auth.GoogleAuthProvider();
+      // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+      // await this.fAuth.auth.signInWithPopup(provider);
+
       var provider = new auth.GoogleAuthProvider();
-      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-      await this.fAuth.auth.signInWithRedirect(provider)
-      this.fAuth.auth.getRedirectResult().then(async function (user) {
-        console.log(user);
-        await this.updateUserData(user);
-        await loading.dismiss();
-        await this.navCtrl.navigateForward('/tabs/dashboard');
-      }).catch(function (error) {
-        console.log(error);
-      });
+      const credential = await this.fAuth.auth.signInWithPopup(provider);
+      // console.log(credential);
+      env.user = await credential.user;
+      await env.updateUserDataBrowser(credential.user);
+      await loading.dismiss();
+
+
+      // this.fAuth.auth.getRedirectResult().then(async function (user) {
+      //   console.log("user que veio do signInWithRedirect", user);
+      //   await loading.dismiss();
+      //   await env.updateUserDataBrowser(user);
+      // }).catch(function (error) {
+      //   console.log(error);
+      // });
     }
 
 
   }
 
-  async updateUserData(user) {
+  async updateUserDataCordova(user) {
     console.log('updating user...');
     var env = this;
 
@@ -131,10 +139,33 @@ export class LoginPage implements OnInit {
       console.log("retorno de ningiService.updateUser: ", data);
       env.app.hideTabs = false;
       await loading.dismiss();
-      // this.navCtrl.navigateForward('/tabs/dashboard');
-      this.storage.set('hideTabs', false).then(()=>{
-        window.location.href = '/tabs/dashboard';
-      })
+      this.navCtrl.navigateForward('/tabs/dashboard');
+
+    });
+
+
+  }
+
+
+  async updateUserDataBrowser(user) {
+
+    const data: any = {
+      uid: user.email,
+      login_tipo: 'google',
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      deletado: 0
+    }
+    const loading = await this.loadingController.create({
+      spinner: 'crescent',
+    });
+    await loading.present();
+
+    await this.storage.set('user', data);
+    await this.ningiService.updateUser(data).then(async data => {
+      this.navCtrl.navigateForward('/tabs/dashboard');
+      await loading.dismiss();
 
     });
 
