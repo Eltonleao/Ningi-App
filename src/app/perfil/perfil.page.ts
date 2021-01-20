@@ -22,33 +22,43 @@ export class PerfilPage implements OnInit {
   ) {
     this.user = {};
     this.myMagickWord = 'nenhuma palavra mágica encontrada...';
-    this.partner = {
-      partner_email : 'nenhum partner encontrado...'
-    };
   }
 
   ngOnInit() {
     var env = this;
     this.storage.get('user').then((user) => {
       this.user = user;
-      this.ningiService.getMyMagickWord().then( async data => {
+      this.ningiService.getMyMagickWord().then(async data => {
         if (data) {
-          env.myMagickWord = await  data.magickword;
-          await env.ningiService.getPartner(async function(partner){
-            env.partner = partner;
-
+          env.myMagickWord = await data.magickword;
+          await env.ningiService.getPartner(async function (partner) {
+            env.ningiService.getuser(partner.partner_email, function(partner){
+              console.log("partner", partner)
+              env.partner = partner;
+              env.storage.set('partner', partner);
+            });
           });
         }
       })
     });
+
   }
 
   async updateMyMagickWord() {
-    await this.ningiService.updateMyMagickWord(this.myMagickWord);
+    var alert = this.alertCtrl.create({
+      message: "Magick Word Updated!"
+    });
+    await this.ningiService.updateMyMagickWord(this.myMagickWord).then(async () => {
+      (await alert).present();
+      setTimeout(async ()=>{
+        (await alert).dismiss();
+      }, 1000);
+    });
 
   }
 
   async addPartner() {
+    var env = this;
     const alert = await this.alertCtrl.create({
       message: "Insira a palavra mágica",
       inputs: [
@@ -70,13 +80,29 @@ export class PerfilPage implements OnInit {
           text: "Ok",
           handler: async (data) => {
             if (data.magick_word != "") {
-              await this.ningiService.checkMagickWord(data.magick_word).then(data => {
+              await this.ningiService.checkMagickWord(data.magick_word).then(async data => {
                 if (data) {
                   console.log("partner founded: ", data);
 
-                  this.ningiService.addPartner(data);
+                  this.ningiService.addPartner(data, async function(){
+                    var alert = env.alertCtrl.create({
+                      message: "Partner Updated!"
+                    });
+                    (await alert).present();
+
+                    setTimeout(async ()=>{
+                      (await alert).dismiss();
+                    }, 1000);
+                    env.ngOnInit();
+                  });
                 } else {
-                  console.log('no partner');
+                  var alert = env.alertCtrl.create({
+                    message: "No user with that Magick Word has founded..."
+                  });
+                  (await alert).present();
+                  setTimeout(async ()=>{
+                    (await alert).dismiss();
+                  }, 1000)
                 }
               })
             } else {
@@ -87,6 +113,16 @@ export class PerfilPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  async doRefresh(event){
+    await this.ngOnInit();
+    await event.target.complete();
+  }
+
+  ionViewDidEnter() {
+    console.log("I'm alive!");
+    this.ngOnInit();
   }
 
 }

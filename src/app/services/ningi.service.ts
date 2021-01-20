@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Storage } from '@ionic/storage';
+import { promise } from 'protractor';
 
 
 export interface Ningi {
@@ -76,7 +77,7 @@ export class NingiService {
     var ningisArray = [];
     console.log(this.partner);
     this.storage.get('user').then(async (user) => {
-      let ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).orderBy('data_criacao', 'desc');
+      let ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).orderBy('data_criacao', 'desc');
       await ningis.get().then(doc => {
         doc.forEach(element => {
           var data = element.data();
@@ -97,8 +98,8 @@ export class NingiService {
   }
 
   remove(ningi) {
-    console.log(ningi.id);
-    this.ningiCollection.doc(ningi.id).update({ deletado: 1 });
+    console.log(ningi);
+    this.ningiCollection.doc(ningi.fireID).update({ deletado: 1 });
   }
 
   async updateUser(user): Promise<any> {
@@ -116,7 +117,7 @@ export class NingiService {
       } else {
         console.log('usuario já existente, updating...');
         querySnapshot.forEach((doc) => {
-          // console.log(doc.data());
+          console.log(doc.data());
           this.storage.set('user', doc.data());
           return user;
         })
@@ -171,10 +172,11 @@ export class NingiService {
     return user;
   }
 
-  updateMyMagickWord(magickWord) {
-    this.storage.get('user').then( (user) =>{
+  updateMyMagickWord(magickWord): Promise<any> {
+    return this.storage.get('user').then((user) => {
+      console.log(user);
       this.userMagickWordCollection.doc(user.email).set({
-        user_email: user.email,
+        email: user.email,
         magickword: magickWord
       });
     });
@@ -192,14 +194,21 @@ export class NingiService {
     });
   }
 
-  async addPartner(user) {
+  async addPartner(partner, callback = null) {
     // console.log(user);
-    console.log(user);
-    this.userPartnerCollection.doc(this.user.email).set({
-      user_email: this.user.email,
-      partner_email: user.user_email,
-      deletado: 0,
-    });
+    // return;
+    this.storage.get('user').then((mainUser)=>{
+      this.userPartnerCollection.doc(mainUser.email).set({
+        user_email: mainUser.email,
+        partner_email: partner.email,
+        deletado: 0,
+      }).then((doc) => {
+        if (callback) {
+          callback();
+        }
+      })
+
+    })
   }
 
   async getPartner(callback = null) {
@@ -216,7 +225,7 @@ export class NingiService {
 
       if (partner) {
         this.partner = partner;
-        if(callback){
+        if (callback) {
           callback(partner);
         }
       }
@@ -224,7 +233,7 @@ export class NingiService {
     })
   }
 
-  getTotalBalance(callback){
+  getTotalBalance(callback) {
     // await this.storage.get('user').then(async (user) => {
     //   let  = this.afs.firestore.collection('user_partner').where('user_email', '==', user.email);
     //   await user_partner.get().then(async doc => {
@@ -234,8 +243,17 @@ export class NingiService {
     //     });
     //   });
 
-    if(callback){
+    if (callback) {
       callback(this.ningis);
     }
+  }
+
+  async getuser(id, callback){
+    let user = await this.afs.firestore.collection('users').doc(id);
+    await user.get().then( async (data)=>{
+      if(callback){
+        callback(data.data());
+      }
+    });
   }
 }

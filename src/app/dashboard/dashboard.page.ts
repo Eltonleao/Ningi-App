@@ -233,4 +233,18 @@ export class DashboardPage implements OnInit {
       sucesso.dismiss();
     }, 500)
   }
+
+  async doRefresh(event){
+    await this.ngOnInit();
+    await event.target.complete();
+  }
+
+  goTo(href){
+    this.navCtrl.navigateForward(href);
+  }
+
+  ionViewDidEnter() {
+    console.log("I'm alive!");
+    this.ngOnInit();
+  }
 }

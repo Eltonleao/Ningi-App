@@ -51,12 +51,19 @@ export class NingisPage implements OnInit {
   }
 
   remove(ningi) {
+    // console.log(ningi);
     this.ningiService.remove(ningi);
   }
 
-  async doRefresh(event){
+  async doRefresh(event) {
     await this.ngOnInit();
     await event.target.complete();
+  }
+
+
+  ionViewDidEnter() {
+    console.log("I'm alive!");
+    this.ngOnInit();
   }
 
 }

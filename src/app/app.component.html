@@ -4,11 +4,10 @@
       <ion-toolbar color="dark">
         <ion-title class="user-container">
           <ion-row>
-              <!-- <ion-icon name="person-circle-outline"></ion-icon> -->
-              <ion-thumbnail class="ion-text-center">
-                <img class="thumb" src="{{user?.photoURL}}">
-              </ion-thumbnail>
-              <ion-text class="username">{{user?.displayName}}</ion-text>
+            <ion-thumbnail class="ion-text-center">
+              <img class="thumb" src="{{user?.photoURL}}">
+            </ion-thumbnail>
+            <ion-text class="username">{{user?.displayName}}</ion-text>
           </ion-row>
         </ion-title>
       </ion-toolbar>
@@ -22,6 +21,5 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-
   <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

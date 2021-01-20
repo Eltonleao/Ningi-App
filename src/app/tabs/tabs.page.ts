@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import {AppComponent} from '../app.component';
+import { Platform, NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-tabs',
@@ -14,6 +16,7 @@ export class TabsPage {
   constructor(
     public storage: Storage,
     public app: AppComponent,
+    private navCtrl: NavController
   ) {
     this.hideTabs = app.hideTabs;
 
@@ -33,9 +36,8 @@ export class TabsPage {
   }
 
   
-  goToNingis(){
-    window.location.href = 'tabs/ningis';
+  goTo(href){
+    this.navCtrl.navigateForward(href);
   }
-
 
 }

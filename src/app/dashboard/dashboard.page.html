@@ -8,40 +8,73 @@
 </ion-header>
 
 <ion-content>
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <!-- <ion-card> -->
+
+
     <ion-slides>
         <ion-slide>
-            <div class="">
-                <ion-text color="{{totalBalance.color}}">
-                    <h1>{{totalBalance.value  | currency:"R$ ":true:"1.2"}}</h1>
-                    <small>Total Balance</small>
-                </ion-text>
-            </div>
+            <ion-card>
+                <ion-card-content>
+                    <ion-text color="{{totalBalance.color}}">
+                        <h1>{{totalBalance.value | currency:"R$ ":true:"1.2"}}</h1>
+                        <small>Total Balance</small>
+                    </ion-text>
+                </ion-card-content>
+            </ion-card>
         </ion-slide>
+
         <ion-slide>
-            <ion-text color="{{totalCarteira.color}}">
-                <h1>{{totalCarteira.value  | currency:"R$ ":true:"1.2"}}</h1>
-                <small>Carteira</small>
-            </ion-text>
+            <ion-card>
+                <ion-card-content>
+                    <ion-text color="{{totalCarteira.color}}">
+                        <h1>{{totalCarteira.value | currency:"R$ ":true:"1.2"}}</h1>
+                        <small>Carteira</small>
+                    </ion-text>
+                </ion-card-content>
+            </ion-card>
         </ion-slide>
+
         <ion-slide>
-            <ion-text color="{{totalBradesco.color}}" >
-                <h1>{{totalBradesco.value  | currency:"R$ ":true:"1.2"}}</h1>
-                <small>Bradesco</small>
-            </ion-text>
+            <ion-card>
+                <ion-card-content>
+                    <ion-text color="{{totalBradesco.color}}">
+                        <h1>{{totalBradesco.value | currency:"R$ ":true:"1.2"}}</h1>
+                        <small>Bradesco</small>
+                    </ion-text>
+                </ion-card-content>
+            </ion-card>
         </ion-slide>
+
+
         <ion-slide>
-            <ion-text color="{{totalSantander.color}}">
-                <h1>{{totalSantander.value  | currency:"R$ ":true:"1.2"}}</h1>
-                <small>Santander</small>
-            </ion-text>
+            <ion-card>
+                <ion-card-content>
+                    <ion-text color="{{totalSantander.color}}">
+                        <h1>{{totalSantander.value | currency:"R$ ":true:"1.2"}}</h1>
+                        <small>Santander</small>
+                    </ion-text>
+                </ion-card-content>
+            </ion-card>
         </ion-slide>
+
+
         <ion-slide>
-            <ion-text color="{{totalBancoDoBrasil.color}}">
-                <h1>{{totalBancoDoBrasil.value  | currency:"R$ ":true:"1.2"}}</h1>
-                <small>Banco Do Brasil</small>
-            </ion-text>
+            <ion-card>
+                <ion-card-content>
+                    <ion-text color="{{totalBancoDoBrasil.color}}">
+                        <h1>{{totalBancoDoBrasil.value | currency:"R$ ":true:"1.2"}}</h1>
+                        <small>Banco Do Brasil</small>
+                    </ion-text>
+                </ion-card-content>
+            </ion-card>
         </ion-slide>
     </ion-slides>
+    <!-- </ion-card> -->
 
     <ion-text class="dashboard-values">
         <ion-grid>
@@ -84,7 +117,7 @@
         </ion-grid>
     </ion-text>
 
-    <!-- <ion-item>
-        <ion-button color="success">Adicionar</ion-button>
-    </ion-item> -->
+    <div class="ion-text-center">
+        <ion-button color="success" (click)="goTo('tabs/ningi-details')">Entrada</ion-button>
+    </div>
 </ion-content>

@@ -1,7 +1,9 @@
+import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { NingiService } from "../services/ningi.service";
 import { LoadingController, NavController } from "@ionic/angular";
+import { runInThisContext } from 'vm';
 
 
 
@@ -20,7 +22,8 @@ export class NingiDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private ningiService: NingiService,
-    private nav: NavController
+    private nav: NavController,
+    public storage: Storage,
 
   ) {
     this.ningi = {};
@@ -44,6 +47,12 @@ export class NingiDetailsPage implements OnInit {
         this.ningi = data;
         this.ningi.id = id;
 
+      });
+    } else{
+      this.storage.get('user').then((user)=>{
+        if(user){
+          this.ningi.user = user.email;
+        }
       });
     }
   }
