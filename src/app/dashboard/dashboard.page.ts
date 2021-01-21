@@ -81,6 +81,7 @@ export class DashboardPage implements OnInit {
         env.totalBalance.value = 0;
         ningis.forEach(ningi => {
           if (ningi.operation == 'incomming') {
+            console.log('entrei aqui');
             switch (ningi.source) {
               case "carteira":
                 env.totalCarteira.value = env.totalCarteira.value + ningi.value
@@ -117,8 +118,11 @@ export class DashboardPage implements OnInit {
             env.totalBalance.value = env.totalBalance.value - ningi.value
           }
         });
+
         if (env.totalBalance.value < 0) {
           env.totalBalance.color = 'danger';
+        } else if(env.totalBalance.value == 0){
+          env.totalBalance.color = 'warning';
         } else {
           env.totalBalance.color = 'success';
         }
@@ -221,17 +225,16 @@ export class DashboardPage implements OnInit {
       message: "saving..."
     });
     await loading.present();
-    await this.ningiService.addNingi(this.ningi).then((e) => {
-      console.log(e);
+    await this.ningiService.addNingi(this.ningi).then(async (e) => {
+      loading.dismiss();
+      const sucesso = await this.alertCtrl.create({
+        message: "Saved!"
+      });
+      await sucesso.present();
+      setTimeout(() => {
+        sucesso.dismiss();
+      }, 500)
     });
-    loading.dismiss();
-    const sucesso = await this.alertCtrl.create({
-      message: "Saved!"
-    });
-    await sucesso.present();
-    setTimeout(() => {
-      sucesso.dismiss();
-    }, 500)
   }
 
   async doRefresh(event){
