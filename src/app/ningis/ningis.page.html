@@ -29,7 +29,7 @@
 
         <ion-item-sliding *ngFor="let item of ningis" id="{{item.fireID}}">
             <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
-                <ion-grid>
+                <ion-grid *ngIf="ningis.length != 0">
                     <ion-label>
 
                         <ion-row>
@@ -56,19 +56,27 @@
                 </ion-grid>
             </ion-item>
 
-            <ion-item-options side="end">
+            <ion-item-options side="start">
                 <ion-item-option (click)="remove(item)" color="danger">
                     deletar
-                    <ion-icon name="checkmark" slot="end"></ion-icon>
+                    <ion-icon name="checkmark" slot="start"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+
+            <ion-item-options side="end">
+                <ion-item-option color="success">
+                    Entrada
+                    <ion-icon name="checkmark" slot="start"></ion-icon>
                 </ion-item-option>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
+
     
-    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll> -->
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="dark" routerLink="/tabs/ningi-details" routerDirection="forward">
