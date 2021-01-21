@@ -18,7 +18,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { IonicStorageModule } from '@ionic/storage';
-
+import { PopoverPage } from './popover/popover.page';
 
 
 
@@ -46,6 +46,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     GooglePlus,
     StatusBar,
     SplashScreen,
+    PopoverPage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

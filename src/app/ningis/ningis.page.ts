@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 
+import {DashboardPage} from '../dashboard/dashboard.page';
+
 
 import { Ningi, NingiService } from "../services/ningi.service";
 
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 import { stringify } from '@angular/compiler/src/util';
+import { PopoverPage } from '../popover/popover.page';
 
 @Component({
   selector: 'app-ningis',
@@ -24,7 +27,8 @@ export class NingisPage implements OnInit {
     public loadingCtrl: LoadingController,
     public ningiService: NingiService,
     public platform: Platform,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    public popover: PopoverPage
     // public infiniteScroll: IonInfiniteScroll
     // private loadingController: LoadingController
   ) {
@@ -85,31 +89,15 @@ export class NingisPage implements OnInit {
     this.ngOnInit();
   }
 
-  // loadData(event) {
-  //   setTimeout(() => {
-  //     console.log('Done');
-  //     event.target.complete();
-
-  //     // App logic to determine if all data is loaded
-  //     // and disable the infinite scroll
-  //     this.ningiLimit = this.ningiLimit + 2;
-  //     this.loadNingis();
-  //     if (this.ningis.length == 100) {
-  //       event.target.disabled = true;
-  //     }
-  //   }, 500);
-  // }
 
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
-      component: '<h1>teste</h1>',
-      animated: true,
+      component: PopoverPage,
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true,
-      
+      animated: true
     });
     return await popover.present();
   }
-
 }
