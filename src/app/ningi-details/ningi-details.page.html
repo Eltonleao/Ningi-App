@@ -9,11 +9,10 @@
 
 <ion-content>
 
+  <h1 class="ion-text-center" *ngIf="ningi.value">Editar Ningi</h1>
+  <h1 class="ion-text-center" *ngIf="!ningi.value">Novo Ningi</h1>
   <ion-card>
     <ion-card-content>
-
-
-
       <ion-item *ngIf="data_modificacao != ''">
         <ion-label position="stacked">Stacked Label</ion-label>
         <span>{{data_criacao}}</span>
@@ -25,7 +24,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Stacked Label</ion-label>
+        <ion-label position="stacked">Operação</ion-label>
         <ion-select placeholder="Operação" [(ngModel)]="ningi.operation">
           <ion-select-option value="incomming">Entrada</ion-select-option>
           <ion-select-option value="spend">Saida</ion-select-option>
@@ -33,7 +32,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Stacked Label</ion-label>
+        <ion-label position="stacked">Source</ion-label>
         <ion-select placeholder="Operação" [(ngModel)]="ningi.source">
           <ion-select-option value="carteira">Carteira</ion-select-option>
           <ion-select-option value="bradesco">Bradesco</ion-select-option>
@@ -43,13 +42,15 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Stacked Label</ion-label>
+        <ion-label position="stacked">Valor</ion-label>
         <ion-input type="text" [(ngModel)]="ningi.value" placeholder="Valor" clearInput></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Stacked Label</ion-label>
-        <ion-input type="text" [(ngModel)]="ningi.user"></ion-input>
+        <ion-label position="stacked">User</ion-label>
+        <ion-select placeholder="Operação" [(ngModel)]="ningi.user" [compareWith]="ningi" value="{{ningi.user}}">
+          <ion-select-option *ngFor="let user of users" value="{{user.email}}">{{user?.displayName}}</ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
