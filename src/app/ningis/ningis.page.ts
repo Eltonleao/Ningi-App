@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
+// import { IonInfiniteScroll } from '@ionic/angular';
+
 
 import { Ningi, NingiService } from "../services/ningi.service";
 
@@ -13,19 +15,26 @@ import { stringify } from '@angular/compiler/src/util';
   styleUrls: ['./ningis.page.scss'],
 })
 export class NingisPage implements OnInit {
+  // @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   ningis: Ningi[];
+  ningiLimit = 5;
 
   constructor(
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public ningiService: NingiService,
-    public platform: Platform
+    public platform: Platform,
+    // public infiniteScroll: IonInfiniteScroll
     // private loadingController: LoadingController
   ) {
   }
 
   ngOnInit() {
     console.log('init');
+    this.loadNingis(this.ningiLimit);
+  }
+
+  loadNingis(limit = null) {
     var env = this;
     this.ningiService.getNingis(async function (res: any) {
       await console.log(res);
@@ -47,7 +56,8 @@ export class NingisPage implements OnInit {
 
       })
       // })
-    });
+    }, limit);
+
   }
 
   remove(ningi) {
@@ -64,6 +74,21 @@ export class NingisPage implements OnInit {
   ionViewDidEnter() {
     console.log("I'm alive!");
     this.ngOnInit();
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      this.ningiLimit = this.ningiLimit + 2;
+      this.loadNingis();
+      if (this.ningis.length == 100) {
+        event.target.disabled = true;
+      }
+    }, 500);
   }
 
 }

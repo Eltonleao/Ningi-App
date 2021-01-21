@@ -76,7 +76,7 @@ export class NingiService {
 
   }
 
-  async getNingis(callback) {
+  async getNingis(callback, limit = null) {
     this.partner = await {
       partner_email: ''
     };
@@ -84,7 +84,12 @@ export class NingiService {
     var ningisArray = [];
     console.log(this.partner);
     this.storage.get('user').then(async (user) => {
-      let ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).orderBy('data_criacao', 'desc');
+      let ningis;
+      if(limit){
+        ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).orderBy('data_criacao', 'desc').limit(limit);
+      } else{
+        ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).orderBy('data_criacao', 'desc');
+      }
       await ningis.get().then(doc => {
         doc.forEach(element => {
           var data = element.data();

@@ -12,6 +12,8 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
+
+
     <ion-list>
         <ion-grid class="mw-80 top-20">
             <ng-container *ngIf="!ningis || ningis.length == '0'">
@@ -62,6 +64,11 @@
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
+    
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="dark" routerLink="/tabs/ningi-details" routerDirection="forward">
