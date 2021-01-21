@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 
 import { Storage } from '@ionic/storage';
 import { promise } from 'protractor';
+import { Console } from 'console';
 
 
 export interface Ningi {
@@ -41,13 +42,22 @@ export class NingiService {
     public storage: Storage,
     public afs: AngularFirestore,
   ) {
+    this.loadCollections();
+  }
+  async ngOnInit() {
+    this.loadCollections();
+  }
+
+  loadCollections(): Promise<any> {
     var env = this;
-    this.storage.get('user').then(async user => {
+    var db = this.db;
+    return this.storage.get('user').then(async user => {
       env.storage.get('partner').then(async (partner) => {
+        // console.log("entrei aqui!", partner);
         env.user = await user;
         await env.getPartner();
         env.ningiCollection = await db.collection<Ningi>('ningis', ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email, partner.email]));
-        this.ningis = await this.ningiCollection.snapshotChanges().pipe(
+        env.ningis = await this.ningiCollection.snapshotChanges().pipe(
           map(actions => {
             return actions.map(a => {
               // console.log(a);
@@ -58,16 +68,12 @@ export class NingiService {
           })
         );
 
-        this.userCollection = db.collection('users', ref => ref.where("deletado", '==', 0));
-        this.userMagickWordCollection = db.collection('user_magickword', ref => ref.where("deletado", '==', 0));
-        this.userPartnerCollection = db.collection('user_partner', ref => ref.where("deletado", '==', 0));
+        env.userCollection = db.collection('users', ref => ref.where("deletado", '==', 0));
+        env.userMagickWordCollection = db.collection('user_magickword', ref => ref.where("deletado", '==', 0));
+        env.userPartnerCollection = db.collection('user_partner', ref => ref.where("deletado", '==', 0));
       });
     });
 
-
-
-  }
-  async ngOnInit() {
   }
 
   async getNingis(callback) {
@@ -98,9 +104,20 @@ export class NingiService {
     return this.ningiCollection.add(ningi);
   }
 
-  remove(ningi) {
-    console.log(ningi);
-    this.ningiCollection.doc(ningi.fireID).update({ deletado: 1 });
+  async remove(ningi) {
+    var env = this;
+    var db = this.db;
+    var ningiCollection;
+    this.storage.get('user').then(async user => {
+      env.storage.get('partner').then(async (partner) => {
+        env.user = await user;
+        await env.getPartner();
+         ningiCollection = await db.collection<Ningi>('ningis', ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email, partner.email]));
+         ningiCollection.doc(ningi.fireID).update({ deletado: 1 }).then((data)=>{
+           document.getElementById(ningi.fireID).style.display = 'none';
+         })
+      });
+    });
   }
 
   async updateUser(user): Promise<any> {
@@ -234,9 +251,12 @@ export class NingiService {
     })
   }
 
-  getTotalBalance(callback) {
+  async getTotalBalance(callback) {
+    await this.ngOnInit();
+    console.log('entrei aqui 1');
     if (callback) {
-      callback(this.ningis);
+      console.log('entrei aqui 2');
+      await callback(this.ningis);
     }
   }
 

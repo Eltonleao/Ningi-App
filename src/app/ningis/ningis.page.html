@@ -25,7 +25,7 @@
             </ng-container>
         </ion-grid>
 
-        <ion-item-sliding *ngFor="let item of ningis">
+        <ion-item-sliding *ngFor="let item of ningis" id="{{item.fireID}}">
             <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
                 <ion-grid>
                     <ion-label>
