@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-// import { IonInfiniteScroll } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 
 
 import { Ningi, NingiService } from "../services/ningi.service";
@@ -24,19 +24,21 @@ export class NingisPage implements OnInit {
     public loadingCtrl: LoadingController,
     public ningiService: NingiService,
     public platform: Platform,
+    public popoverController: PopoverController
     // public infiniteScroll: IonInfiniteScroll
     // private loadingController: LoadingController
   ) {
   }
 
   async ngOnInit() {
+
     const loading = await this.loadingCtrl.create({
       cssClass: 'my-custom-class',
       message: 'Please wait...',
     });
     await loading.present();
 
-    this.loadNingis(this.ningiLimit).then(async ()=>{
+    this.loadNingis(this.ningiLimit).then(async () => {
       loading.dismiss();
     })
   }
@@ -97,5 +99,17 @@ export class NingisPage implements OnInit {
   //     }
   //   }, 500);
   // }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: '<h1>teste</h1>',
+      animated: true,
+      cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true,
+      
+    });
+    return await popover.present();
+  }
 
 }

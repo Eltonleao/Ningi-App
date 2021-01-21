@@ -4,6 +4,20 @@
             <ion-menu-button manu="main-menu"></ion-menu-button>
         </ion-buttons>
         <ion-title class="ion-text-center">Ningis</ion-title>
+        <ion-buttons slot="primary">
+            <ion-button (click)="presentPopover($event)">
+                <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-toolbar color="dark">
+        <ion-buttons slot="primary">
+            <ion-button (click)="clickedSearch()">
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-searchbar placeholder="Search Favorites"></ion-searchbar>
     </ion-toolbar>
 </ion-header>
 
@@ -15,7 +29,7 @@
 
 
     <ion-list>
-        <ion-grid class="mw-80 top-20">
+        <!-- <ion-grid class="mw-80 top-20">
             <ng-container *ngIf="!ningis || ningis.length == '0'">
                 <div *ngFor="let n of [0,1,2,3,4]" padding>
                     <ion-skeleton-text></ion-skeleton-text>
@@ -25,7 +39,7 @@
 
                 </div>
             </ng-container>
-        </ion-grid>
+        </ion-grid> -->
 
         <ion-item-sliding *ngFor="let item of ningis" id="{{item.fireID}}">
             <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
@@ -72,7 +86,28 @@
         </ion-item-sliding>
     </ion-list>
 
-    
+    <!-- Skeleton screen -->
+    <ion-list *ngIf="!ningis || ningis.length == '0'">
+        <ion-item *ngFor="let n of [0,1,2,3,4]" padding>
+            <ion-avatar slot="start">
+                <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-avatar>
+            <ion-label>
+                <h3>
+                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                </h3>
+                <p>
+                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                </p>
+                <p>
+                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                </p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
+
+
     <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
