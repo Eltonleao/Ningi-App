@@ -109,11 +109,11 @@ export class NingiService {
     return this.ningiCollection.add(ningi);
   }
 
-  async remove(ningi) {
+  async remove(ningi): Promise<any>{
     var env = this;
     var db = this.db;
     var ningiCollection;
-    this.storage.get('user').then(async user => {
+    return this.storage.get('user').then(async user => {
       env.storage.get('partner').then(async (partner) => {
         env.user = await user;
         await env.getPartner();

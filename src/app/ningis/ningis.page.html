@@ -12,12 +12,8 @@
     </ion-toolbar>
 
     <ion-toolbar color="dark">
-        <ion-buttons slot="primary">
-            <ion-button (click)="clickedSearch()">
-                <ion-icon slot="icon-only" name="search"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-searchbar placeholder="Search Favorites"></ion-searchbar>
+        <ion-searchbar animated="true" placeholder="Search" [(ngModel)]='searchBar' (ionChange)="search()"
+            (ionCancel)="loadNingis(30)"></ion-searchbar>
     </ion-toolbar>
 </ion-header>
 
@@ -29,17 +25,6 @@
 
 
     <ion-list>
-        <!-- <ion-grid class="mw-80 top-20">
-            <ng-container *ngIf="!ningis || ningis.length == '0'">
-                <div *ngFor="let n of [0,1,2,3,4]" padding>
-                    <ion-skeleton-text></ion-skeleton-text>
-                    <p>
-                        <ion-skeleton-text class="fake-skeleton"></ion-skeleton-text>
-                    </p>
-
-                </div>
-            </ng-container>
-        </ion-grid> -->
 
         <ion-item-sliding *ngFor="let item of ningis" id="{{item.fireID}}">
             <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
@@ -55,13 +40,19 @@
                             <ion-col size='9'>
                                 <div>
                                     <span class="color-{{item.operation}}">
-                                        {{item.value | currency:"R$ ":true:"1.2" }}
+                                        <ion-icon name="cash-outline"></ion-icon> 
+                                        <b> {{item.value | currency:"BRL":true}}</b>
                                     </span>
                                     <br>
                                     <span text-wrap>
-                                        {{item.source}}
+                                        <ion-badge class="bg-{{item.source}}">{{item.source}}</ion-badge>
                                         <br>
-                                        {{item.data_criacao}}
+                                        <ion-text color="primary">
+                                            <!-- <ion-badge> -->
+                                                <ion-icon name="calendar"></ion-icon>
+                                                <b> {{item.data_criacao}}</b>
+                                            <!-- </ion-badge> -->
+                                        </ion-text>
                                     </span>
                                 </div>
                             </ion-col>

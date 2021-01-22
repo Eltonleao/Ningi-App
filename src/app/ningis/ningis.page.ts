@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 
-import {DashboardPage} from '../dashboard/dashboard.page';
 
 
 import { Ningi, NingiService } from "../services/ningi.service";
@@ -21,6 +20,7 @@ export class NingisPage implements OnInit {
   // @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   ningis: Ningi[];
   ningiLimit = 30;
+  searchBar;
 
   constructor(
     public alertCtrl: AlertController,
@@ -73,9 +73,17 @@ export class NingisPage implements OnInit {
 
   }
 
-  remove(ningi) {
-    // console.log(ningi);
-    this.ningiService.remove(ningi);
+  async remove(ningi) {
+    console.log('entrei aqui');
+    var env = this;
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+    });
+    await loading.present();
+    env.ningiService.remove(ningi).then(async ()=>{
+      await loading.dismiss();
+    });
   }
 
   async doRefresh(event) {
@@ -99,5 +107,14 @@ export class NingisPage implements OnInit {
       animated: true
     });
     return await popover.present();
+  }
+
+
+  search(){
+    if(this.searchBar == ''){
+      this.ngOnInit();
+    } else{
+      console.log(this.searchBar);
+    }
   }
 }
