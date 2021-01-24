@@ -86,16 +86,12 @@ export class DashboardPage implements OnInit {
 
     this.ningiService.getNingisSemanais().then(async (prevWeekNingis) => {
       // console.log(prevWeekNingis);
-      var now = new Date();
-      // now.setDate(now.getDate() - 1);//como se hj fosse sabado
-      now.setHours(0);
-      now.setMinutes(0);
-      now.setSeconds(0);
+      var now = new Date();now.setHours(0);now.setMinutes(0);now.setSeconds(0);
+      // now.setDate(now.getDate() - 1);//n dias atras
 
       var prevWeekDays = [];
 
       for(var i=0; i < 7; i++){
-        console.log(i, now);
         prevWeekDays.push(now.getDay());
         now.setDate(now.getDate() - 1);
       }
@@ -103,70 +99,32 @@ export class DashboardPage implements OnInit {
       console.log(prevWeekDays);
 
 
-      var temp = {};
-      prevWeekDays.forEach(element => {
-        console.log(element);
-        temp[element] = 0
-      });
-      console.log(temp);
-
-
       var ningis = {
-        carteira: {
-          0: 0,
-          1: 0,
-          2: 0,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 0
-        },
-        santander: {
-          0: 0,
-          1: 0,
-          2: 0,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 0
-        },
-        bradesco: {
-          0: 0,
-          1: 0,
-          2: 0,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 0
-        },
-        banco_do_brasil: {
-          0: 0,
-          1: 0,
-          2: 0,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 0
-        }
+        carteira: [{weekday: 0, value: 0}, {weekday: 1, value: 0}, {weekday: 2, value: 0}, {weekday: 3, value: 0}, {weekday: 4, value: 0}, {weekday: 5, value: 0}, {weekday: 6, value: 0}],
+        santander: [{weekday: 0, value: 0}, {weekday: 1, value: 0}, {weekday: 2, value: 0}, {weekday: 3, value: 0}, {weekday: 4, value: 0}, {weekday: 5, value: 0}, {weekday: 6, value: 0}],
+        bradesco: [{weekday: 0, value: 0}, {weekday: 1, value: 0}, {weekday: 2, value: 0}, {weekday: 3, value: 0}, {weekday: 4, value: 0}, {weekday: 5, value: 0}, {weekday: 6, value: 0}],
+        banco_do_brasil: [{weekday: 0, value: 0}, {weekday: 1, value: 0}, {weekday: 2, value: 0}, {weekday: 3, value: 0}, {weekday: 4, value: 0}, {weekday: 5, value: 0}, {weekday: 6, value: 0}],
       };
+
+      console.log(ningis);
 
       var chartData = [];
       var chartLabels = [];
 
       await prevWeekNingis.forEach(async ningi => {
-        console.log(ningi.operation);
-        var today = new Date();
-        today.setHours(0);
-        today.setMinutes(0);
-        today.setSeconds(0);
-
-        if (ningi.operation == 'spend' && ningi.data_criacao < today.getTime()) {
+        if (ningi.operation == 'spend') {
           var d = new Date(ningi.data_criacao);
           var date = String(d.getDate());
-          ningis[ningi.source][d.getDay()] = parseFloat(ningis[ningi.source][d.getDay()]) + parseFloat(ningi.value)
-          chartLabels[d.getDay()] = this.chartLabels[d.getDay()] + "(" + date + ")";
+          var index = ningis[ningi.source].findIndex(x => x.weekday == d.getDay());
+          // console.log(index, ningis[ningi.source][index]);
+        
+          ningis[ningi.source][index]['value'] = ningis[ningi.source][index]['value']  + parseFloat(ningi.value)
+          
+          // ningis[ningi.source][d.getDay()] = parseFloat(ningis[ningi.source][d.getDay()]) + parseFloat(ningi.value)
+          // chartLabels[d.getDay()] = this.chartLabels[d.getDay()] + "(" + date + ")";
         }
       });
+      // console.log(ningis);
 
       for (var key in chartLabels) {
         console.log(key, chartLabels[key]);
@@ -175,10 +133,14 @@ export class DashboardPage implements OnInit {
 
       for (var source in ningis) {
         var obj = { data: [], label: source };
-        for (var weekDay in ningis[source]) {
-          obj.data.push(ningis[source][weekDay]);
-        }
-        // console.log(obj);
+        // console.log(source, ningis[source]);
+        console.group()
+        console.log(source);
+        for(var index in ningis[source]){
+          console.log(index, ningis[source][index], ningis[source][index].value);
+          obj.data.push(ningis[source][index].value);
+        };
+        console.groupEnd()
         chartData.push(obj);
       }
       console.log(chartData);
