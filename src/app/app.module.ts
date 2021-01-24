@@ -33,6 +33,10 @@ import { environment } from '../environments/environment';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
+//charts
+import 'chartjs-plugin-zoom';
+import {ChartsModule} from 'ng2-charts';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,7 +50,8 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ChartsModule
   ],
   providers: [
     GooglePlus,

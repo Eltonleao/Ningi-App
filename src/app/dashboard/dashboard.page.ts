@@ -11,6 +11,11 @@ import { LoadingController } from "@ionic/angular";
 import { AppComponent } from '../app.component';
 
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { ChartDataSets } from 'chart.js';
+import { Label } from 'ng2-charts';
+import { Color } from 'ng2-charts';
+
+
 
 
 @Component({
@@ -20,6 +25,16 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 })
 export class DashboardPage implements OnInit {
 
+  chartOptions = {
+    responsive: true
+  };
+  chartData = [
+    { data: [330, 600, 260, 100, 0, 200, 1000], label: 'Carteira' },
+    { data: [330, 10, 20, 200, 0, 0, 2000], label: 'Bradesco' },
+    { data: [330, 20, 100, 300, 0, 0, 3000], label: 'Santander' },
+    { data: [330, 50, 30, 400, 0, 0, 500], label: 'Banco Do Brasil' },
+  ];
+  chartLabels = ['dom', 'seg', 'ter', 'qua', 'quin', 'sex', 'sab'];
 
   todos: Todo[];
 
@@ -56,7 +71,6 @@ export class DashboardPage implements OnInit {
   constructor(
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    private todoService: TodoService,
     private ningiService: NingiService,
     public storage: Storage,
     public app: AppComponent,

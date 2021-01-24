@@ -76,9 +76,8 @@
     </ion-slides>
     <!-- </ion-card> -->
 
-    <ion-text class="dashboard-values">
+    <!-- <ion-text class="dashboard-values">
         <ion-grid>
-            <!-- <h5 class="ion-text-center">Saída</h5> -->
             <ion-row>
                 <ion-col>
                     <div (click)="addNingi('carteira')" class="banco">
@@ -115,9 +114,21 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-    </ion-text>
+    </ion-text> -->
 
     <div class="ion-text-center">
         <ion-button color="success" (click)="goTo('tabs/ningi-details')">Entrada</ion-button>
     </div>
+
+    <div>
+        <canvas style="max-width: 600px;"
+            baseChart
+            [chartType]="'line'"
+            [datasets]="chartData"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartClick)="onChartClick($event)">
+        </canvas>
+      </div>
 </ion-content>

@@ -31,9 +31,12 @@
         "@ionic/storage": "^2.3.1",
         "@pluritech/ion-mask": "^1.2.0",
         "angularfire2": "^5.4.2",
+        "chart.js": "^2.9.4",
+        "chartjs-plugin-zoom": "^0.7.7",
         "firebase": "^7.24.0",
         "firebaseui": "^4.7.1",
         "firebaseui-angular": "^5.1.1",
+        "ng2-charts": "^2.4.2",
         "rxjs": "~6.5.5",
         "tslib": "^2.0.0",
         "zone.js": "~0.10.3"
