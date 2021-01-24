@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 
 
@@ -28,7 +28,8 @@ export class NingisPage implements OnInit {
     public ningiService: NingiService,
     public platform: Platform,
     public popoverController: PopoverController,
-    public popover: PopoverPage
+    public popover: PopoverPage,
+    public navCtrl: NavController
     // public infiniteScroll: IonInfiniteScroll
     // private loadingController: LoadingController
   ) {
@@ -104,7 +105,9 @@ export class NingisPage implements OnInit {
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true,
-      animated: true
+      animated: true,
+      backdropDismiss: true,
+      showBackdrop: true,
     });
     return await popover.present();
   }
@@ -116,5 +119,9 @@ export class NingisPage implements OnInit {
     } else{
       console.log(this.searchBar);
     }
+  }
+
+  goTo(path){
+    this.navCtrl.navigateForward('tabs/analises');
   }
 }

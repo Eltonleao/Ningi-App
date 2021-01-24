@@ -10,6 +10,8 @@ import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 import { AppComponent } from '../app.component';
 
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+
 
 @Component({
   selector: "app-dashboard",
@@ -58,9 +60,8 @@ export class DashboardPage implements OnInit {
     private ningiService: NingiService,
     public storage: Storage,
     public app: AppComponent,
-    public navCtrl: NavController
-
-
+    public navCtrl: NavController,
+    private emailComposer: EmailComposer,
   ) {
     const env = this;
 
@@ -80,6 +81,7 @@ export class DashboardPage implements OnInit {
       this.user = user;
     });
     this.getValores();
+    // this.composeEmail();
   }
 
   async addNingi(source) {
@@ -177,86 +179,126 @@ export class DashboardPage implements OnInit {
     await this.ningiService.getNingis(async function (ningis) {
       await console.log("data getToal:", ningis);
       // await data.subscribe((ningis) => {
-        env.totalBalance.value = 0;
-        ningis.forEach(ningi => {
-          console.log(typeof parseFloat(ningi.value));
-          ningi.value = parseFloat(ningi.value)
-          if (ningi.operation == 'incomming') {
-            switch (ningi.source) {
-              case "carteira":
-                env.totalCarteira.value = env.totalCarteira.value + ningi.value
-                break;
-              case "santander":
-                env.totalSantander.value = env.totalSantander.value + ningi.value
-                break;
-              case "bradesco":
-                env.totalBradesco.value = env.totalBradesco.value + ningi.value
-                break;
-              case "banco_do_brasil":
-                env.totalBancoDoBrasil.value = env.totalBancoDoBrasil.value + ningi.value
-                break;
-            }
-
-            env.totalBalance.value = env.totalBalance.value + ningi.value
-          } else {
-
-            switch (ningi.source) {
-              case "carteira":
-                env.totalCarteira.value = env.totalCarteira.value - ningi.value
-                break;
-              case "santander":
-                env.totalSantander.value = env.totalSantander.value - ningi.value
-                break;
-              case "bradesco":
-                env.totalBradesco.value = env.totalBradesco.value - ningi.value
-                break;
-              case "banco_do_brasil":
-                env.totalBancoDoBrasil.value = env.totalBancoDoBrasil.value - ningi.value
-                break;
-            }
-
-            env.totalBalance.value = env.totalBalance.value - ningi.value
+      env.totalBalance.value = 0;
+      ningis.forEach(ningi => {
+        console.log(typeof parseFloat(ningi.value));
+        ningi.value = parseFloat(ningi.value)
+        if (ningi.operation == 'incomming') {
+          switch (ningi.source) {
+            case "carteira":
+              env.totalCarteira.value = env.totalCarteira.value + ningi.value
+              break;
+            case "santander":
+              env.totalSantander.value = env.totalSantander.value + ningi.value
+              break;
+            case "bradesco":
+              env.totalBradesco.value = env.totalBradesco.value + ningi.value
+              break;
+            case "banco_do_brasil":
+              env.totalBancoDoBrasil.value = env.totalBancoDoBrasil.value + ningi.value
+              break;
           }
-        });
 
-        if (env.totalBalance.value < 0) {
-          env.totalBalance.color = 'danger';
-        } else if (env.totalBalance.value == 0) {
-          env.totalBalance.color = 'warning';
+          env.totalBalance.value = env.totalBalance.value + ningi.value
         } else {
-          env.totalBalance.color = 'success';
-        }
 
-        if (env.totalCarteira.value < 0) {
-          env.totalCarteira.color = 'danger';
-        } else {
-          env.totalCarteira.color = 'success';
-        }
+          switch (ningi.source) {
+            case "carteira":
+              env.totalCarteira.value = env.totalCarteira.value - ningi.value
+              break;
+            case "santander":
+              env.totalSantander.value = env.totalSantander.value - ningi.value
+              break;
+            case "bradesco":
+              env.totalBradesco.value = env.totalBradesco.value - ningi.value
+              break;
+            case "banco_do_brasil":
+              env.totalBancoDoBrasil.value = env.totalBancoDoBrasil.value - ningi.value
+              break;
+          }
 
-        if (env.totalBradesco.value < 0) {
-          env.totalBradesco.color = 'danger';
-        } else {
-          env.totalBradesco.color = 'success';
+          env.totalBalance.value = env.totalBalance.value - ningi.value
         }
+      });
 
-        if (env.totalSantander.value < 0) {
-          env.totalSantander.color = 'danger';
-        } else {
-          env.totalSantander.color = 'success';
-        }
+      if (env.totalBalance.value < 0) {
+        env.totalBalance.color = 'danger';
+      } else if (env.totalBalance.value == 0) {
+        env.totalBalance.color = 'warning';
+      } else {
+        env.totalBalance.color = 'success';
+      }
 
-        if (env.totalBancoDoBrasil.value < 0) {
-          env.totalBancoDoBrasil.color = 'danger';
-        } else {
-          env.totalBancoDoBrasil.color = 'success';
-        }
+      if (env.totalCarteira.value < 0) {
+        env.totalCarteira.color = 'danger';
+      } else {
+        env.totalCarteira.color = 'success';
+      }
+
+      if (env.totalBradesco.value < 0) {
+        env.totalBradesco.color = 'danger';
+      } else {
+        env.totalBradesco.color = 'success';
+      }
+
+      if (env.totalSantander.value < 0) {
+        env.totalSantander.color = 'danger';
+      } else {
+        env.totalSantander.color = 'success';
+      }
+
+      if (env.totalBancoDoBrasil.value < 0) {
+        env.totalBancoDoBrasil.color = 'danger';
+      } else {
+        env.totalBancoDoBrasil.color = 'success';
+      }
       // });
     });
   }
-  zerarValore(){
+  zerarValore() {
     this.totalCarteira.value = 0;
     this.totalBradesco.value = 0;
-    this.totalSantander .value = 0;
+    this.totalSantander.value = 0;
     this.totalBancoDoBrasil.value = 0;
+  }
+
+
+  composeEmail() {
+    // this.emailComposer.getClients().then((apps: []) => {
+    //   // Returns an array of configured email clients for the device
+    // });
+
+    // this.emailComposer.hasClient().then(app, (isValid: boolean) => {
+    //   if (isValid) {
+    //     // Now we know we have a valid email client configured
+    //     // Not specifying an app will return true if at least one email client is configured
+    //   }
+    // });
+
+    // this.emailComposer.hasAccount().then((isValid: boolean) => {
+    //   if (isValid) {
+    //     // Now we know we have a valid email account configured
+    //   }
+    // });
+
+    // this.emailComposer.isAvailable().then(app, (available: boolean) => {
+    //   if (available) {
+    //     // Now we know we can send an email, calls hasClient and hasAccount
+    //     // Not specifying an app will return true if at least one email client is configured
+    //   }
+    // });
+
+    let email = {
+      to: '3lton.leao@gmail.com',
+      bcc: ['3lton.leao@gmail.com'],
+      attachments: [
+      ],
+      subject: 'Cordova Icons',
+      body: 'How are you? Nice greetings from Leipzig',
+      isHtml: true
+    }
+
+    // Send a text message using default options
+    this.emailComposer.open(email);
   }
 }
