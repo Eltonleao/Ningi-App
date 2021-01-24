@@ -45,6 +45,7 @@ export class NingiService {
     this.loadCollections();
   }
   async ngOnInit() {
+    this.getNingisSemanais();
     this.loadCollections();
   }
 
@@ -82,12 +83,12 @@ export class NingiService {
     };
     await this.getPartner();
     var ningisArray = [];
-    console.log(this.partner);
+    // console.log(this.partner);
     this.storage.get('user').then(async (user) => {
       let ningis;
-      if(limit){
+      if (limit) {
         ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).orderBy('data_criacao', 'desc').limit(limit);
-      } else{
+      } else {
         ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).orderBy('data_criacao', 'desc');
       }
       await ningis.get().then(doc => {
@@ -109,7 +110,7 @@ export class NingiService {
     return this.ningiCollection.add(ningi);
   }
 
-  async remove(ningi): Promise<any>{
+  async remove(ningi): Promise<any> {
     var env = this;
     var db = this.db;
     var ningiCollection;
@@ -117,10 +118,10 @@ export class NingiService {
       env.storage.get('partner').then(async (partner) => {
         env.user = await user;
         await env.getPartner();
-         ningiCollection = await db.collection<Ningi>('ningis', ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email, partner.email]));
-         ningiCollection.doc(ningi.fireID).update({ deletado: 1 }).then((data)=>{
-           document.getElementById(ningi.fireID).style.display = 'none';
-         })
+        ningiCollection = await db.collection<Ningi>('ningis', ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email, partner.email]));
+        ningiCollection.doc(ningi.fireID).update({ deletado: 1 }).then((data) => {
+          document.getElementById(ningi.fireID).style.display = 'none';
+        })
       });
     });
   }
@@ -128,19 +129,17 @@ export class NingiService {
   async updateUser(user): Promise<any> {
 
     let userDoc = this.afs.firestore.collection(`users`).where('email', '==', user.email);
-    // console.log(userDoc);
     return await userDoc.get().then(async (querySnapshot) => {
-      // console.log(querySnapshot.size)
       if (querySnapshot.size == 0) {
-        await console.log('usuario novo, criando no banco...');
+        // await console.log('usuario novo, criando no banco...');
         await this.storage.set('user', user);
-        await console.log(user);
+        // await console.log(user);
         await this.userCollection.doc(user.email).set(user);
         return user;
       } else {
-        console.log('usuario já existente, updating...');
+        // console.log('usuario já existente, updating...');
         querySnapshot.forEach((doc) => {
-          console.log(doc.data());
+          // console.log(doc.data());
           this.storage.set('user', doc.data());
           return user;
         })
@@ -197,7 +196,7 @@ export class NingiService {
 
   updateMyMagickWord(magickWord): Promise<any> {
     return this.storage.get('user').then((user) => {
-      console.log(user);
+      // console.log(user);
       this.userMagickWordCollection.doc(user.email).set({
         email: user.email,
         magickword: magickWord
@@ -258,9 +257,9 @@ export class NingiService {
 
   async getTotalBalance(callback) {
     await this.ngOnInit();
-    console.log('entrei aqui 1');
+    // console.log('entrei aqui 1');
     if (callback) {
-      console.log('entrei aqui 2');
+      // console.log('entrei aqui 2');
       await callback(this.ningis);
     }
   }
@@ -272,5 +271,26 @@ export class NingiService {
         callback(data.data());
       }
     });
+  }
+
+  async getNingisSemanais(): Promise<any> {
+    var prevWeek = new Date();
+    prevWeek.setDate(prevWeek.getDate() - 7);
+
+    var prevWeekNingis = [];
+    // console.log('entrei aqui 1');
+    await this.storage.get('user').then(async (user) => {
+      var ningis = await this.afs.firestore.collection('ningis').where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).where('data_criacao', '>', prevWeek.getTime()).orderBy('data_criacao', 'desc');
+      await ningis.get().then(doc => {
+        doc.forEach(element => {
+          var data = element.data();
+          data.fireID = element.id;
+          // console.log(data);
+          prevWeekNingis.push(data);
+        });
+      // console.log('entrei aqui 2');
+      });
+    });
+    return await prevWeekNingis;
   }
 }

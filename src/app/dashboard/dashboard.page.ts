@@ -29,10 +29,7 @@ export class DashboardPage implements OnInit {
     responsive: true
   };
   chartData = [
-    { data: [330, 600, 260, 100, 0, 200, 1000], label: 'Carteira' },
-    { data: [330, 10, 20, 200, 0, 0, 2000], label: 'Bradesco' },
-    { data: [330, 20, 100, 300, 0, 0, 3000], label: 'Santander' },
-    { data: [330, 50, 30, 400, 0, 0, 500], label: 'Banco Do Brasil' },
+
   ];
   chartLabels = ['dom', 'seg', 'ter', 'qua', 'quin', 'sex', 'sab'];
 
@@ -66,6 +63,13 @@ export class DashboardPage implements OnInit {
     class: ''
   };
 
+  prevWeekNingis = {
+    carteira: [],
+    santander: [],
+    bradesco: [],
+    banco_do_brasil: []
+  };
+
 
 
   constructor(
@@ -79,6 +83,108 @@ export class DashboardPage implements OnInit {
   ) {
     const env = this;
 
+
+    this.ningiService.getNingisSemanais().then(async (prevWeekNingis) => {
+      // console.log(prevWeekNingis);
+      var now = new Date();
+      // now.setDate(now.getDate() - 1);//como se hj fosse sabado
+      now.setHours(0);
+      now.setMinutes(0);
+      now.setSeconds(0);
+
+      var prevWeekDays = [];
+
+      for(var i=0; i < 7; i++){
+        console.log(i, now);
+        prevWeekDays.push(now.getDay());
+        now.setDate(now.getDate() - 1);
+      }
+      prevWeekDays = prevWeekDays.reverse();
+      console.log(prevWeekDays);
+
+
+      var temp = {};
+      prevWeekDays.forEach(element => {
+        console.log(element);
+        temp[element] = 0
+      });
+      console.log(temp);
+
+
+      var ningis = {
+        carteira: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+          6: 0
+        },
+        santander: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+          6: 0
+        },
+        bradesco: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+          6: 0
+        },
+        banco_do_brasil: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+          6: 0
+        }
+      };
+
+      var chartData = [];
+      var chartLabels = [];
+
+      await prevWeekNingis.forEach(async ningi => {
+        console.log(ningi.operation);
+        var today = new Date();
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+
+        if (ningi.operation == 'spend' && ningi.data_criacao < today.getTime()) {
+          var d = new Date(ningi.data_criacao);
+          var date = String(d.getDate());
+          ningis[ningi.source][d.getDay()] = parseFloat(ningis[ningi.source][d.getDay()]) + parseFloat(ningi.value)
+          chartLabels[d.getDay()] = this.chartLabels[d.getDay()] + "(" + date + ")";
+        }
+      });
+
+      for (var key in chartLabels) {
+        console.log(key, chartLabels[key]);
+        this.chartLabels[key] = chartLabels[key];
+      };
+
+      for (var source in ningis) {
+        var obj = { data: [], label: source };
+        for (var weekDay in ningis[source]) {
+          obj.data.push(ningis[source][weekDay]);
+        }
+        // console.log(obj);
+        chartData.push(obj);
+      }
+      console.log(chartData);
+      env.chartData = chartData;
+    })
+
     this.storage.get('user').then(function (user) {
       if (!user) {
         env.navCtrl.navigateForward('/tabs/login');
@@ -86,8 +192,7 @@ export class DashboardPage implements OnInit {
         window.location.href = '/tabs/login';
       } else {
       }
-    })
-
+    });
   }
 
   ngOnInit() {
@@ -100,7 +205,7 @@ export class DashboardPage implements OnInit {
 
   async addNingi(source) {
 
-    console.log(source);
+    // console.log(source);
     var globalUser;
     this.storage.get('user').then((user) => {
       globalUser = user;
@@ -182,7 +287,7 @@ export class DashboardPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log("I'm alive!");
+    // console.log("I'm alive!");
     this.getValores();
   }
 
@@ -191,11 +296,11 @@ export class DashboardPage implements OnInit {
     this.zerarValore();
     var env = this;
     await this.ningiService.getNingis(async function (ningis) {
-      await console.log("data getToal:", ningis);
+      // await console.log("data getToal:", ningis);
       // await data.subscribe((ningis) => {
       env.totalBalance.value = 0;
       ningis.forEach(ningi => {
-        console.log(typeof parseFloat(ningi.value));
+        // console.log(typeof parseFloat(ningi.value));
         ningi.value = parseFloat(ningi.value)
         if (ningi.operation == 'incomming') {
           switch (ningi.source) {

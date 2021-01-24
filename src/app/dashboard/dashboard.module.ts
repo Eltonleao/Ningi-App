@@ -9,13 +9,16 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardPage } from './dashboard.page';
 import {ChartsModule} from 'ng2-charts';
 
+import { MomentModule } from 'angular2-moment';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     DashboardPageRoutingModule,
-    ChartsModule
+    ChartsModule,
+    MomentModule
   ],
   declarations: [DashboardPage]
 })

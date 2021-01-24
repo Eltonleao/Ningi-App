@@ -37,6 +37,9 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import 'chartjs-plugin-zoom';
 import {ChartsModule} from 'ng2-charts';
 
+import 'moment';
+import { MomentModule } from 'angular2-moment';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,7 +54,8 @@ import {ChartsModule} from 'ng2-charts';
     AngularFirestoreModule,
     AngularFireAuthModule,
     IonicStorageModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    MomentModule
   ],
   providers: [
     GooglePlus,
@@ -68,7 +72,6 @@ import {ChartsModule} from 'ng2-charts';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 
 }
 
