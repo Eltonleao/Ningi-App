@@ -13,9 +13,6 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <!-- <ion-card> -->
-
-
     <ion-slides>
         <ion-slide>
             <ion-card>
@@ -74,7 +71,6 @@
             </ion-card>
         </ion-slide>
     </ion-slides>
-    <!-- </ion-card> -->
 
     <ion-text class="dashboard-values">
         <ion-grid>
@@ -115,12 +111,16 @@
             </ion-row>
         </ion-grid>
     </ion-text>
-
-    <div class="ion-text-center">
+    
+    <div class="ion-text-center ion-padding-bottom">
         <ion-button color="success" (click)="goTo('tabs/ningi-details')">Entrada</ion-button>
     </div>
+    <hr>
 
     <div>
+        <div class="ion-text-center ion-padding-bottom">
+            <ion-subtitle class="ion-text-center">Nos últimos 7 dias você gastou:</ion-subtitle>
+        </div>
         <canvas style="max-width: 600px;"
             baseChart
             [chartType]="'line'"

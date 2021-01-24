@@ -35,6 +35,7 @@ export class NingiService {
   public partnerMagickWord;
   public userPartnerCollection;
   public partner;
+  public tableNingis;
 
 
   constructor(
@@ -45,6 +46,12 @@ export class NingiService {
     this.loadCollections();
   }
   async ngOnInit() {
+    this.storage.get('teste').then((res)=> {
+      if(res == 1){
+        this.tableNingis = 'ningis';
+      } else
+      this.tableNingis = 'ningis_teste';
+    })
     this.getNingisSemanais();
     this.loadCollections();
   }

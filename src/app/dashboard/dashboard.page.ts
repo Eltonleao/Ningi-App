@@ -87,7 +87,7 @@ export class DashboardPage implements OnInit {
     this.ningiService.getNingisSemanais().then(async (prevWeekNingis) => {
       // console.log(prevWeekNingis);
       var now = new Date(); now.setHours(0); now.setMinutes(0); now.setSeconds(0);
-      // now.setDate(now.getDate() - 2);//n dias atras
+      // now.setDate(now.getDate() + 2);//n dias atras
       var diasDaSemana = ['dom', 'seg', 'ter', 'quar', 'quin', 'sex', 'sab'];
       diasDaSemana[now.getDay()] = 'hoje';
 
