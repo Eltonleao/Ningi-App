@@ -60,6 +60,7 @@ export class AppComponent {
     private menu: MenuController,
     public loadingController: LoadingController
   ) {
+    // this.storage.set('teste', 1);
     this.user = {
       displayName: "User",
       photoURL: "https://picsum.photos/200"

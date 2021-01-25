@@ -4,17 +4,17 @@
             <ion-menu-button manu="main-menu"></ion-menu-button>
         </ion-buttons>
         <ion-title class="ion-text-center">Ningis</ion-title>
-        <ion-buttons slot="primary">
+        <!-- <ion-buttons slot="primary">
             <ion-button (click)="presentPopover($event)">
                 <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
             </ion-button>
-        </ion-buttons>
+        </ion-buttons> -->
     </ion-toolbar>
 
-    <ion-toolbar color="dark">
+    <!-- <ion-toolbar color="dark">
         <ion-searchbar animated="true" placeholder="Search" [(ngModel)]='searchBar' (ionChange)="search()"
             (ionCancel)="loadNingis(30)"></ion-searchbar>
-    </ion-toolbar>
+    </ion-toolbar> -->
 </ion-header>
 
 
@@ -68,17 +68,17 @@
                 </ion-item-option>
             </ion-item-options>
 
-            <ion-item-options side="end">
+            <!-- <ion-item-options side="end">
                 <ion-item-option color="success">
                     Entrada
                     <ion-icon name="checkmark" slot="start"></ion-icon>
                 </ion-item-option>
-            </ion-item-options>
+            </ion-item-options> -->
         </ion-item-sliding>
     </ion-list>
 
     <!-- Skeleton screen -->
-    <ion-list *ngIf="!ningis || ningis.length == '0'">
+    <ion-list *ngIf="!ningis || ningis.length == 0">
         <ion-item *ngFor="let n of [0,1,2,3,4]" padding>
             <ion-avatar slot="start">
                 <ion-skeleton-text animated></ion-skeleton-text>

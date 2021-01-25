@@ -297,12 +297,16 @@ export class DashboardPage implements OnInit {
 
 
   async getValores() {
-    this.zerarValore();
+    await this.zerarValore();
     var env = this;
     await this.ningiService.getNingis(async function (ningis) {
       // await console.log("data getToal:", ningis);
       // await data.subscribe((ningis) => {
       env.totalBalance.value = 0;
+      env.totalCarteira.value = 0;
+      env.totalSantander.value = 0;
+      env.totalBradesco.value = 0;
+      env.totalBancoDoBrasil.value = 0;
       ningis.forEach(ningi => {
         // console.log(typeof parseFloat(ningi.value));
         ningi.value = parseFloat(ningi.value)

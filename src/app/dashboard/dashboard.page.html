@@ -119,7 +119,7 @@
 
     <div>
         <div class="ion-text-center ion-padding-bottom">
-            <ion-subtitle class="ion-text-center">Nos últimos 7 dias você gastou:</ion-subtitle>
+            <ion-text class="ion-text-center">Nos últimos 7 dias você gastou:</ion-text>
         </div>
         <canvas style="max-width: 600px;"
             baseChart
@@ -127,8 +127,7 @@
             [datasets]="chartData"
             [labels]="chartLabels"
             [options]="chartOptions"
-            [legend]="true"
-            (chartClick)="onChartClick($event)">
+            [legend]="true">
         </canvas>
       </div>
 </ion-content>
