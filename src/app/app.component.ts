@@ -28,26 +28,7 @@ export class AppComponent {
   user: any;
   teste: any = false;
   hideTabs;
-  showMenu = true;
-
-  // appPages = [
-  //   {
-  //     title: 'Dashboard',
-  //     url: '',
-  //     icon: 'easel'
-  //   },
-  //   {
-  //     title: 'Timeline',
-  //     url: '/timeline',
-  //     icon: 'film'
-  //   },
-  //   {
-  //     title: 'Settings',
-  //     url: '/settings',
-  //     icon: 'settings'
-  //   }
-  // ];
-
+  showMenu = false;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -78,11 +59,11 @@ export class AppComponent {
 
 
       this.storage.get('user').then(function (user) {
-        // console.log("user", user);
         if (user) {
           console.log('user logado');
-          env.user = user;
+          env.showMenu = true;
           env.hideTabs = false;
+          env.loadUser();
           env.navCtrl.navigateForward('/tabs/dashboard');
         } else {
           console.log('user não logado');
@@ -93,23 +74,28 @@ export class AppComponent {
     });
   }
 
+  loadUser(){
+    var env = this;
+    this.storage.get('user').then(function (user) {
+      env.user = user;
+    });
+  }
+
   async logout() {
-    console.log('logout...');
     const loading = await this.loadingController.create({
       spinner: 'crescent',
     });
     await loading.present();
 
     await this.storage.set('user', null).then(async () => {
-      this.storage.set('hideTabs', true).then(async () => {
-        await this.fAuth.auth.signOut();
+      await this.fAuth.auth.signOut().then(async () =>{
         await loading.dismiss();
         await this.menu.close();
-        // await this.navCtrl.navigateRoot('/tabs/login');
-        window.location.href = '/tabs/login';
+        this.showMenu = false;
+        await this.navCtrl.navigateRoot('/login');
+        // window.location.href = '/tabs/login';
 
       })
-
     })
 
   }

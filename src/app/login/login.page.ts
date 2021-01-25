@@ -13,11 +13,6 @@ import { AppComponent } from '../app.component';
 import { GooglePlus } from '@ionic-native/google-plus/ngx'
 
 
-
-// export class User {
-//   name: string;
-// }
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -58,48 +53,43 @@ export class LoginPage implements OnInit {
 
 
 
-  async google() {
+  async googleLogin() {
     var env = this;
-    const loading = await this.loadingController.create({
+    var loading = await this.loadingController.create({
       spinner: 'crescent',
     });
     await loading.present();
 
     if (this.platform.is('cordova')) {
+      await console.log('login mobile');
+
 
       try {
         this.gplus.login({})
           .then(async res => {
-            console.log(res);
             await loading.dismiss();
             await this.updateUserDataCordova(res);
           })
           .catch(err => console.error(err));
       } catch (error) {
         console.log(error);
+        var loading = await this.loadingController.create({
+          message: error,
+          spinner: 'crescent',
+        });
+        await loading.present();
+        setTimeout(function () {
+          loading.dismiss();
+        }, 3000);
       }
 
     } else {
 
-      // var provider = new auth.GoogleAuthProvider();
-      // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-      // await this.fAuth.auth.signInWithPopup(provider);
-
       var provider = new auth.GoogleAuthProvider();
       const credential = await this.fAuth.auth.signInWithPopup(provider);
       // console.log(credential);
-      env.user = await credential.user;
       await env.updateUserDataBrowser(credential.user);
       await loading.dismiss();
-
-
-      // this.fAuth.auth.getRedirectResult().then(async function (user) {
-      //   console.log("user que veio do signInWithRedirect", user);
-      //   await loading.dismiss();
-      //   await env.updateUserDataBrowser(user);
-      // }).catch(function (error) {
-      //   console.log(error);
-      // });
     }
 
 
@@ -129,17 +119,17 @@ export class LoginPage implements OnInit {
         deletado: 0
       }
     }
-    const loading = await this.loadingController.create({
-      spinner: 'crescent',
-    });
-    await loading.present();
 
-    await this.storage.set('user', data);
-    await this.ningiService.updateUser(data).then(async data => {
-      console.log("retorno de ningiService.updateUser: ", data);
-      env.app.hideTabs = false;
-      await loading.dismiss();
-      this.navCtrl.navigateForward('/tabs/dashboard');
+    await this.ningiService.updateUser(data).then(async res => {
+      if(res){
+        await this.storage.set('user', data).then(async ()=>{
+          this.app.showMenu = true;
+          this.navCtrl.navigateRoot('tabs/dashboard');
+          // window.location.href = '/tabs/dashboard';
+        });
+      } else{
+        alert('Não foi possível cadastrar usuário');
+      }
 
     });
 

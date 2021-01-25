@@ -43,15 +43,8 @@ export class NingiService {
     public storage: Storage,
     public afs: AngularFirestore,
   ) {
-    this.storage.get('teste').then(async (res) => {
-      console.log('teste', res);
-      if (res == 1) {
-        this.tableNingis = await 'ningis_teste';
-      } else {
-        this.tableNingis = await 'ningis';
-      }
+      this.tableNingis = 'ningis_homolog';
       this.loadCollections();
-    })
   }
   async ngOnInit() {
     this.getNingisSemanais();
@@ -71,7 +64,11 @@ export class NingiService {
           // console.log("entrei aqui!", partner);
           env.user = await user;
           await env.getPartner();
-          env.ningiCollection = await db.collection<Ningi>(env.tableNingis, ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email, partner.email]));
+          if (partner) {
+            env.ningiCollection = await db.collection<Ningi>(env.tableNingis, ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email, partner.email]));
+          } else {
+            env.ningiCollection = await db.collection<Ningi>(env.tableNingis, ref => ref.where("deletado", '==', 0).where('user', 'in', [user.email]));
+          }
           env.ningis = await this.ningiCollection.snapshotChanges().pipe(
             map(actions => {
               return actions.map(a => {
@@ -144,24 +141,15 @@ export class NingiService {
   }
 
   async updateUser(user): Promise<any> {
-
-    let userDoc = this.afs.firestore.collection(`users`).where('email', '==', user.email);
-    return await userDoc.get().then(async (querySnapshot) => {
-      if (querySnapshot.size == 0) {
-        // await console.log('usuario novo, criando no banco...');
-        await this.storage.set('user', user);
-        // await console.log(user);
-        await this.userCollection.doc(user.email).set(user);
-        return user;
-      } else {
-        // console.log('usuario já existente, updating...');
-        querySnapshot.forEach((doc) => {
-          // console.log(doc.data());
-          this.storage.set('user', doc.data());
-          return user;
-        })
-      }
-    })
+    try {
+      var userCollection = this.db.collection('users');
+      return userCollection.doc(user.email).set(user).then(() => {
+        return true;
+      })
+    } catch (error) {
+      alert(error);
+      return error;
+    }
   }
 
   getNingi(id): Promise<any> {
