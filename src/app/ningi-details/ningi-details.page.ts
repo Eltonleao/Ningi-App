@@ -21,11 +21,12 @@ export class NingiDetailsPage implements OnInit {
   data_modificacao: any;
   users = [];
   initCount = 0;
+  user;
 
   constructor(
     private route: ActivatedRoute,
     private ningiService: NingiService,
-    private nav: NavController,
+    private navCtrl: NavController,
     public storage: Storage,
 
   ) {
@@ -34,55 +35,68 @@ export class NingiDetailsPage implements OnInit {
   }
 
   async ngOnInit() {
+    var env = this;
     var id = await this.route.snapshot.params['id'];
     // console.log(id);
     if (id) {
-      this.ningiService.getNingi(id).then((data) => {
+      env.ningiService.getNingi(id).then((data) => {
         // console.log(data.data_criacao);
-        var formatedDateCriacao = this.ningiService.formatDate(data.data_criacao);
-        this.data_criacao = formatedDateCriacao;
+        var formatedDateCriacao = env.ningiService.formatDate(data.data_criacao);
+        env.data_criacao = formatedDateCriacao;
 
         if (data.data_modificacao) {
-          var formatedDateModificacao = this.ningiService.formatDate(data.data_criacao);
-          this.data_modificacao = formatedDateModificacao;
-          console.log(this.data_modificacao);
+          var formatedDateModificacao = env.ningiService.formatDate(data.data_criacao);
+          env.data_modificacao = formatedDateModificacao;
         }
-        this.ningi = data;
-        this.ningi.id = id;
+        env.ningi = data;
+        env.ningi.id = id;
 
       });
     } else {
-      this.storage.get('user').then((user) => {
+      
+      env.storage.get('user').then((user) => {
         if (user) {
-          this.ningi.user = user.email;
+          env.ningi.user = user.email;
+          env.user = user;
+          var d = new Date();
+          var now = d.getTime();
+          env.ningi = {
+            deletado : 0,
+            photoURL: user.photoURL,
+            operation: 'incomming',
+            source: 'carteira',
+            user: user.email,
+            data_criacao: now
+          };
         }
       });
     }
 
-    this.setUsers();
+    env.setUsers();
   }
 
 
   saveChenges() {
-    if (this.ningi.id) {
-      this.ningiService.updateNingi(this.ningi).then(() => {
-        window.location.href = '/tabs/ningis';
+    var env = this;
+    if (env.ningi.id) {
+      env.ningiService.updateNingi(env.ningi).then(() => {
+        env.navCtrl.navigateForward('tabs/ningis');
       });
     } else {
-      this.ningiService.addNingi(this.ningi).then(() => {
-        // this.nav.back();
-        window.location.href = '/tabs/ningis';
+      env.ningiService.addNingi(env.ningi).then((e) => {
+        env.navCtrl.navigateForward('tabs/ningis');
       });
     }
   }
 
   setUsers() {
-    if (this.initCount == 0) {
-      var env = this;
-      this.storage.get('user').then(async function (user) {
-        await env.users.push(user);
+    var env = this;
+    env.users = [];
+    if (env.initCount == 0) {
+      env.storage.get('user').then(async function (user) {
+        env.users.push(user);
         await env.storage.get('partner').then(async (user) => {
-          await env.users.push(user);
+          env.users.push(user);
         });
       });
     }
@@ -90,7 +104,6 @@ export class NingiDetailsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.initCount++;
     this.ngOnInit();
   }
 

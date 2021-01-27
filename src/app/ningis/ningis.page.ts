@@ -10,6 +10,7 @@ import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 import { stringify } from '@angular/compiler/src/util';
 import { PopoverPage } from '../popover/popover.page';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-ningis',
@@ -18,9 +19,11 @@ import { PopoverPage } from '../popover/popover.page';
 })
 export class NingisPage implements OnInit {
   // @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  ningis: Ningi[];
+  ningis = [];
   ningiLimit = 30;
   searchBar;
+
+  searchNingis = true;
 
   constructor(
     public alertCtrl: AlertController,
@@ -33,6 +36,12 @@ export class NingisPage implements OnInit {
     // public infiniteScroll: IonInfiniteScroll
     // private loadingController: LoadingController
   ) {
+
+    setTimeout(()=>{
+      if(this.ningis.length == 0){
+        this.searchNingis = false;
+      }
+    }, 5000);
   }
 
   async ngOnInit() {

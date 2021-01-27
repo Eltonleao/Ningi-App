@@ -11,16 +11,12 @@
 
   <h1 class="ion-text-center" *ngIf="ningi.value">Editar Ningi</h1>
   <h1 class="ion-text-center" *ngIf="!ningi.value">Novo Ningi</h1>
+
   <ion-card>
     <ion-card-content>
       <ion-item *ngIf="data_modificacao != ''">
         <ion-label position="stacked">Stacked Label</ion-label>
         <span>{{data_criacao}}</span>
-      </ion-item>
-
-      <ion-item *ngIf="data_modificacao != ''">
-        <ion-label position="stacked">Stacked Label</ion-label>
-        <span>{{data_modificacao}}</span>
       </ion-item>
 
       <ion-item>
@@ -55,7 +51,7 @@
 
       <ion-item>
         <ion-label position="stacked">Stacked Label</ion-label>
-        <ion-textarea [(ngModel)]="ningi.Obervacoes" placeholder="Obervações..."></ion-textarea>
+        <ion-textarea [(ngModel)]="ningi.obervacoes" placeholder="Obervações..."></ion-textarea>
       </ion-item>
 
 
