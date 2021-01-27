@@ -57,6 +57,10 @@ const routes: Routes = [
   {
     path: 'analises',
     loadChildren: () => import('./analises/analises.module').then( m => m.AnalisesPageModule)
+  },
+  {
+    path: 'charts',
+    loadChildren: () => import('./charts/charts.module').then( m => m.ChartsPageModule)
   }
 ];
 @NgModule({

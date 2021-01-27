@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="dark">
+      <ion-buttons slot="start" class="menu-btn">
+          <ion-menu-button manu="main-menu"></ion-menu-button>
+      </ion-buttons>
+      <ion-title class="ion-text-center">Análises</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <div class="ion-text-center ion-padding-bottom">
+      <ion-text class="ion-text-center">Gastos dessa semana:</ion-text>
+    </div>
+    <canvas style="max-width: 600px;" baseChart [chartType]="'line'" [datasets]="chartData" [labels]="chartLabels"
+      [options]="chartOptions" [legend]="true">
+    </canvas>
+  </div>
+</ion-content>
