@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 
+import { Storage } from '@ionic/storage';
 
-
-import { Ningi, NingiService } from "../services/ningi.service";
+import { NingiService } from "../services/ningi.service";
 
 import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 import { stringify } from '@angular/compiler/src/util';
 import { PopoverPage } from '../popover/popover.page';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-ningis',
@@ -22,6 +21,7 @@ export class NingisPage implements OnInit {
   ningis = [];
   ningiLimit = 30;
   searchBar;
+  user;
 
   searchNingis = true;
 
@@ -32,16 +32,18 @@ export class NingisPage implements OnInit {
     public platform: Platform,
     public popoverController: PopoverController,
     public popover: PopoverPage,
-    public navCtrl: NavController
-    // public infiniteScroll: IonInfiniteScroll
-    // private loadingController: LoadingController
+    public navCtrl: NavController,
+    public storage: Storage,
   ) {
+    this.storage.get('user').then((user)=>{
+      this.user = user;
+    });
 
-    setTimeout(()=>{
-      if(this.ningis.length == 0){
-        this.searchNingis = false;
-      }
-    }, 5000);
+    // setTimeout(()=>{
+    //   if(this.ningis.length == 0){
+    //     this.searchNingis = false;
+    //   }
+    // }, 5000);
   }
 
   async ngOnInit() {
@@ -54,17 +56,16 @@ export class NingisPage implements OnInit {
 
     this.loadNingis(this.ningiLimit).then(async () => {
       loading.dismiss();
+      console.log(this.ningis);
     })
   }
 
   loadNingis(limit = null): Promise<any> {
     var env = this;
     return this.ningiService.getNingis(async function (res: any) {
-      await console.log(res);
       env.ningis = await res;
-      await console.log('cheguei aqui');
+      console.log(res);
       env.ningis.map((x: { data_criacao: string | number | Date; }) => {
-        // x.data_criacao = new Date(x.data_criacao);
         var date = new Date(x.data_criacao);
         var dc = {
           ano: date.getFullYear() + 1 < 10 ? "0" + stringify(date.getFullYear() + 1) : date.getFullYear(),
@@ -78,7 +79,6 @@ export class NingisPage implements OnInit {
         x.data_criacao = dc.dia + '/' + dc.mes + '/' + dc.ano + ' - ' + dc.hora + ':' + dc.min;
 
       })
-      // })
     }, limit);
 
   }

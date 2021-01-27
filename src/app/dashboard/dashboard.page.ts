@@ -1,8 +1,6 @@
 import { Storage } from '@ionic/storage';
-import { Platform, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
-
-import { Todo, TodoService } from "../services/todo.service";
 import { Ningi, NingiService } from "../services/ningi.service";
 
 import { Component, OnInit } from "@angular/core";
@@ -10,10 +8,6 @@ import { AlertController } from "@ionic/angular";
 import { LoadingController } from "@ionic/angular";
 import { AppComponent } from '../app.component';
 
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
-import { ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
-import { Color } from 'ng2-charts';
 
 
 
@@ -35,7 +29,6 @@ export class DashboardPage implements OnInit {
   ];
   chartLabels = ['dom', 'seg', 'ter', 'qua', 'quin', 'sex', 'sab'];
 
-  todos: Todo[];
 
   ningis: Ningi[];
   ningi: any;
@@ -81,7 +74,6 @@ export class DashboardPage implements OnInit {
     public storage: Storage,
     public app: AppComponent,
     public navCtrl: NavController,
-    private emailComposer: EmailComposer,
   ) {
 
     const env = this;

@@ -70,7 +70,11 @@ export class LoginPage implements OnInit {
             await loading.dismiss();
             await this.updateUserDataCordova(res);
           })
-          .catch(err => console.error(err));
+          .catch((err) => {
+            alert(err)
+            console.error(err)
+          }
+          );
       } catch (error) {
         console.log(error);
         var loading = await this.loadingController.create({
@@ -87,7 +91,6 @@ export class LoginPage implements OnInit {
 
       var provider = new auth.GoogleAuthProvider();
       const credential = await this.fAuth.auth.signInWithPopup(provider);
-      // console.log(credential);
       await env.updateUserDataBrowser(credential.user);
       await loading.dismiss();
     }
@@ -100,39 +103,42 @@ export class LoginPage implements OnInit {
     var env = this;
 
     var data;
-    if (!user.photoURL) {
-      data = {
-        uid: user.email,
-        login_tipo: 'google',
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.imageUrl,
-        deletado: 0
-      }
-    } else {
-      data = {
-        uid: user.email,
-        login_tipo: 'google',
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        deletado: 0
-      }
+    data = {
+      uid: user.email,
+      email: user.email,
     }
+    // if (!user.photoURL) {
+    //   data = {
+    //     uid: user.email,
+    //     login_tipo: 'google',
+    //     email: user.email,
+    //     displayName: user.displayName,
+    //     photoURL: user.imageUrl,
+    //     deletado: 0
+    //   }
+    // } else {
+    //   data = {
+    //     uid: user.email,
+    //     login_tipo: 'google',
+    //     email: user.email,
+    //     displayName: user.displayName,
+    //     photoURL: user.photoURL,
+    //     deletado: 0
+    //   }
+    // }
 
-    await this.ningiService.updateUser(data).then(async res => {
-      if(res){
-        await this.storage.set('user', data).then(async ()=>{
-          this.app.showMenu = true;
-          this.navCtrl.navigateRoot('tabs/dashboard');
-          // window.location.href = '/tabs/dashboard';
+
+    env.ningiService.getuser(data.uid, function(user){
+      console.log(user);
+      if (user) {
+        env.storage.set('user', user).then(async () => {
+          env.app.showMenu = true;
+          env.navCtrl.navigateRoot('tabs/dashboard');
         });
-      } else{
-        alert('Não foi possível cadastrar usuário');
+      } else {
+        alert('Oops, não foi fazer o login, você precisa se cadastrar no sistema primeiro.');
       }
-
     });
-
 
   }
 

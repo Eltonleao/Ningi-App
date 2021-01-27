@@ -2,9 +2,7 @@ import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { NingiService } from "../services/ningi.service";
-import { LoadingController, NavController } from "@ionic/angular";
-import { runInThisContext } from 'vm';
-import { RangeValueAccessor } from '@angular/forms';
+import { NavController } from "@ionic/angular";
 
 
 
@@ -32,6 +30,7 @@ export class NingiDetailsPage implements OnInit {
   ) {
     this.ningi = {};
     this.data_modificacao = '';
+    this.users = [];
   }
 
   async ngOnInit() {

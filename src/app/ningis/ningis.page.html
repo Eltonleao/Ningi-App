@@ -25,55 +25,79 @@
 
 
     <ion-list>
-
         <ion-item-sliding *ngFor="let item of ningis" id="{{item.fireID}}">
-            <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
-                <ion-grid *ngIf="ningis.length != 0">
-                    <ion-label>
-
-                        <ion-row>
-                            <ion-col size='3'>
-                                <ion-thumbnail class="ion-text-center">
-                                    <img class="thumb" src="{{item.photoURL}}">
-                                </ion-thumbnail>
-                            </ion-col>
-                            <ion-col size='9'>
-                                <div>
-                                    <span class="color-{{item.operation}}">
-                                        <ion-icon name="cash-outline"></ion-icon> 
-                                        <b> {{item.value | currency:"BRL":true}}</b>
-                                    </span>
-                                    <br>
-                                    <span text-wrap>
-                                        <ion-badge class="bg-{{item.source}}">{{item.source}}</ion-badge>
+            <div *ngIf="item.user == user.email">
+                <ion-item lines="unset" button [routerLink]="['/tabs/ningi-details', item.fireID]">
+                    <ion-grid *ngIf="ningis.length != 0">
+                        <ion-label>
+                            <ion-row>
+                                <ion-col size='3'>
+                                    <ion-thumbnail class="ion-text-center">
+                                        <img class="thumb" src="{{item.photoURL}}">
+                                    </ion-thumbnail>
+                                </ion-col>
+                                <ion-col size='9'>
+                                    <div>
+                                        <span class="color-{{item.operation}}">
+                                            <ion-icon name="cash-outline"></ion-icon>
+                                            <b> {{item.value | currency:"BRL":true}}</b>
+                                        </span>
                                         <br>
-                                        <ion-text color="primary">
-                                            <!-- <ion-badge> -->
+                                        <span text-wrap>
+                                            <ion-badge class="bg-{{item.source}}">{{item.source}}</ion-badge>
+                                            <br>
+                                            <ion-text color="primary">
                                                 <ion-icon name="calendar"></ion-icon>
                                                 <b> {{item.data_criacao}}</b>
-                                            <!-- </ion-badge> -->
-                                        </ion-text>
-                                    </span>
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-label>
-                </ion-grid>
-            </ion-item>
+                                            </ion-text>
+                                        </span>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-label>
+                    </ion-grid>
+                </ion-item>
 
-            <ion-item-options side="start">
-                <ion-item-option (click)="remove(item)" color="danger">
-                    deletar
-                    <ion-icon name="checkmark" slot="start"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
+                <ion-item-options side="start">
+                    <ion-item-option (click)="remove(item)" color="danger">
+                        deletar
+                        <ion-icon name="checkmark" slot="start"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </div>
 
-            <!-- <ion-item-options side="end">
-                <ion-item-option color="success">
-                    Entrada
-                    <ion-icon name="checkmark" slot="start"></ion-icon>
-                </ion-item-option>
-            </ion-item-options> -->
+            <div *ngIf="item.user != user.email">
+                <ion-item lines="unset">
+                    <ion-grid *ngIf="ningis.length != 0">
+                        <ion-label>
+                            <ion-row>
+                                <ion-col size='3'>
+                                    <ion-thumbnail class="ion-text-center">
+                                        <img class="thumb" src="{{item.photoURL}}">
+                                    </ion-thumbnail>
+                                </ion-col>
+                                <ion-col size='9'>
+                                    <div>
+                                        <span class="color-{{item.operation}}">
+                                            <ion-icon name="cash-outline"></ion-icon>
+                                            <b> {{item.value | currency:"BRL":true}}</b>
+                                        </span>
+                                        <br>
+                                        <span text-wrap>
+                                            <ion-badge class="bg-{{item.source}}">{{item.source}}</ion-badge>
+                                            <br>
+                                            <ion-text color="primary">
+                                                <ion-icon name="calendar"></ion-icon>
+                                                <b> {{item.data_criacao}}</b>
+                                            </ion-text>
+                                        </span>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-label>
+                    </ion-grid>
+                </ion-item>
+            </div>
         </ion-item-sliding>
     </ion-list>
 
@@ -96,13 +120,6 @@
             </ion-label>
         </ion-item>
     </ion-list>
-
-
-
-    <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-        </ion-infinite-scroll-content>
-    </ion-infinite-scroll> -->
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="dark" routerLink="/tabs/ningi-details" routerDirection="forward">

@@ -146,6 +146,7 @@ export class NingiService {
   }
 
   async updateUser(user): Promise<any> {
+    console.log(user);
     var env = this;
     try {
       var userCollection = env.db.collection('users');
@@ -154,7 +155,7 @@ export class NingiService {
       })
     } catch (error) {
       alert(error);
-      return error;
+      return false;
     }
   }
 
