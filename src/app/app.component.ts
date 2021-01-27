@@ -64,7 +64,7 @@ export class AppComponent {
           env.showMenu = true;
           env.hideTabs = false;
           env.loadUser();
-          env.navCtrl.navigateForward('/tabs/ningis');
+          env.navCtrl.navigateForward('/tabs/dashboard');
         } else {
           console.log('user não logado');
           env.showMenu = false;
@@ -97,6 +97,11 @@ export class AppComponent {
 
       })
     })
+  }
+
+  goTo(page){
+    this.menu.close();
+    this.navCtrl.navigateForward('tabs/' + page);
 
   }
 }

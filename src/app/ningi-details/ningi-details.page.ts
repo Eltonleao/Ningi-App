@@ -22,6 +22,7 @@ export class NingiDetailsPage implements OnInit {
   user = {
     photoURL : ''
   };
+  hasNingi: boolean;
 
   constructor(
     private route: ActivatedRoute,

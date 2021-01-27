@@ -10,10 +10,6 @@ import { AppComponent } from '../app.component';
 
 
 
-
-
-
-
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.page.html",
@@ -182,6 +178,7 @@ export class DashboardPage implements OnInit {
     // console.log("I'm alive!");
     this.getValores();
     this.app.loadUser();
+    this.loadCharts();
   }
 
 
@@ -197,7 +194,7 @@ export class DashboardPage implements OnInit {
       env.totalBradesco.value = 0;
       env.totalBancoDoBrasil.value = 0;
       ningis.forEach(ningi => {
-        // console.log(typeof parseFloat(ningi.value));
+        console.log(ningi);
         ningi.value = parseFloat(ningi.value)
         if (ningi.operation == 'incomming') {
           switch (ningi.source) {
