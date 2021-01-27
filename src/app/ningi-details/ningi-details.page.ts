@@ -19,7 +19,9 @@ export class NingiDetailsPage implements OnInit {
   data_modificacao: any;
   users = [];
   initCount = 0;
-  user;
+  user = {
+    photoURL : ''
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -28,9 +30,15 @@ export class NingiDetailsPage implements OnInit {
     public storage: Storage,
 
   ) {
+    var env = this;
     this.ningi = {};
     this.data_modificacao = '';
     this.users = [];
+
+    this.storage.get('user').then((user)=>{
+      console.log(user);
+      env.user = user;
+    })
   }
 
   async ngOnInit() {
@@ -52,15 +60,16 @@ export class NingiDetailsPage implements OnInit {
 
       });
     } else {
-      
+
       env.storage.get('user').then((user) => {
+        console.log('getUser: ',user);
         if (user) {
           env.ningi.user = user.email;
           env.user = user;
           var d = new Date();
           var now = d.getTime();
           env.ningi = {
-            deletado : 0,
+            deletado: 0,
             photoURL: user.photoURL,
             operation: 'incomming',
             source: 'carteira',

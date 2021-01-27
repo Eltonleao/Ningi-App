@@ -1,0 +1,57 @@
+.perfil-img{
+    border-radius: 50%;
+}
+
+.color-spend {
+    // background-color: #eb445a;
+    // color: white;
+    color:#eb445a
+}
+
+.color-incomming {
+    // background-color:#2dd36f;
+    // color: white;
+    color:#2dd36f;
+}
+
+.center {
+    text-align: center;
+}
+
+ion-datetime {
+    text-align: center;
+}
+
+.mw-80 {
+    max-width: 80%;
+}
+
+.top-20 {
+    position: relative;
+    top: 20px;
+}
+
+.thumb{
+    border-radius: 50%;
+}
+
+.bg-carteira{
+    background-color: #2dd36f;
+}
+.bg-bradesco, .bg-santander{
+    background-color: tomato;
+}
+
+.bg-banco_do_brasil{
+    background-color: #ffc409;
+    color: #005aa5;
+}
+
+ion-icon{
+    position: relative;
+    top: 2px;
+}
+
+ion-fab-button{
+    top: 0px!important;
+}

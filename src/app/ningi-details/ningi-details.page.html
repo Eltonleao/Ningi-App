@@ -9,15 +9,36 @@
 
 <ion-content>
 
-  <h1 class="ion-text-center" *ngIf="ningi.value">Editar Ningi</h1>
-  <h1 class="ion-text-center" *ngIf="!ningi.value">Novo Ningi</h1>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center">
+            <img class="perfil-img" src="{{user.photoURL}}">
+          </div>
+          <div class="ion-text-center">{{user.displayName}}</div>
+        </ion-col>
+        <ion-col>
+          <ion-row>
+            <span class="color-{{ningi.operation}}">
+              <ion-icon name="cash-outline"></ion-icon>
+              <b> {{ningi.value | currency:"BRL":true}}</b>
+          </span>
+          </ion-row>
+          <ion-row>
+            <ion-badge class="bg-{{ningi.source}}">{{ningi.source}}</ion-badge>
+          </ion-row>
+          <ion-row>
+            <span>{{ningi.obervacoes}}</span>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 
   <ion-card>
     <ion-card-content>
-      <ion-item *ngIf="data_modificacao != ''">
-        <ion-label position="stacked">Stacked Label</ion-label>
-        <span>{{data_criacao}}</span>
-      </ion-item>
+
 
       <ion-item>
         <ion-label position="stacked">Operação</ion-label>
@@ -57,7 +78,7 @@
 
     </ion-card-content>
   </ion-card>
-  
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="saveChenges()">
       Save
