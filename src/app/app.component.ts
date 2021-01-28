@@ -64,7 +64,7 @@ export class AppComponent {
           env.showMenu = true;
           env.hideTabs = false;
           env.loadUser();
-          env.navCtrl.navigateForward('/tabs/dashboard');
+          env.navCtrl.navigateForward('/tabs/ningis');
         } else {
           console.log('user não logado');
           env.showMenu = false;

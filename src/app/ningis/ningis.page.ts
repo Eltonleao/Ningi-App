@@ -35,7 +35,7 @@ export class NingisPage implements OnInit {
     public navCtrl: NavController,
     public storage: Storage,
   ) {
-    this.storage.get('user').then((user)=>{
+    this.storage.get('user').then((user) => {
       this.user = user;
     });
 
@@ -91,7 +91,7 @@ export class NingisPage implements OnInit {
       message: 'Please wait...',
     });
     await loading.present();
-    env.ningiService.remove(ningi).then(async ()=>{
+    env.ningiService.remove(ningi).then(async () => {
       await loading.dismiss();
     });
   }
@@ -122,15 +122,31 @@ export class NingisPage implements OnInit {
   }
 
 
-  search(){
-    if(this.searchBar == ''){
+  search() {
+    if (this.searchBar == '') {
       this.ngOnInit();
-    } else{
+    } else {
       console.log(this.searchBar);
     }
   }
 
-  goTo(path){
+  goTo(path) {
     this.navCtrl.navigateForward('tabs/analises');
+  }
+
+
+  segmentChanged(e) {
+    var env = this;
+    const operation = e.detail.value;
+    if (operation.split(',').length > 1) {
+      this.ningiService.getNingisSegment(null, function (data) {
+        env.ningis = data;
+      });
+    } else {
+      this.ningiService.getNingisSegment(operation, function (data) {
+        console.log("ningis segment", data);
+        env.ningis = data;
+      });
+    }
   }
 }

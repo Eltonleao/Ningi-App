@@ -3,7 +3,7 @@
         <ion-buttons slot="start" class="menu-btn">
             <ion-menu-button manu="main-menu"></ion-menu-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">Ningis</ion-title>
+        <ion-title class="ion-text-center">Ningis ({{ningis.length}})</ion-title>
         <!-- <ion-buttons slot="primary">
             <ion-button (click)="presentPopover($event)">
                 <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
@@ -24,6 +24,20 @@
     </ion-refresher>
 
 
+    <!-- Segment with default selection -->
+    <ion-segment (ionChange)="segmentChanged($event)" value="incomming,spend">
+        <ion-segment-button value="incomming,spend">
+            <ion-label>Todos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="incomming">
+            <ion-label>Entradas</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="spend">
+            <ion-label>Saídas</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+
     <ion-list>
         <ion-item-sliding *ngFor="let item of ningis" id="{{item.fireID}}">
             <div *ngIf="item.user == user.email">
@@ -35,6 +49,7 @@
                                     <ion-thumbnail class="ion-text-center">
                                         <img class="thumb" src="{{item.photoURL}}">
                                     </ion-thumbnail>
+                                    <!-- <small>{{user.displayName}}</small> -->
                                 </ion-col>
                                 <ion-col size='9'>
                                     <div>
@@ -50,6 +65,8 @@
                                                 <ion-icon name="calendar"></ion-icon>
                                                 <b> {{item.data_criacao}}</b>
                                             </ion-text>
+                                            <br>
+                                            <p>{{item.observacoes}}</p>
                                         </span>
                                     </div>
                                 </ion-col>
@@ -89,7 +106,12 @@
                                             <ion-text color="primary">
                                                 <ion-icon name="calendar"></ion-icon>
                                                 <b> {{item.data_criacao}}</b>
+                                                <br>
                                             </ion-text>
+                                            <small>
+                                                {{item.observacoes}}
+                                                {{item.obervacoes}}
+                                            </small>
                                         </span>
                                     </div>
                                 </ion-col>

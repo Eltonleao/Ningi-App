@@ -34,14 +34,12 @@ export class NingiService {
   public userPartnerCollection;
   public partner;
   public tableNingis;
-
-
   constructor(
     public db: AngularFirestore,
     public storage: Storage,
     public afs: AngularFirestore,
   ) {
-    // this.tableNingis = 'ningis_homolog';
+    // this.tableNingis = 'ningis_homologacao';
     this.tableNingis = 'ningis';
     this.loadCollections();
   }
@@ -329,5 +327,35 @@ export class NingiService {
       });
     });
     return prevWeekNingis;
+  }
+
+  async getNingisSegment(operation = null, callback = null) {
+    var now = new Date();
+    now.setMonth(now.getMonth() - 1);
+    var previousMonth = now.getTime();
+    var env = this;
+    var segment = [];
+    await this.storage.get('user').then(async (user) => {
+      if(!!operation){
+        var ningis = this.afs.firestore.collection(env.tableNingis).where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).where('data_criacao', '>', previousMonth).where('operation', '==', operation).orderBy('data_criacao', 'desc');
+      } else{
+        var ningis = this.afs.firestore.collection(env.tableNingis).where('user', 'in', [user.email, this.partner.partner_email]).where('deletado', '==', 0).where('data_criacao', '>', previousMonth).orderBy('data_criacao', 'desc');
+      }
+      await ningis.get().then(doc => {
+        doc.forEach(element => {
+          var data = element.data();
+          data.fireID = element.id;
+          data.data_criacao = env.formatDate(data.data_criacao);
+          segment.push(data);
+        });
+      }).catch((error)=>{
+        alert(error);
+        return false;
+      })
+    });
+
+    if (callback) {
+      return callback(segment);
+    }
   }
 }
