@@ -2,8 +2,6 @@ import { LOCALE_ID } from '@angular/core';
 import localePt from '@angular/common/locales/pt';
 import {registerLocaleData} from '@angular/common';
 registerLocaleData(localePt)
-
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -25,8 +23,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { PopoverPage } from './popover/popover.page';
-
-
 
 // environment
 import { environment } from '../environments/environment';
@@ -62,7 +58,6 @@ import { MomentModule } from 'angular2-moment';
     StatusBar,
     SplashScreen,
     PopoverPage,
-    EmailComposer,
     {
       provide: LOCALE_ID, 
       useValue: "pt-BR"

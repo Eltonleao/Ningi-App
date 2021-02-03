@@ -358,4 +358,5 @@ export class NingiService {
       return callback(segment);
     }
   }
+
 }

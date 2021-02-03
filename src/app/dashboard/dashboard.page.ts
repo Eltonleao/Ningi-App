@@ -239,25 +239,34 @@ export class DashboardPage implements OnInit {
         env.totalBalance.color = 'success';
       }
 
-      if (env.totalCarteira.value < 0) {
+      if (env.totalCarteira.value == 0) {
+        env.totalCarteira.color = 'warning';
+      } else if (env.totalCarteira.value < 0) {
         env.totalCarteira.color = 'danger';
       } else {
         env.totalCarteira.color = 'success';
       }
 
-      if (env.totalBradesco.value < 0) {
+      if (env.totalBradesco.value == 0) {
+        env.totalBradesco.color = 'warning';
+      } else if (env.totalBradesco.value < 0) {
         env.totalBradesco.color = 'danger';
       } else {
         env.totalBradesco.color = 'success';
       }
 
-      if (env.totalSantander.value < 0) {
+      if (env.totalSantander.value == 0) {
+        env.totalSantander.color = 'warning';
+      } else if (env.totalSantander.value < 0) {
         env.totalSantander.color = 'danger';
       } else {
         env.totalSantander.color = 'success';
       }
 
-      if (env.totalBancoDoBrasil.value < 0) {
+
+      if (env.totalBancoDoBrasil.value == 0) {
+        env.totalBancoDoBrasil.color = 'warning';
+      } else if (env.totalBancoDoBrasil.value < 0) {
         env.totalBancoDoBrasil.color = 'danger';
       } else {
         env.totalBancoDoBrasil.color = 'success';
