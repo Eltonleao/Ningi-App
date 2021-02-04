@@ -14,6 +14,7 @@ import { Storage } from '@ionic/storage';
 import { MenuController } from '@ionic/angular';
 
 
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class AppComponent {
     public ningiService: NingiService,
     public storage: Storage,
     private menu: MenuController,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public localNotifications: LocalNotifications
   ) {
     // this.storage.set('teste', 1);
     this.user = {
@@ -51,10 +53,15 @@ export class AppComponent {
   }
 
   initializeApp() {
+    this.localNotifications.schedule({
+      text: 'Delayed ILocalNotification',
+      trigger: {at: new Date(new Date().getTime() + 3600)},
+   });
 
     var env = this;
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.backgroundColorByHexString('#212121');
       this.splashScreen.hide();
 
 

@@ -36,6 +36,9 @@ import {ChartsModule} from 'ng2-charts';
 import 'moment';
 import { MomentModule } from 'angular2-moment';
 
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -58,6 +61,7 @@ import { MomentModule } from 'angular2-moment';
     StatusBar,
     SplashScreen,
     PopoverPage,
+    LocalNotifications,
     {
       provide: LOCALE_ID, 
       useValue: "pt-BR"
@@ -67,6 +71,7 @@ import { MomentModule } from 'angular2-moment';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
 
 }
 
