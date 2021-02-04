@@ -13,7 +13,7 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <ion-slides>
+    <ion-slides pager="true">
         <ion-slide>
             <ion-card>
                 <ion-card-content>
@@ -76,18 +76,18 @@
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <div (click)="addNingi('carteira')" class="banco">
-                        <ion-text color="success">
+                    <div (click)="addNingi('carteira')" class="banco bg-wallet">
+                        <!-- <ion-text color="success">
                             Carteira
-                        </ion-text>
+                        </ion-text> -->
                     </div>
                 </ion-col>
 
                 <ion-col>
-                    <div (click)="addNingi('bradesco')" class="banco">
-                        <ion-text color="danger">
+                    <div (click)="addNingi('bradesco')" class="banco bg-bradesco">
+                        <!-- <ion-text color="danger">
                             Bradesco
-                        </ion-text>
+                        </ion-text> -->
                     </div>
                 </ion-col>
 
@@ -95,24 +95,29 @@
 
             <ion-row>
                 <ion-col>
-                    <div class="banco" (click)="addNingi('santander')">
-                        <ion-text color="danger">
+                    <div class="banco bg-santander" (click)="addNingi('santander')">
+                        <!-- <ion-text color="danger">
                             Santander
-                        </ion-text>
+                        </ion-text> -->
                     </div>
                 </ion-col>
                 <ion-col>
-                    <div class="banco" (click)="addNingi('banco_do_brasil')">
-                        <ion-text color="warning">
+                    <div class="banco bg-banco_do_brasil" (click)="addNingi('banco_do_brasil')">
+                        <!-- <ion-text color="warning">
                             Banco do<br>Brasil
-                        </ion-text>
+                        </ion-text> -->
                     </div>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </ion-text>
     
-    <div class="ion-text-center ion-padding-bottom">
+    <!-- <div class="ion-text-center ion-padding-bottom">
         <ion-button color="success" (click)="goTo('tabs/ningi-details')">Entrada</ion-button>
-    </div>
+    </div> -->
 </ion-content>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="dark" routerLink="/tabs/ningi-details" routerDirection="forward">
+        <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+</ion-fab>

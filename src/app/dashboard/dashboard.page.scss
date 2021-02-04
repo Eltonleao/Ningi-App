@@ -46,7 +46,7 @@ ion-slide {
 .banco {
     height: 90px;
     width: 120px;
-    background-color: #222428;
+    // background-color: #222428;
     margin: auto;
     border-radius: 10px;
     display: flex;
@@ -65,12 +65,40 @@ ion-slide {
     width: 60%;
 }
 
-ion-fab {
-    bottom: 80px;
-}
-
 ion-card{
-    padding: 15px;
+    padding: 5px;
     width: 80%;
     border-radius: 10px;
+}
+
+.bg-bradesco{
+    background: url('../../assets/img/bg-bradesco.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.bg-santander{
+    background: url('../../assets/img/bg-santander.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.bg-banco_do_brasil{
+    background: url('../../assets/img/bg-banco_do_brasil.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.bg-wallet{
+    background: url('../../assets/img/bg-wallet.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.swiper-pagination{
+    bottom: -2px;
 }
