@@ -14,9 +14,9 @@ import { Storage } from '@ionic/storage';
 
 import { MenuController } from '@ionic/angular';
 
-
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +43,8 @@ export class AppComponent {
     private menu: MenuController,
     public loadingController: LoadingController,
     public localNotifications: LocalNotifications,
-    public notifications: NotificationsService
+    public notifications: NotificationsService,
+    private insomnia: Insomnia
   ) {
     // this.storage.set('teste', 1);
     this.user = {
@@ -58,6 +59,7 @@ export class AppComponent {
 
     var env = this;
     this.platform.ready().then(() => {
+      this.insomnia.keepAwake();
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#212121');
       this.splashScreen.hide();

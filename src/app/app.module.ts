@@ -1,3 +1,4 @@
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { LOCALE_ID } from '@angular/core';
 import localePt from '@angular/common/locales/pt';
 import {registerLocaleData} from '@angular/common';
@@ -62,6 +63,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     SplashScreen,
     PopoverPage,
     LocalNotifications,
+    Insomnia,
     {
       provide: LOCALE_ID, 
       useValue: "pt-BR"
