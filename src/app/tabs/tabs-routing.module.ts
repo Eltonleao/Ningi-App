@@ -39,6 +39,10 @@ const routes: Routes = [
         path: 'charts',
         loadChildren: () => import('../charts/charts.module').then(m => m.ChartsPageModule)
       },
+      {
+        path: 'settings',
+        loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
+      },
       // {
       //   path: '',
       //   redirectTo: '/tabs/tab1',

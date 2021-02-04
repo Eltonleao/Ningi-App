@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { NingiService } from "./services/ningi.service";
+import { NotificationsService } from "./services/notifications.service";
 import { Storage } from '@ionic/storage';
 
 import { MenuController } from '@ionic/angular';
@@ -41,22 +42,19 @@ export class AppComponent {
     public storage: Storage,
     private menu: MenuController,
     public loadingController: LoadingController,
-    public localNotifications: LocalNotifications
+    public localNotifications: LocalNotifications,
+    public notifications: NotificationsService
   ) {
     // this.storage.set('teste', 1);
     this.user = {
       displayName: "User",
-      photoURL: "https://picsum.photos/200"
+      photoURL: "https://picsum.photos/100"
     };
 
     this.initializeApp();
   }
 
   initializeApp() {
-    this.localNotifications.schedule({
-      text: 'Delayed ILocalNotification',
-      trigger: {at: new Date(new Date().getTime() + 3600)},
-   });
 
     var env = this;
     this.platform.ready().then(() => {
@@ -71,7 +69,7 @@ export class AppComponent {
           env.showMenu = true;
           env.hideTabs = false;
           env.loadUser();
-          env.navCtrl.navigateForward('/tabs/dashboard');
+          env.navCtrl.navigateForward('/tabs/settings');
         } else {
           console.log('user não logado');
           env.showMenu = false;
@@ -81,7 +79,7 @@ export class AppComponent {
     });
   }
 
-  loadUser(){
+  loadUser() {
     var env = this;
     this.storage.get('user').then(function (user) {
       env.user = user;
@@ -95,7 +93,7 @@ export class AppComponent {
     await loading.present();
 
     await this.storage.set('user', null).then(async () => {
-      await this.fAuth.auth.signOut().then(async () =>{
+      await this.fAuth.auth.signOut().then(async () => {
         await loading.dismiss();
         await this.menu.close();
         this.showMenu = false;
@@ -106,7 +104,7 @@ export class AppComponent {
     })
   }
 
-  goTo(page){
+  goTo(page) {
     this.menu.close();
     this.navCtrl.navigateForward('tabs/' + page);
 

@@ -63,6 +63,7 @@
         "cordova-plugin-file": "^6.0.2",
         "cordova-plugin-firebase": "^2.0.5",
         "cordova-plugin-googleplus": "^8.5.1",
+        "cordova-plugin-insomnia": "^4.3.0",
         "cordova-plugin-ionic-keyboard": "^2.0.5",
         "cordova-plugin-ionic-webview": "^4.0.0",
         "cordova-plugin-local-notification": "^0.9.0-beta.2",
@@ -95,7 +96,8 @@
             "cordova-plugin-googleplus": {
                 "WEB_APPLICATION_CLIENT_ID": "211880418849-l1jmdg57elq3j4u2iqm59af2oe8hrsq8.apps.googleusercontent.com"
             },
-            "cordova-plugin-local-notification": {}
+            "cordova-plugin-local-notification": {},
+            "cordova-plugin-insomnia": {}
         },
         "platforms": [
             "browser",
