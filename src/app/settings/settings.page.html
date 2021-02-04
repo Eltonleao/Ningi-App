@@ -1,12 +1,28 @@
 <ion-header>
   <ion-toolbar color="dark">
-      <ion-buttons slot="start" class="menu-btn">
-          <ion-menu-button manu="main-menu"></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="ion-text-center">Settings</ion-title>
+    <ion-buttons slot="start" class="menu-btn">
+      <ion-menu-button manu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Notifications Timer</ion-card-title>
+      <ion-card-subtitle>Escolha o horário para o Ningi te lembrar de registrar seus gastos diários</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="" *ngIf="!notificationHour">
+       Nenhum horário definido ainda
+      </div>
+      <ion-datetime (ionChange)="setNotificationsTime($event)" #timePicker [(ngModel)]="notificationHour" displayFormat="HH:mm"></ion-datetime>
+      <ion-button expand="full" (click)="timePicker.open()">
+        <ion-icon ios="ios-clock" name="time"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
