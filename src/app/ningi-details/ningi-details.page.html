@@ -58,12 +58,17 @@
   <ion-card>
     <ion-card-content>
 
+      <ion-item>
+        <ion-label>Data</ion-label>
+        <ion-datetime displayFormat="D MMM YY H:mm" min="2020" max="2050" value="{{data_criacao}}" [(ngModel)]="ningi.data_criacao"></ion-datetime>
+      </ion-item>
+
 
       <ion-item>
         <ion-label position="stacked"><b>Operação:</b></ion-label>
         <ion-select placeholder="Operação" [(ngModel)]="ningi.operation">
           <ion-select-option value="incomming">Entrada</ion-select-option>
-          <ion-select-option value="spend">Saida</ion-select-option>
+          <ion-select-option value="spend">Saída</ion-select-option>
         </ion-select>
       </ion-item>
 

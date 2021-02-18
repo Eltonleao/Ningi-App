@@ -58,6 +58,9 @@ export class NingiDetailsPage implements OnInit {
         }
         env.ningi = data;
         env.ningi.id = id;
+        env.data_criacao = new Date(env.ningi.data_criacao);
+        // env.data_criacao = env.data_criacao.toISOString();
+        // console.log("%c data cricao: " + env.data_criacao, "background-color: blue");
 
       });
     } else {
@@ -82,11 +85,28 @@ export class NingiDetailsPage implements OnInit {
     }
 
     env.setUsers();
+    
   }
 
 
   saveChenges() {
     var env = this;
+    console.group();
+    console.log(env.ningi.data_criacao, typeof env.ningi.data_criacao);
+    
+    if(!!Date.parse(env.ningi.data_criacao)){
+      console.log('consegui converter pra date', Date.parse(env.ningi.data_criacao));
+      env.ningi.data_criacao = Date.parse(env.ningi.data_criacao);
+      console.log("resultado: ", env.ningi.data_criacao);
+    } else{
+      console.log('Não consegui converter pra date, deve ser um time', parseInt(env.ningi.data_criacao));
+      env.ningi.data_criacao = parseInt(env.ningi.data_criacao);
+      console.group(env.ningi.data_criacao);
+    }
+    console.log(env.ningi.data_criacao.data_criacao);
+    console.groupEnd();
+    
+    
     if (env.ningi.id) {
       env.ningiService.updateNingi(env.ningi).then(() => {
         env.navCtrl.navigateForward('tabs/ningis');
@@ -114,6 +134,10 @@ export class NingiDetailsPage implements OnInit {
 
   ionViewDidEnter() {
     this.ngOnInit();
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

@@ -19,7 +19,7 @@ import { PopoverPage } from '../popover/popover.page';
 export class NingisPage implements OnInit {
   // @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   ningis = [];
-  ningiLimit = 30;
+  ningiLimit = 100;
   searchBar;
   user;
 
@@ -39,11 +39,6 @@ export class NingisPage implements OnInit {
       this.user = user;
     });
 
-    // setTimeout(()=>{
-    //   if(this.ningis.length == 0){
-    //     this.searchNingis = false;
-    //   }
-    // }, 5000);
   }
 
   async ngOnInit() {
@@ -65,8 +60,11 @@ export class NingisPage implements OnInit {
     return this.ningiService.getNingis(async function (res: any) {
       env.ningis = await res;
       console.log(res);
-      env.ningis.map((x: { data_criacao: string | number | Date; }) => {
-        var date = new Date(x.data_criacao);
+      env.ningis.map((x: { data_criacao }) => {
+        console.log(x);
+        
+      
+        var date = new Date(parseInt(x.data_criacao));
         var dc = {
           ano: date.getFullYear() + 1 < 10 ? "0" + stringify(date.getFullYear() + 1) : date.getFullYear(),
           mes: date.getMonth() + 1 < 10 ? "0" + stringify(date.getMonth() + 1) : date.getMonth(),
@@ -78,13 +76,13 @@ export class NingisPage implements OnInit {
 
         x.data_criacao = dc.dia + '/' + dc.mes + '/' + dc.ano + ' - ' + dc.hora + ':' + dc.min;
 
+
       })
     }, limit);
 
   }
 
   async remove(ningi) {
-    console.log('entrei aqui');
     var env = this;
     const loading = await this.loadingCtrl.create({
       cssClass: 'my-custom-class',
