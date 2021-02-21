@@ -20,7 +20,7 @@ export class NingiDetailsPage implements OnInit {
   users = [];
   initCount = 0;
   user = {
-    photoURL : ''
+    photoURL: ''
   };
   hasNingi: boolean;
 
@@ -36,8 +36,8 @@ export class NingiDetailsPage implements OnInit {
     this.data_modificacao = '';
     this.users = [];
 
-    this.storage.get('user').then((user)=>{
-      console.log(user);
+    this.storage.get('user').then((user) => {
+      // console.log(user);
       env.user = user;
     })
   }
@@ -45,28 +45,25 @@ export class NingiDetailsPage implements OnInit {
   async ngOnInit() {
     var env = this;
     var id = await this.route.snapshot.params['id'];
-    // console.log(id);
     if (id) {
-      env.ningiService.getNingi(id).then((data) => {
-        // console.log(data.data_criacao);
-        var formatedDateCriacao = env.ningiService.formatDate(data.data_criacao);
-        env.data_criacao = formatedDateCriacao;
+      env.ningiService.getNingi(id).then(async (data) => {
+        await console.group('get ningi:');
+        data.data_criacao = parseInt(data.data_criacao);
+        await console.log(data);
+        await console.groupEnd();
+        
+        var formatedDateCriacao = await  env.ningiService.formatDate(parseInt(data.data_criacao));
+        env.data_criacao = await formatedDateCriacao;
 
-        if (data.data_modificacao) {
-          var formatedDateModificacao = env.ningiService.formatDate(data.data_criacao);
-          env.data_modificacao = formatedDateModificacao;
-        }
-        env.ningi = data;
-        env.ningi.id = id;
-        env.data_criacao = new Date(env.ningi.data_criacao);
-        // env.data_criacao = env.data_criacao.toISOString();
-        // console.log("%c data cricao: " + env.data_criacao, "background-color: blue");
+        env.ningi = await data;
+        env.ningi.id = await id;
+        env.data_criacao = await new Date(env.ningi.data_criacao);
 
       });
     } else {
 
       env.storage.get('user').then((user) => {
-        console.log('getUser: ',user);
+        console.log('getUser: ', user);
         if (user) {
           env.ningi.user = user.email;
           env.user = user;
@@ -85,28 +82,23 @@ export class NingiDetailsPage implements OnInit {
     }
 
     env.setUsers();
-    
+
   }
 
 
   saveChenges() {
     var env = this;
-    console.group();
-    console.log(env.ningi.data_criacao, typeof env.ningi.data_criacao);
-    
-    if(!!Date.parse(env.ningi.data_criacao)){
+
+    if (!!Date.parse(env.ningi.data_criacao)) {
       console.log('consegui converter pra date', Date.parse(env.ningi.data_criacao));
       env.ningi.data_criacao = Date.parse(env.ningi.data_criacao);
       console.log("resultado: ", env.ningi.data_criacao);
-    } else{
+    } else {
       console.log('Não consegui converter pra date, deve ser um time', parseInt(env.ningi.data_criacao));
       env.ningi.data_criacao = parseInt(env.ningi.data_criacao);
-      console.group(env.ningi.data_criacao);
     }
-    console.log(env.ningi.data_criacao.data_criacao);
-    console.groupEnd();
-    
-    
+
+
     if (env.ningi.id) {
       env.ningiService.updateNingi(env.ningi).then(() => {
         env.navCtrl.navigateForward('tabs/ningis');
@@ -135,9 +127,6 @@ export class NingiDetailsPage implements OnInit {
   ionViewDidEnter() {
     this.ngOnInit();
   }
-  
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+
 
 }

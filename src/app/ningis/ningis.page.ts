@@ -51,7 +51,6 @@ export class NingisPage implements OnInit {
 
     this.loadNingis(this.ningiLimit).then(async () => {
       loading.dismiss();
-      console.log(this.ningis);
     })
   }
 
@@ -61,7 +60,6 @@ export class NingisPage implements OnInit {
       env.ningis = await res;
       console.log(res);
       env.ningis.map((x: { data_criacao }) => {
-        console.log(x);
         
       
         var date = new Date(parseInt(x.data_criacao));
@@ -102,7 +100,7 @@ export class NingisPage implements OnInit {
 
   ionViewDidEnter() {
     console.log("I'm alive!");
-    this.ngOnInit();
+    // this.ngOnInit();
   }
 
 

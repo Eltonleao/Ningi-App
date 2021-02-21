@@ -191,7 +191,7 @@ export class DashboardPage implements OnInit {
       env.totalBradesco.value = 0;
       env.totalBancoDoBrasil.value = 0;
       ningis.forEach(ningi => {
-        console.log(ningi);
+        // console.log(ningi);
         ningi.value = parseFloat(ningi.value)
         if (ningi.operation == 'incomming') {
           switch (ningi.source) {

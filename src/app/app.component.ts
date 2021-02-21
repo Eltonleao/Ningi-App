@@ -67,11 +67,11 @@ export class AppComponent {
 
       this.storage.get('user').then(function (user) {
         if (user) {
-          console.log('user logado');
+          // console.log('user logado');
           env.showMenu = true;
           env.hideTabs = false;
           env.loadUser();
-          env.navCtrl.navigateForward('/tabs/dashboard');
+          env.navCtrl.navigateForward('/tabs/ningi-details/GMuwG3WrdzIsTOe0A923');
         } else {
           console.log('user não logado');
           env.showMenu = false;

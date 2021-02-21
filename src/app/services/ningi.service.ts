@@ -92,7 +92,6 @@ export class NingiService {
     };
     await this.getPartner();
     var ningisArray = [];
-    // console.log(this.partner);
     var env = this;
     env.storage.get('user').then(async (user) => {
       let ningis;
@@ -160,18 +159,21 @@ export class NingiService {
   getNingi(id): Promise<any> {
     return this.db.collection(this.tableNingis).doc(id).ref.get().then(function (doc) {
       if (doc.exists) {
+        console.group('doc.data()');
+        console.log(doc.data());
+        console.groupEnd();
         return doc.data();
       } else {
         console.log("There is no document!");
-        return "There is no document!";
+        return false;
       }
     }).catch(function (error) {
-      console.log("There was an error getting your document:", error);
       return error;
     });
   }
 
 
+  // recebe um inteiro TIME 1970
   formatDate(x) {
 
     var date = new Date(x);
