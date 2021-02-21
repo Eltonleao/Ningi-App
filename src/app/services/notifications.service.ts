@@ -1,7 +1,10 @@
-import { TmplAstRecursiveVisitor } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Storage } from '@ionic/storage';
+import { AlertController } from "@ionic/angular";
+import { LoadingController } from "@ionic/angular";
+
+
 
 
 @Injectable({
@@ -12,7 +15,9 @@ export class NotificationsService {
   notificationHour: any;
   constructor(
     public localNotifications: LocalNotifications,
-    public storage: Storage
+    public storage: Storage,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController
   ) {
     this.init();
   }
@@ -23,6 +28,10 @@ export class NotificationsService {
 
 
   async setNotificationsTime(hour, minute): Promise<any>{
+    const loading = await this.loadingCtrl.create({
+      message: "saving..."
+    });
+    await loading.present();
     await this.localNotifications.schedule({
       id: 1,
       smallIcon: 'res://icon',
@@ -42,6 +51,7 @@ export class NotificationsService {
     date.setHours(hour);
     date.setMinutes(minute);
     this.storage.set('notifications', date).then(()=>{
+      loading.dismiss();
       return true;
     });
   }
