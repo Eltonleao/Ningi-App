@@ -39,8 +39,8 @@ export class NingiService {
     public storage: Storage,
     public afs: AngularFirestore,
   ) {
-    this.tableNingis = 'ningis_homologacao';
-    // this.tableNingis = 'ningis';
+    // this.tableNingis = 'ningis_homologacao';
+    this.tableNingis = 'ningis';
     this.loadCollections();
   }
   async ngOnInit() {

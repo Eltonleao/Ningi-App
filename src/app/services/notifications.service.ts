@@ -26,9 +26,8 @@ export class NotificationsService {
     await this.localNotifications.schedule({
       id: 1,
       smallIcon: 'res://icon',
-      icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzfXKe6Yfjr6rCtR6cMPJB8CqMAYWECDtDqH-eMnerHHuXv9egrw',
+      // icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzfXKe6Yfjr6rCtR6cMPJB8CqMAYWECDtDqH-eMnerHHuXv9egrw',
       title: 'Oi, gastou dinheirinho hoje?',
-      vibrate: false,
       trigger: {
         count: 1,
         every: {

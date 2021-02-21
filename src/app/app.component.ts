@@ -18,6 +18,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -63,6 +64,8 @@ export class AppComponent {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#212121');
       this.splashScreen.hide();
+
+      // this.notifications.setNotificationsTime(15, 33);
 
 
       this.storage.get('user').then(function (user) {
