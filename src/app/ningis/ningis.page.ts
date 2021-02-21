@@ -100,7 +100,7 @@ export class NingisPage implements OnInit {
 
   ionViewDidEnter() {
     console.log("I'm alive!");
-    // this.ngOnInit();
+    this.ngOnInit();
   }
 
 
