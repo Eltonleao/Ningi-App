@@ -23,46 +23,37 @@ export class NotificationsService {
   }
 
 
-  async init() {
+  async init(){
   }
 
 
-  async setNotificationsTime(): Promise<any> {
-    this.localNotifications.clearAll();
-    var env = this;
-
-
-    await this.storage.get('notification').then(async function (time) {
-
-      var notifications = [];
-
-      var date = new Date(time);
-
-      // date.setHours(hour);
-      // date.setMinutes(minute);
-
-      for (var i = 1; i <= 31; i++) {
-
-        notifications.push(
-          {
-            id: i,
-            smallIcon: 'res://icon',
-            title: 'Oi, gastou dinheirinho hoje?',
-            trigger: { at: date }
-          }
-        )
-        date.setDate(date.getDate() + 1);
-
+  async setNotificationsTime(hour, minute): Promise<any>{
+    const loading = await this.loadingCtrl.create({
+      message: "saving..."
+    });
+    await loading.present();
+    await this.localNotifications.schedule({
+      id: 1,
+      smallIcon: 'res://icon',
+      // icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzfXKe6Yfjr6rCtR6cMPJB8CqMAYWECDtDqH-eMnerHHuXv9egrw',
+      title: 'Oi, gastou dinheirinho hoje?',
+      trigger: {
+        count: 30,
+        every: {
+          hour: hour,
+          minute: minute
+        },
       }
-      const loading = await env.loadingCtrl.create({
-        message: "saving..."
-      });
-      await loading.present();
-      console.log(notifications);
-      await env.localNotifications.schedule(notifications);
-      loading.dismiss();
-    })
+    });
 
+    var date = new Date();
+    date.setTime(0);
+    date.setHours(hour);
+    date.setMinutes(minute);
+    this.storage.set('notifications', date).then(()=>{
+      loading.dismiss();
+      return true;
+    });
   }
 
 }

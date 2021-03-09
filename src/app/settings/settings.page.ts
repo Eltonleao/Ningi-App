@@ -14,21 +14,21 @@ export class SettingsPage implements OnInit {
     public notifications: NotificationsService,
     public storage: Storage,
   ) {
-    this.storage.get('notification').then((time)=>{
-      this.notificationHour = new Date(time).toISOString();
+    this.storage.get('notifications').then((time)=>{
+      this.notificationHour = time;
     })
   }
 
   ngOnInit() {
   }
 
-  async setNotificationsTime($event){
-    
-    var notification = await new Date($event.detail.value).getTime();
-    await this.storage.set('notification', notification).then( async ()=>{
-      await this.notifications.setNotificationsTime();
-    });
+  setNotificationsTime($event){
 
+    var time = new Date($event.detail.value);
+    var hour = time.getHours();
+    var minute = time.getMinutes();
+    
+    this.notifications.setNotificationsTime(hour, minute);
   }
 
 }
