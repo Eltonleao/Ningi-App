@@ -21,6 +21,8 @@
         "@angular/platform-browser-dynamic": "~10.0.0",
         "@angular/router": "~10.0.0",
         "@ionic-native/core": "^5.0.0",
+        "@ionic-native/email-composer": "^5.31.1",
+        "@ionic-native/file": "^5.31.1",
         "@ionic-native/firebase": "^5.30.0",
         "@ionic-native/google-plus": "^5.30.0",
         "@ionic-native/http": "^5.30.0",
@@ -61,6 +63,7 @@
         "cordova-plugin-advanced-http": "^3.1.0",
         "cordova-plugin-badge": "^0.8.8",
         "cordova-plugin-device": "2.0.2",
+        "cordova-plugin-email-composer": "^0.9.2",
         "cordova-plugin-file": "^6.0.2",
         "cordova-plugin-firebase": "^2.0.5",
         "cordova-plugin-googleplus": "^8.5.1",
@@ -98,7 +101,11 @@
                 "WEB_APPLICATION_CLIENT_ID": "211880418849-l1jmdg57elq3j4u2iqm59af2oe8hrsq8.apps.googleusercontent.com"
             },
             "cordova-plugin-local-notification": {},
-            "cordova-plugin-insomnia": {}
+            "cordova-plugin-insomnia": {},
+            "cordova-plugin-email-composer": {
+                "ANDROID_SUPPORT_V4_VERSION": "27.+"
+            },
+            "cordova-plugin-file": {}
         },
         "platforms": [
             "browser",

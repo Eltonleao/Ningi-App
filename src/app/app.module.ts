@@ -39,7 +39,9 @@ import { MomentModule } from 'angular2-moment';
 
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
+import { File } from '@ionic-native/file/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -55,7 +57,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     AngularFireAuthModule,
     IonicStorageModule.forRoot(),
     ChartsModule,
-    MomentModule
+    MomentModule,
   ],
   providers: [
     GooglePlus,
@@ -64,13 +66,15 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     PopoverPage,
     LocalNotifications,
     Insomnia,
+    EmailComposer,
+    File,
     {
       provide: LOCALE_ID, 
       useValue: "pt-BR"
     },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 

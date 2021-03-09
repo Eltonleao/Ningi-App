@@ -43,11 +43,10 @@ const routes: Routes = [
         path: 'settings',
         loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
       },
-      // {
-      //   path: '',
-      //   redirectTo: '/tabs/tab1',
-      //   pathMatch: 'full'
-      // }
+      {
+        path: 'backup',
+        loadChildren: () => import('../backup/backup.module').then(m => m.BackupPageModule)
+      }
     ]
   },
   // {
