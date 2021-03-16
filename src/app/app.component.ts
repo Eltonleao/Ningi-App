@@ -75,7 +75,7 @@ export class AppComponent {
           env.hideTabs = false;
           env.loadUser();
           // env.navCtrl.navigateForward('/tabs/ningi-details/GMuwG3WrdzIsTOe0A923');
-          env.navCtrl.navigateForward('/tabs/backup');
+          env.navCtrl.navigateForward('/tabs/dashboard');
         } else {
           console.log('user não logado');
           env.showMenu = false;
