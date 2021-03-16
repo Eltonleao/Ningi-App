@@ -271,6 +271,12 @@ Apache-2.0
 @ionic-native/core
 MIT
 
+@ionic-native/email-composer
+MIT
+
+@ionic-native/file
+MIT
+
 @ionic-native/google-plus
 MIT
 
